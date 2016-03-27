@@ -1,0 +1,4 @@
+.clear-fix {
+	overflow: auto;
+	*zoom: 1;
+}
