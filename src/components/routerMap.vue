@@ -18,8 +18,7 @@ var routerMap = {};
 function generateRouterMap(menuTree, routerMap, componentPathPrefix) {
 	var subMenu = [],
 		componentPath = "",
-		routerPath = "",
-		menuLevel = 0;
+		routerPath = "";
 
 	if (generateRouterMap.menuLevel == null) {
 		generateRouterMap.menuLevel = 0;
@@ -27,41 +26,44 @@ function generateRouterMap(menuTree, routerMap, componentPathPrefix) {
 		generateRouterMap.menuLevel++;
 	}
 
-	//  如果路由树是个对象，则在路由Map对象中添加
-	if (Object.prototype.toString(menuTree) === "[object Object]") {
-		if (menuTree.name) {
-			routerPath = `/${ menuTree.name }`;
-			componentPath = `${ componentPathPrefix }${ menuTree.name }.vue`;
-			routerMap[routerPath] = {
-				component: (() => {
-					if (generateRouterMap.menuLevel === 1) {
-						return require(subMenuComponentPath);
-					}
-					
-					try{
-						return require(componentPath);
-					} catch (e) {
-						console.log(e);
-						return require(NullComponentPath);
-					}
-				})()
-			}
+	if (menuTree instanceof Array) {
+		for (let i = 0, len = menuTree.length; i < len; i++) {
+			generateRouterMap(menuTree[i], routerMap, componentPathPrefix);
 		}
-	}
+	} else if (menuTree != null && menuTree.toString() === "[object Object]") {
+		//  如果路由树是个对象，则在路由Map对象中添加
 
-	//  判断路由对象是否有子树
-	subMenu = menuTree.subMenu;
-	if (subMenu != null && Object.prototype.toString(menuTree.subMenu) === "[object Object]") {
-		let subMenu = menuTree.subMenu;
-
-		//  有子树、递归添加子树中的路由数据
-		routerMap[routerPath].subRoutes = {};
-		for (let i = 0, len = subMenu.length; i < len; i++) {
-			generateRouterMap(subMenu[i], routerMap[routerPath].subRoutes, `${ componentPathPrefix }${ menuTree.name }/`);
+		//  路由树对象name 属性不为字符串或为空字符串，直接结束执行函数
+		if (typeof menuTree.name !== "string" || menuTree.name === "") {
+			generateRouterMap.menuLevel--;
+			return routerMap;
 		}
+
+		routerPath =  `/${ menuTree.name }`;
+		componentPath = `${ componentPathPrefix }${ menuTree.name }.vue`;
+
+		routerMap[routerPath] = {
+			component: (() => {
+				//  菜单路由加载菜单模块
+				if (generateRouterMap.menuLevel === 3) {
+					return require(subMenuComponentPath);
+				}
+				try {
+					return require(componentPath);
+				} catch(err) {
+					console.log(err);
+					return require(NullComponentPath);
+				}
+			})(),
+			subRoutes: {}
+		}
+
+		//  递归遍历子路由树
+		generateRouterMap(menuTree.subMenu, routerMap[routerPath].subRoutes, `${ componentPathPrefix }${menuTree.name}/`);
 	}
 
 	generateRouterMap.menuLevel--;
+
 	return routerMap;
 }
 

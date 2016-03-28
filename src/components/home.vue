@@ -8,7 +8,7 @@
 		<!-- 应用页眉 end -->
 		<!-- 应用内容 start -->
 		<div class="content">
-			<main-menu></main-menu>
+			<menu-list></menu-list>
 		</div>
 		<!-- 应用内容 end -->
 		<!-- 应用页脚 start -->
@@ -21,7 +21,7 @@
 
 <script>
 import TopBar from "./topBar.vue";
-import MainMenu from "./mainMenu.vue";
+import MenuList from "./menuList.vue";
 import BottomBar from "./bottomBar.vue";
 
 export default {
@@ -34,7 +34,7 @@ export default {
 	},
 	components: {
 		topBar: TopBar,
-		mainMenu: MainMenu,
+		MenuList: MenuList,
 		bottomBar: BottomBar
 	}
 }
@@ -43,22 +43,20 @@ export default {
 <style>
 	.home {
 		height: 100%;
+		background: white;
 	}
 
 	.header {
 		height: 13%;
-		background: yellow;
 	}
 
 	.content {
 		height: 74%;
-		background: blue;
 		position: relative;
 	}
 
 	
 	.footer {
 		height: 13%;
-		background: green;
 	}
 </style>

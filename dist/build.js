@@ -12603,7 +12603,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.main {\n\tmargin: 0 auto;\n\tpadding: 0;\n\tbackground: rgba(0, 0, 0, 0) url(" + __webpack_require__(8) + ") no-repeat center;\n\tbackground-size: 100%;\n\tposition: relative;\n}\n\n.left-view {\n\tposition: absolute;\n\ttop: 20%;\n\tleft: 10%;\n\tbackground: red;\n\tborder-radius: 1%;\n}\n\n.right-view {\n\tposition: absolute;\n\ttop: 14%;\n\tright: 9%;\n}\n", "", {"version":3,"sources":["/./src/app.vue?2edfc2fa"],"names":[],"mappings":";AA6KA;CACA,eAAA;CACA,WAAA;CACA,4EAAA;CACA,sBAAA;CACA,mBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA,gBAAA;CACA,kBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA","file":"app.vue","sourcesContent":["<template>\n\t<!-- App 页面基本框架 -->\n\t<div class=\"main\" :style=\"mainStyle\">\n\t\t<!-- App 左方界面区 start -->\n\t\t<div class=\"left-view\" :style=\"leftViewStyle\">\n\t\t\t<router-view></router-view>\n\t\t</div>\n\t\t<!-- App 左方界面区 end -->\n\t\t<!-- App 右方按键区 start -->\n\t\t<div class=\"right-view\" :style=\"rightViewStyle\">\n\t\t\t<keyboard :warp-style=\"rightViewStyle\"></keyboard>\n\t\t</div>\n\t\t<!-- App 右方按键区 end -->\n\t\t<input>\n\t</div>\n</template>\n\n<script>\nimport keyboard from \"./components/keyboard.vue\";\n\nvar\tproportion = {},\n\tmainStyle = {},\n\trightViewStyle = {},\n\tleftViewStyle = {};\n\n//  页面各个区域所占大小比例\nproportion = {\n\t//  页面基本的长宽比 mainWidth / mainHeight\n\tbaseSize: 1.6,\n\t//  左方界面区所占大小比例\n\tleftView: {\n\t\twidth: 0.5,\n\t\theight: 0.61\n\t},\n\t//  右方按键区所占大小比例\n\trightView: {\n\t\twidth: 0.26,\n\t\theight: 0.75\n\t}\n}\n\n// 计算基本页面大小\nmainStyle = ((sizeProportion) => {\n\tvar style = {},\n\t\tclientWidth = document.documentElement.clientWidth,\n\t\tclientHeight = document.documentElement.clientHeight;\n\tif (clientWidth / sizeProportion <= clientHeight) {\n\t\tstyle = {\n\t\t\twidth: clientWidth + \"px\",\n\t\t\theight: clientWidth / sizeProportion + \"px\"\n\t\t};\n\t} else {\n\t\tstyle = {\n\t\t\twidth: clientHeight * sizeProportion + \"px\",\n\t\t\theight: clientHeight + \"px\"\n\t\t};\n\t}\n\n\treturn style;\n\n})(proportion.baseSize);\t\n\n//  计算左方界面去大小\nleftViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.leftView);\n\n// 计算右方键盘区大小\nrightViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.rightView);\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainStyle: mainStyle,\n\t\t\tleftViewStyle: leftViewStyle,\n\t\t\trightViewStyle: rightViewStyle,\n\t\t\tisPower: false\n\t\t};\n\t},\n\tcomponents: {\n\t\tkeyboard: keyboard\n\t},\n\tevents: {\n\t\tkeyboardClicked: function({keyType, keyValue, isReplace, sourceTarget}) {\n\t\t\tvar activeElement = document.activeElement,\n\t\t\t\tnodeName = activeElement.nodeName.toUpperCase(),\n\t\t\t\tvalue = activeElement.value;\n\t\t\tif (keyType === \"CHA\" || keyType === \"NUM\"){\n\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\tif (isReplace) {\n\t\t\t\t\t\tvalue = value.slice(0, value.length - 1) + keyValue;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tvalue += keyValue;\n\t\t\t\t\t}\n\n\t\t\t\t\tactiveElement.value = value;\n\t\t\t\t}\n\t\t\t} else if (keyType === \"FUN\") {\n\t\t\t\tswitch (keyValue) {\n\t\t\t\t\tcase \"Power\":\n\t\t\t\t\t\tif (!this.isPower) {\n\t\t\t\t\t\t\tlocation.href += \"home/\";\n\t\t\t\t\t\t\tthis.isPower = !this.isPower;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Start\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"React\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Func\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Ctrl\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Alt\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Del\":\n\t\t\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\t\t\tactiveElement.value = \"\";\n\t\t\t\t\t\t}\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Tab\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"B.S\":\n\t\t\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\t\t\tactiveElement.value = value.slice(0, value.length - 1);\n\t\t\t\t\t\t}\n\t\t\t\t\t\tbreak;\n\t\t\t\t\tcase \"ESC\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"ENT\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Up\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Down\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Left\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tcase \"Right\":\n\t\t\t\t\t\tbreak;\n\n\t\t\t\t\tdefault:\n\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\n\t\t\t\t}\n\t\t\t} \n\t\t\t\n\t\t}\n\t}\n}\n</script>\n\n<style>\n\t.main {\n\t\tmargin: 0 auto;\n\t\tpadding: 0;\n\t\tbackground: rgba(0, 0, 0, 0) url(./static/images/background.png) no-repeat center;\n\t\tbackground-size: 100%;\n\t\tposition: relative;\n\t}\n\n\t.left-view {\n\t\tposition: absolute;\n\t\ttop: 20%;\n\t\tleft: 10%;\n\t\tbackground: red;\n\t\tborder-radius: 1%;\n\t}\n\n\t.right-view {\n\t\tposition: absolute;\n\t\ttop: 14%;\n\t\tright: 9%;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.main {\n\tmargin: 0 auto;\n\tpadding: 0;\n\tbackground: rgba(0, 0, 0, 0) url(" + __webpack_require__(8) + ") no-repeat center;\n\tbackground-size: 100%;\n\tposition: relative;\n}\n\n.left-view {\n\tposition: absolute;\n\ttop: 20%;\n\tleft: 10%;\n\tbackground: red;\n\tborder-radius: 1%;\n}\n\n.right-view {\n\tposition: absolute;\n\ttop: 14%;\n\tright: 9%;\n}\n", "", {"version":3,"sources":["/./src/app.vue?56d3d1c4"],"names":[],"mappings":";AA4KA;CACA,eAAA;CACA,WAAA;CACA,4EAAA;CACA,sBAAA;CACA,mBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA,gBAAA;CACA,kBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA","file":"app.vue","sourcesContent":["<template>\n\t<!-- App 页面基本框架 -->\n\t<div class=\"main\" :style=\"mainStyle\">\n\t\t<!-- App 左方界面区 start -->\n\t\t<div class=\"left-view\" :style=\"leftViewStyle\">\n\t\t\t<router-view></router-view>\n\t\t</div>\n\t\t<!-- App 左方界面区 end -->\n\t\t<!-- App 右方按键区 start -->\n\t\t<div class=\"right-view\" :style=\"rightViewStyle\">\n\t\t\t<keyboard :warp-style=\"rightViewStyle\"></keyboard>\n\t\t</div>\n\t\t<!-- App 右方按键区 end -->\n\t</div>\n</template>\n\n<script>\nimport keyboard from \"./components/keyboard.vue\";\n\nvar\tproportion = {},\n\tmainStyle = {},\n\trightViewStyle = {},\n\tleftViewStyle = {};\n\n//  页面各个区域所占大小比例\nproportion = {\n\t//  页面基本的长宽比 mainWidth / mainHeight\n\tbaseSize: 1.6,\n\t//  左方界面区所占大小比例\n\tleftView: {\n\t\twidth: 0.5,\n\t\theight: 0.61\n\t},\n\t//  右方按键区所占大小比例\n\trightView: {\n\t\twidth: 0.26,\n\t\theight: 0.75\n\t}\n}\n\n// 计算基本页面大小\nmainStyle = ((sizeProportion) => {\n\tvar style = {},\n\t\tclientWidth = document.documentElement.clientWidth,\n\t\tclientHeight = document.documentElement.clientHeight;\n\tif (clientWidth / sizeProportion <= clientHeight) {\n\t\tstyle = {\n\t\t\twidth: clientWidth + \"px\",\n\t\t\theight: clientWidth / sizeProportion + \"px\"\n\t\t};\n\t} else {\n\t\tstyle = {\n\t\t\twidth: clientHeight * sizeProportion + \"px\",\n\t\t\theight: clientHeight + \"px\"\n\t\t};\n\t}\n\n\treturn style;\n\n})(proportion.baseSize);\t\n\n//  计算左方界面去大小\nleftViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.leftView);\n\n// 计算右方键盘区大小\nrightViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.rightView);\n\nfunction keyboardclick({keyType, keyValue, isReplace = false, sourceTarget}) {\n\tvar activeElement = document.activeElement,\n\t\tnodeName = activeElement.nodeName.toUpperCase(),\n\t\tvalue = activeElement.value;\n\n\t// console.log({keyType, keyValue, isReplace, sourceTarget});\n\n\tif (keyType === \"CHA\" || keyType === \"NUM\"){\n\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\tif (isReplace) {\n\t\t\t\tvalue = value.slice(0, value.length - 1) + keyValue;\n\t\t\t} else {\n\t\t\t\tvalue += keyValue;\n\t\t\t}\n\n\t\t\tactiveElement.value = value;\n\t\t}\n\t} else if (keyType === \"FUN\") {\n\t\tswitch (keyValue) {\n\t\t\tcase \"Power\":\n\t\t\t\tif (!this.isPower) {\n\t\t\t\t\tlocation.href += \"home/\";\n\t\t\t\t\tthis.isPower = !this.isPower;\n\t\t\t\t}\n\t\t\t\tbreak;\n\n\t\t\tcase \"Del\":\n\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\tactiveElement.value = \"\";\n\t\t\t\t}\n\t\t\t\tbreak;\n\n\t\t\tcase \"Tab\":\n\t\t\t\tbreak;\n\n\t\t\tcase \"B.S\":\n\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\tactiveElement.value = value.slice(0, value.length - 1);\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\tcase \"ESC\":\n\t\t\t\tlet hash = location.hash.split(\"/\");\n\t\t\t\tif (hash.length > 2) {\n\t\t\t\t\thash.pop();\n\t\t\t\t}\n\t\t\t\twindow.location.hash = hash.join(\"/\");\n\t\t\t\tbreak;\n\n\t\t\tcase \"ENT\":\n\t\t\t\tthis.$broadcast(\"entclick\");\n\t\t\t\tbreak;\n\n\t\t\tdefault:\n\t\t\t\tbreak;\n\n\t\t}\n\t} \n}\n\nfunction savelocalstorage({name, data}) {\n\tconsole.log({name, data});\n\n\t// localStorage.removeItem(name);\n\n\tvar storageData = JSON.parse(localStorage.getItem(name));\n\n\tif (storageData == null) {\n\t\tstorageData = [];\n\t}\n\n\tstorageData.push(data);\n\n\tlocalStorage.setItem(name, JSON.stringify(storageData));\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainStyle: mainStyle,\n\t\t\tleftViewStyle: leftViewStyle,\n\t\t\trightViewStyle: rightViewStyle,\n\t\t\tisPower: false\n\t\t};\n\t},\n\tcomponents: {\n\t\tkeyboard: keyboard\n\t},\n\tevents: {\n\t\tkeyboardclick: keyboardclick,\n\t\tsavelocalstorage: savelocalstorage\n\t}\n}\n</script>\n\n<style>\n\t.main {\n\t\tmargin: 0 auto;\n\t\tpadding: 0;\n\t\tbackground: rgba(0, 0, 0, 0) url(./static/images/background.png) no-repeat center;\n\t\tbackground-size: 100%;\n\t\tposition: relative;\n\t}\n\n\t.left-view {\n\t\tposition: absolute;\n\t\ttop: 20%;\n\t\tleft: 10%;\n\t\tbackground: red;\n\t\tborder-radius: 1%;\n\t}\n\n\t.right-view {\n\t\tposition: absolute;\n\t\ttop: 14%;\n\t\tright: 9%;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -12902,6 +12902,10 @@
 		value: true
 	});
 	
+	var _stringify = __webpack_require__(85);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
 	var _keyboard = __webpack_require__(11);
 	
 	var _keyboard2 = _interopRequireDefault(_keyboard);
@@ -12927,7 +12931,6 @@
 	// 			<keyboard :warp-style="rightViewStyle"></keyboard>
 	// 		</div>
 	// 		<!-- App 右方按键区 end -->
-	// 		<input>
 	// 	</div>
 	// </template>
 	//
@@ -12989,6 +12992,90 @@
 		};
 	}(mainStyle, proportion.rightView);
 	
+	function keyboardclick(_ref3) {
+		var keyType = _ref3.keyType;
+		var keyValue = _ref3.keyValue;
+		var _ref3$isReplace = _ref3.isReplace;
+		var isReplace = _ref3$isReplace === undefined ? false : _ref3$isReplace;
+		var sourceTarget = _ref3.sourceTarget;
+	
+		var activeElement = document.activeElement,
+		    nodeName = activeElement.nodeName.toUpperCase(),
+		    value = activeElement.value;
+	
+		// console.log({keyType, keyValue, isReplace, sourceTarget});
+	
+		if (keyType === "CHA" || keyType === "NUM") {
+			if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
+				if (isReplace) {
+					value = value.slice(0, value.length - 1) + keyValue;
+				} else {
+					value += keyValue;
+				}
+	
+				activeElement.value = value;
+			}
+		} else if (keyType === "FUN") {
+			switch (keyValue) {
+				case "Power":
+					if (!this.isPower) {
+						location.href += "home/";
+						this.isPower = !this.isPower;
+					}
+					break;
+	
+				case "Del":
+					if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
+						activeElement.value = "";
+					}
+					break;
+	
+				case "Tab":
+					break;
+	
+				case "B.S":
+					if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
+						activeElement.value = value.slice(0, value.length - 1);
+					}
+					break;
+				case "ESC":
+					var hash = location.hash.split("/");
+					if (hash.length > 2) {
+						hash.pop();
+					}
+					window.location.hash = hash.join("/");
+					break;
+	
+				case "ENT":
+					this.$broadcast("entclick");
+					break;
+	
+				default:
+					break;
+	
+			}
+		}
+	}
+	
+	function savelocalstorage(_ref4) {
+		var name = _ref4.name;
+		var data = _ref4.data;
+	
+		console.log({ name: name, data: data });
+	
+		// localStorage.removeItem(name);
+	
+		var storageData = JSON.parse(localStorage.getItem(name));
+	
+		if (storageData == null) {
+			storageData = [];
+		}
+	
+		storageData.push(data);
+	
+		localStorage.setItem(name, (0, _stringify2.default)(storageData));
+	}
+	
 	exports.default = {
 		data: function data() {
 			return {
@@ -13003,87 +13090,8 @@
 			keyboard: _keyboard2.default
 		},
 		events: {
-			keyboardClicked: function keyboardClicked(_ref3) {
-				var keyType = _ref3.keyType;
-				var keyValue = _ref3.keyValue;
-				var isReplace = _ref3.isReplace;
-				var sourceTarget = _ref3.sourceTarget;
-	
-				var activeElement = document.activeElement,
-				    nodeName = activeElement.nodeName.toUpperCase(),
-				    value = activeElement.value;
-				if (keyType === "CHA" || keyType === "NUM") {
-					if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
-						if (isReplace) {
-							value = value.slice(0, value.length - 1) + keyValue;
-						} else {
-							value += keyValue;
-						}
-	
-						activeElement.value = value;
-					}
-				} else if (keyType === "FUN") {
-					switch (keyValue) {
-						case "Power":
-							if (!this.isPower) {
-								location.href += "home/";
-								this.isPower = !this.isPower;
-							}
-							break;
-	
-						case "Start":
-							break;
-	
-						case "React":
-							break;
-	
-						case "Func":
-							break;
-	
-						case "Ctrl":
-							break;
-	
-						case "Alt":
-							break;
-	
-						case "Del":
-							if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
-								activeElement.value = "";
-							}
-							break;
-	
-						case "Tab":
-							break;
-	
-						case "B.S":
-							if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
-								activeElement.value = value.slice(0, value.length - 1);
-							}
-							break;
-						case "ESC":
-							break;
-	
-						case "ENT":
-							break;
-	
-						case "Up":
-							break;
-	
-						case "Down":
-							break;
-	
-						case "Left":
-							break;
-	
-						case "Right":
-							break;
-	
-						default:
-							break;
-	
-					}
-				}
-			}
+			keyboardclick: keyboardclick,
+			savelocalstorage: savelocalstorage
 		}
 	};
 	// </script>
@@ -13177,7 +13185,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.key {\n\tmargin: 0;\n\tpadding: 0;\n\t/*opacity: 0;*/\n\tbackground: rgba(0, 0, 0, 0);\n\t/*border: 0;*/\n}\n", "", {"version":3,"sources":["/./src/components/keyboard.vue?7f579828"],"names":[],"mappings":";AAyQA;CACA,UAAA;CACA,WAAA;CACA,eAAA;CACA,6BAAA;CACA,cAAA;CACA","file":"keyboard.vue","sourcesContent":["<template>\n\t<div id='keyboard' @focusin=\"keepFocusConstant\" @click=\"dealWithClicked\">\n\t\t<div class='key-row' v-for='row of keys'>\n\t\t\t<button class=\"key\" type=\"button\" v-for='key of row' :key-type=\"key.slice(0, 3)\" :value=\"key.slice(4)\" :style=\"buttonStyle\" track-by='$index'>{{ key.slice(4) }}</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nvar numKeys,\n\tcharacterKeys;\n\n//  数字键盘\nnumKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['NUM_7', 'NUM_8', 'NUM_9', 'FUN_Tab'],\n\t['NUM_4', 'NUM_5', 'NUM_6', 'FUN_B.S'],\n\t['NUM_1', 'NUM_2', 'NUM_3', 'FUN_Shift'],\n\t['NUM_0', 'CHA_Dot', 'CHA_-', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n//  字母键盘\ncharacterKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['CHA_abc', 'CHA_def', 'CHA_ghi', 'FUN_Tab'],\n\t['CHA_jkl', 'CHA_mno', 'CHA_pqr', 'FUN_B.S'],\n\t['CHA_stu', 'CHA_vwx', 'CHA_yz_', 'FUN_Shift'],\n\t['CHA_#$%', 'CHA_!&@', 'CHA_+*/', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n\n/**\n * keyborad点击事件处理函数，通过对点击对象的信息的获取与处理，触发自定义事件，向父组件传递信息。\n * @param  {Event} event 事件对象\n * @return {Undefined | false} 返回值为false时、点击事件被组件内部处理，为undefined时、触发自定义事件，向父组件传递信息       \n */\nfunction dealWithClicked (event) {\n\tvar target = event.target,\n\t\t//  点击按钮的类型\n\t\tkeyType = target.getAttribute(\"key-type\"),\n\t\t//  点击按钮的值\n\t\tkeyValue = target.value,\n\t\t//  是否取代上一次输出的值\n\t\tisReplace = false,\n\t\tsourceTarget = \"keyboard-component\";\n\n\tif (keyType == null || keyValue == null) {\n\t\treturn false;\n\t}\n\n\t//  检查函数是否有lastClick对象，该对象包含上次点击事件发生时的一些信息\n\tif (dealWithClicked.lastClick == null) {\n\t\tdealWithClicked.lastClick = {\n\t\t\t//  上次事件发生的target对象\n\t\t\ttarget: target,\n\t\t\t//  点击同一按钮的次数\n\t\t\tcount: 0,\n\t\t\t//  上次事件发生的事件\n\t\t\ttime: Date.now()\n\t\t}\n\t} else {\n\t\t//  若点击事件的target对象不变则计算两次点击事件的发生的间隔，小于1000ms 则视为连续点击，点击次数加一\n\t\tif (target === dealWithClicked.lastClick.target) {\n\t\t\t//  点击事件的时间间隔\n\t\t\tlet timeInterval = Date.now() - dealWithClicked.lastClick.time;\n\n\t\t\tif (timeInterval <= 1000) {\n\t\t\t\tdealWithClicked.lastClick.count++;\n\t\t\t} else {\n\t\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\t}\n\n\t\t\t//  更新点击时间发生的时间\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t} else {\n\t\t\t//  两次点击的target对象不同，则更新lastClick对象\n\n\t\t\tdealWithClicked.lastClick.target = target;\n\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t}\n\t}\n\n\tif (keyType === \"FUN\") {\t\n\t\t//  类型为FUN\n\t\t\n\t\tswitch (keyValue) {\n\t\t\tcase \"Alpha\": \n\t\t\t\t//  大小写切换，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isUpper = !this.isUpper;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"Shift\":\n\t\t\t\t//  切换字母数字键盘，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isNumberKey = !this.isNumberKey;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"NULL\":\n\t\t\t\t//  空按钮 立即返回false,不处罚自定义事件\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tdefault:\n\t\t\t\t//  其他FUN类型按钮,向父组件传递按键值\n\t\t\t\tbreak;\n\t\t}\n\t} else if (keyType === \"CHA\") {\n\t\t//  类型为CHA\n\n\t\tlet charCode = 0;\n\n\t\tswitch (keyValue) {\n\t\t\tcase \"S.P\":\n\t\t\t\t//  键值为S.P 即为空格\n\t\t\t\tkeyValue = \" \";\n\t\t\t\tbreak;\n\t\t\tdefault: \n\t\t\t\t//  其他按键经过字符按键处理函数处理\n\t\t\t\t({keyValue, isReplace} = dealWithCharacter(keyValue, dealWithClicked.lastClick.count));\n\t\t}\n\n\t\t//  若按键值为 a-zA-Z 则判断大小写并转换\n\t\tcharCode = keyValue.charCodeAt(0);\n\t\tif (charCode >= 65 && charCode < 91 || charCode >= 97 && charCode < 123) {\n\t\t\tkeyValue = this.isUpper ? keyValue.toUpperCase() : keyValue.toLowerCase();\n\t\t}\n\t} else if (keyType === \"NUM\") {\n\t\t//  类型为NUM\n\t\t//  不做任何处理、直接返回按键类型和按键值\n\t}\n\n\t/** click事件完成，保存事件信息 */\n\tthis.clickInfo = ({keyType, keyValue, isReplace, sourceTarget});\n\tthis.isClickEventComplate = true;\n\n\tthis.dispatchkeyboardClickedEvent();\n}\n\n/**\n * 处理按键类型为CHA的按键信息，通过对点击次数的判断，决定字母键盘所要返回具体值且判断是否取代上次的信息\n * @param  {String} keyValue     按键的值\n * @param  {Number} clickedCount 点击次数\n * @return {Object}              此次按键所产生的按键值与是否要取代上次信息\n */\nfunction dealWithCharacter(keyValue, clickedCount) {\n\tvar isReplace = false,\n\t\tlen = keyValue.length;\n\n\t//  按键值长度大于1、判断是否取代上次的信息\n\tif (len > 1) {\n\t\tif (clickedCount > 0) {\n\t\t\tisReplace = true;\n\t\t}\n\t\tclickedCount = clickedCount % len;\n\t\tkeyValue = keyValue[clickedCount];\n\t}\n\n\treturn ({keyValue, isReplace});\n}\n\n/**\n * 当点击键盘时、若页面有其他元素获得交点，则键盘不获得焦点,函数执行完毕、触发自定义事件\n * @param  {[type]} event [description]\n * @return {[type]}       [description]\n */\nfunction keepFocusConstant(event) {\n\tvar relatedTarget = event.relatedTarget,\n\t\ttarget = event.target,\n\t\tcurrentTarget = event.currentTarget;\n\t\n\t//  有其他元素获得焦点\n\tif (relatedTarget) {\n\t\t//  上一次获得焦点的元素不为键盘本身或键盘子元素\n\t\tif (target !== currentTarget && !isContainsElement(currentTarget, relatedTarget)) {\n\t\t\t//  其他元素继续保持焦点\n\t\t\tevent.relatedTarget.focus();\n\t\t}\n\t}\n\n\t/** 焦点处理事件完成 */\n\tthis.isFocusEventComplate = true;\n\n\tthis.dispatchkeyboardClickedEvent();\n}\n\n/**\n * 判断child元素是否为parent元素的子元素\n * @param  {HTMLElement}  parent 要判断是否包含的父元素\n * @param  {HTMLElement}  child  要判断是否被包含的子元素\n * @return {Boolean}        若包含返回true,不包含返回false\n */\nfunction isContainsElement(parent, child) {\n\t//  若父元素为document或HTML元素，则一定包含子元素\n\tif (parent === document.documentElement || parent.nodeName.toUpperCase() === \"HTML\") {\n\t\treturn true;\n\t}\n\n\t//  子元素循环向上判断父元素是否等于parent元素\n\twhile (child.parentNode) {\n\t\tif (child.parentNode === parent) {\n\t\t\treturn true;\n\t\t}\n\t\tchild = child.parentNode;\n\t}\n\n\treturn false;\n}\n\n/**\n * 判断所有事件是否完成，触发自定义事件，传递信息\n */\nfunction dispatchkeyboardClickedEvent() {\n\tif (this.isClickEventComplate && this.isFocusEventComplate) {\n\t\tthis.$dispatch(\"keyboardClicked\", this.clickInfo);\n\t\tthis.isClickEventComplate = false;\n\t\tthis.isFocusEventComplate = false;\n\t}\n\t\t\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\t//  字母键盘 || 数字键盘\n\t\t\tisNumberKey: true,\n\t\t\t//  是否大小写\n\t\t\tisUpper: false,\n\t\t\t//  点击事件是否处理完成\n\t\t\tisClickEventComplate: false,\n\t\t\t//  点击按钮的信息\n\t\t\tclickInfo: {},\n\t\t\t//  焦点处理事件是否完成\n\t\t\tisFocusEventComplate: false,\n\t\t\t//  键盘布局的行数\n\t\t\trow: 8,\n\t\t\t//  键盘布局的列数\n\t\t\tcol: 4\n\t\t}\n\t},\n\tprops: ['warpStyle'],\n\tcomputed: {\n\t\tbuttonStyle: function () {\n\t\t\tvar warpStyle = this.warpStyle,\n\t\t\t\twidth = parseInt(warpStyle.width) / this.col,\n\t\t\t\theight = parseInt(warpStyle.height) /this.row;\n\n\t\t\treturn {\n\t\t\t\twidth: width + \"px\",\n\t\t\t\theight: height + \"px\"\n\t\t\t}\n\t\t},\n\t\tkeys: function () {\n\t\t\treturn this.isNumberKey ? numKeys : characterKeys;\n\t\t}\n\t},\n\tmethods: {\n\t\tdealWithClicked: dealWithClicked,\n\t\tkeepFocusConstant: keepFocusConstant,\n\t\tdispatchkeyboardClickedEvent: dispatchkeyboardClickedEvent\n\t}\n};\n</script>\n\n<style>\n\t.key {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\t/*opacity: 0;*/\n\t\tbackground: rgba(0, 0, 0, 0);\n\t\t/*border: 0;*/\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.key {\n\tmargin: 0;\n\tpadding: 0;\n\topacity: 0;\n\tbackground: rgba(0, 0, 0, 0);\n\tborder: 0;\n}\n", "", {"version":3,"sources":["/./src/components/keyboard.vue?4e83a090"],"names":[],"mappings":";AAyQA;CACA,UAAA;CACA,WAAA;CACA,WAAA;CACA,6BAAA;CACA,UAAA;CACA","file":"keyboard.vue","sourcesContent":["<template>\n\t<div id='keyboard' @focusin=\"keepFocusConstant\" @click=\"dealWithClicked\">\n\t\t<div class='key-row' v-for='row of keys'>\n\t\t\t<button class=\"key\" type=\"button\" v-for='key of row' :key-type=\"key.slice(0, 3)\" :value=\"key.slice(4)\" :style=\"buttonStyle\" track-by='$index'>{{ key.slice(4) }}</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nvar numKeys,\n\tcharacterKeys;\n\n//  数字键盘\nnumKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['NUM_7', 'NUM_8', 'NUM_9', 'FUN_Tab'],\n\t['NUM_4', 'NUM_5', 'NUM_6', 'FUN_B.S'],\n\t['NUM_1', 'NUM_2', 'NUM_3', 'FUN_Shift'],\n\t['NUM_0', 'CHA_Dot', 'CHA_-', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n//  字母键盘\ncharacterKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['CHA_abc', 'CHA_def', 'CHA_ghi', 'FUN_Tab'],\n\t['CHA_jkl', 'CHA_mno', 'CHA_pqr', 'FUN_B.S'],\n\t['CHA_stu', 'CHA_vwx', 'CHA_yz_', 'FUN_Shift'],\n\t['CHA_#$%', 'CHA_!&@', 'CHA_+*/', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n\n/**\n * keyborad点击事件处理函数，通过对点击对象的信息的获取与处理，触发自定义事件，向父组件传递信息。\n * @param  {Event} event 事件对象\n * @return {Undefined | false} 返回值为false时、点击事件被组件内部处理，为undefined时、触发自定义事件，向父组件传递信息       \n */\nfunction dealWithClicked (event) {\n\tvar target = event.target,\n\t\t//  点击按钮的类型\n\t\tkeyType = target.getAttribute(\"key-type\"),\n\t\t//  点击按钮的值\n\t\tkeyValue = target.value,\n\t\t//  是否取代上一次输出的值\n\t\tisReplace = false,\n\t\tsourceTarget = \"keyboard-component\";\n\n\tif (keyType == null || keyValue == null) {\n\t\treturn false;\n\t}\n\n\t//  检查函数是否有lastClick对象，该对象包含上次点击事件发生时的一些信息\n\tif (dealWithClicked.lastClick == null) {\n\t\tdealWithClicked.lastClick = {\n\t\t\t//  上次事件发生的target对象\n\t\t\ttarget: target,\n\t\t\t//  点击同一按钮的次数\n\t\t\tcount: 0,\n\t\t\t//  上次事件发生的事件\n\t\t\ttime: Date.now()\n\t\t}\n\t} else {\n\t\t//  若点击事件的target对象不变则计算两次点击事件的发生的间隔，小于1000ms 则视为连续点击，点击次数加一\n\t\tif (target === dealWithClicked.lastClick.target) {\n\t\t\t//  点击事件的时间间隔\n\t\t\tlet timeInterval = Date.now() - dealWithClicked.lastClick.time;\n\n\t\t\tif (timeInterval <= 1000) {\n\t\t\t\tdealWithClicked.lastClick.count++;\n\t\t\t} else {\n\t\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\t}\n\n\t\t\t//  更新点击时间发生的时间\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t} else {\n\t\t\t//  两次点击的target对象不同，则更新lastClick对象\n\n\t\t\tdealWithClicked.lastClick.target = target;\n\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t}\n\t}\n\n\tif (keyType === \"FUN\") {\t\n\t\t//  类型为FUN\n\t\t\n\t\tswitch (keyValue) {\n\t\t\tcase \"Alpha\": \n\t\t\t\t//  大小写切换，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isUpper = !this.isUpper;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"Shift\":\n\t\t\t\t//  切换字母数字键盘，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isNumberKey = !this.isNumberKey;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"NULL\":\n\t\t\t\t//  空按钮 立即返回false,不处罚自定义事件\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tdefault:\n\t\t\t\t//  其他FUN类型按钮,向父组件传递按键值\n\t\t\t\tbreak;\n\t\t}\n\t} else if (keyType === \"CHA\") {\n\t\t//  类型为CHA\n\n\t\tlet charCode = 0;\n\n\t\tswitch (keyValue) {\n\t\t\tcase \"S.P\":\n\t\t\t\t//  键值为S.P 即为空格\n\t\t\t\tkeyValue = \" \";\n\t\t\t\tbreak;\n\t\t\tdefault: \n\t\t\t\t//  其他按键经过字符按键处理函数处理\n\t\t\t\t({keyValue, isReplace} = dealWithCharacter(keyValue, dealWithClicked.lastClick.count));\n\t\t}\n\n\t\t//  若按键值为 a-zA-Z 则判断大小写并转换\n\t\tcharCode = keyValue.charCodeAt(0);\n\t\tif (charCode >= 65 && charCode < 91 || charCode >= 97 && charCode < 123) {\n\t\t\tkeyValue = this.isUpper ? keyValue.toUpperCase() : keyValue.toLowerCase();\n\t\t}\n\t} else if (keyType === \"NUM\") {\n\t\t//  类型为NUM\n\t\t//  不做任何处理、直接返回按键类型和按键值\n\t}\n\n\t/** click事件完成，保存事件信息 */\n\tthis.clickInfo = ({keyType, keyValue, isReplace, sourceTarget});\n\tthis.isClickEventComplate = true;\n\n\tthis.dispatchkeyboardClickEvent();\n}\n\n/**\n * 处理按键类型为CHA的按键信息，通过对点击次数的判断，决定字母键盘所要返回具体值且判断是否取代上次的信息\n * @param  {String} keyValue     按键的值\n * @param  {Number} clickedCount 点击次数\n * @return {Object}              此次按键所产生的按键值与是否要取代上次信息\n */\nfunction dealWithCharacter(keyValue, clickedCount) {\n\tvar isReplace = false,\n\t\tlen = keyValue.length;\n\n\t//  按键值长度大于1、判断是否取代上次的信息\n\tif (len > 1) {\n\t\tif (clickedCount > 0) {\n\t\t\tisReplace = true;\n\t\t}\n\t\tclickedCount = clickedCount % len;\n\t\tkeyValue = keyValue[clickedCount];\n\t}\n\n\treturn ({keyValue, isReplace});\n}\n\n/**\n * 当点击键盘时、若页面有其他元素获得交点，则键盘不获得焦点,函数执行完毕、触发自定义事件\n * @param  {[type]} event [description]\n * @return {[type]}       [description]\n */\nfunction keepFocusConstant(event) {\n\tvar relatedTarget = event.relatedTarget,\n\t\ttarget = event.target,\n\t\tcurrentTarget = event.currentTarget;\n\t\n\t//  有其他元素获得焦点\n\tif (relatedTarget) {\n\t\t//  上一次获得焦点的元素不为键盘本身或键盘子元素\n\t\tif (target !== currentTarget && !isContainsElement(currentTarget, relatedTarget)) {\n\t\t\t//  其他元素继续保持焦点\n\t\t\tevent.relatedTarget.focus();\n\t\t}\n\t}\n\n\t/** 焦点处理事件完成 */\n\tthis.isFocusEventComplate = true;\n\n\tthis.dispatchkeyboardClickEvent();\n}\n\n/**\n * 判断child元素是否为parent元素的子元素\n * @param  {HTMLElement}  parent 要判断是否包含的父元素\n * @param  {HTMLElement}  child  要判断是否被包含的子元素\n * @return {Boolean}        若包含返回true,不包含返回false\n */\nfunction isContainsElement(parent, child) {\n\t//  若父元素为document或HTML元素，则一定包含子元素\n\tif (parent === document.documentElement || parent.nodeName.toUpperCase() === \"HTML\") {\n\t\treturn true;\n\t}\n\n\t//  子元素循环向上判断父元素是否等于parent元素\n\twhile (child.parentNode) {\n\t\tif (child.parentNode === parent) {\n\t\t\treturn true;\n\t\t}\n\t\tchild = child.parentNode;\n\t}\n\n\treturn false;\n}\n\n/**\n * 判断所有事件是否完成，触发自定义事件，传递信息\n */\nfunction dispatchkeyboardClickEvent() {\n\tif (this.isClickEventComplate && this.isFocusEventComplate) {\n\t\tthis.$dispatch(\"keyboardclick\", this.clickInfo);\n\t\tthis.isClickEventComplate = false;\n\t\tthis.isFocusEventComplate = false;\n\t}\n\t\t\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\t//  字母键盘 || 数字键盘\n\t\t\tisNumberKey: true,\n\t\t\t//  是否大小写\n\t\t\tisUpper: false,\n\t\t\t//  点击事件是否处理完成\n\t\t\tisClickEventComplate: false,\n\t\t\t//  点击按钮的信息\n\t\t\tclickInfo: {},\n\t\t\t//  焦点处理事件是否完成\n\t\t\tisFocusEventComplate: false,\n\t\t\t//  键盘布局的行数\n\t\t\trow: 8,\n\t\t\t//  键盘布局的列数\n\t\t\tcol: 4\n\t\t}\n\t},\n\tprops: ['warpStyle'],\n\tcomputed: {\n\t\tbuttonStyle: function () {\n\t\t\tvar warpStyle = this.warpStyle,\n\t\t\t\twidth = parseInt(warpStyle.width) / this.col,\n\t\t\t\theight = parseInt(warpStyle.height) /this.row;\n\n\t\t\treturn {\n\t\t\t\twidth: width + \"px\",\n\t\t\t\theight: height + \"px\"\n\t\t\t}\n\t\t},\n\t\tkeys: function () {\n\t\t\treturn this.isNumberKey ? numKeys : characterKeys;\n\t\t}\n\t},\n\tmethods: {\n\t\tdealWithClicked: dealWithClicked,\n\t\tkeepFocusConstant: keepFocusConstant,\n\t\tdispatchkeyboardClickEvent: dispatchkeyboardClickEvent\n\t}\n};\n</script>\n\n<style>\n\t.key {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\topacity: 0;\n\t\tbackground: rgba(0, 0, 0, 0);\n\t\tborder: 0;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -13319,7 +13327,7 @@
 		this.clickInfo = { keyType: keyType, keyValue: keyValue, isReplace: isReplace, sourceTarget: sourceTarget };
 		this.isClickEventComplate = true;
 	
-		this.dispatchkeyboardClickedEvent();
+		this.dispatchkeyboardClickEvent();
 	}
 	
 	/**
@@ -13366,7 +13374,7 @@
 		/** 焦点处理事件完成 */
 		this.isFocusEventComplate = true;
 	
-		this.dispatchkeyboardClickedEvent();
+		this.dispatchkeyboardClickEvent();
 	}
 	
 	/**
@@ -13395,9 +13403,9 @@
 	/**
 	 * 判断所有事件是否完成，触发自定义事件，传递信息
 	 */
-	function dispatchkeyboardClickedEvent() {
+	function dispatchkeyboardClickEvent() {
 		if (this.isClickEventComplate && this.isFocusEventComplate) {
-			this.$dispatch("keyboardClicked", this.clickInfo);
+			this.$dispatch("keyboardclick", this.clickInfo);
 			this.isClickEventComplate = false;
 			this.isFocusEventComplate = false;
 		}
@@ -13442,7 +13450,7 @@
 		methods: {
 			dealWithClicked: dealWithClicked,
 			keepFocusConstant: keepFocusConstant,
-			dispatchkeyboardClickedEvent: dispatchkeyboardClickedEvent
+			dispatchkeyboardClickEvent: dispatchkeyboardClickEvent
 		}
 	};
 	// </script>
@@ -13451,9 +13459,9 @@
 	// 	.key {
 	// 		margin: 0;
 	// 		padding: 0;
-	// 		/*opacity: 0;*/
+	// 		opacity: 0;
 	// 		background: rgba(0, 0, 0, 0);
-	// 		/*border: 0;*/
+	// 		border: 0;
 	// 	}
 	// </style>
 	/* generated by vue-loader */
@@ -13468,7 +13476,7 @@
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<!-- App 页面基本框架 -->\n<div class=\"main\" :style=\"mainStyle\">\n\t<!-- App 左方界面区 start -->\n\t<div class=\"left-view\" :style=\"leftViewStyle\">\n\t\t<router-view></router-view>\n\t</div>\n\t<!-- App 左方界面区 end -->\n\t<!-- App 右方按键区 start -->\n\t<div class=\"right-view\" :style=\"rightViewStyle\">\n\t\t<keyboard :warp-style=\"rightViewStyle\"></keyboard>\n\t</div>\n\t<!-- App 右方按键区 end -->\n\t<input>\n</div>\n";
+	module.exports = "\n<!-- App 页面基本框架 -->\n<div class=\"main\" :style=\"mainStyle\">\n\t<!-- App 左方界面区 start -->\n\t<div class=\"left-view\" :style=\"leftViewStyle\">\n\t\t<router-view></router-view>\n\t</div>\n\t<!-- App 左方界面区 end -->\n\t<!-- App 右方按键区 start -->\n\t<div class=\"right-view\" :style=\"rightViewStyle\">\n\t\t<keyboard :warp-style=\"rightViewStyle\"></keyboard>\n\t</div>\n\t<!-- App 右方按键区 end -->\n</div>\n";
 
 /***/ },
 /* 17 */
@@ -13531,8 +13539,7 @@
 	function generateRouterMap(menuTree, routerMap, componentPathPrefix) {
 		var subMenu = [],
 		    componentPath = "",
-		    routerPath = "",
-		    menuLevel = 0;
+		    routerPath = "";
 	
 		if (generateRouterMap.menuLevel == null) {
 			generateRouterMap.menuLevel = 0;
@@ -13540,41 +13547,44 @@
 			generateRouterMap.menuLevel++;
 		}
 	
-		//  如果路由树是个对象，则在路由Map对象中添加
-		if (Object.prototype.toString(menuTree) === "[object Object]") {
-			if (menuTree.name) {
-				routerPath = "/" + menuTree.name;
-				componentPath = "" + componentPathPrefix + menuTree.name + ".vue";
-				routerMap[routerPath] = {
-					component: function () {
-						if (generateRouterMap.menuLevel === 1) {
-							return __webpack_require__(20)(subMenuComponentPath);
-						}
-	
-						try {
-							return __webpack_require__(20)(componentPath);
-						} catch (e) {
-							console.log(e);
-							return __webpack_require__(20)(NullComponentPath);
-						}
-					}()
-				};
+		if (menuTree instanceof Array) {
+			for (var i = 0, len = menuTree.length; i < len; i++) {
+				generateRouterMap(menuTree[i], routerMap, componentPathPrefix);
 			}
-		}
+		} else if (menuTree != null && menuTree.toString() === "[object Object]") {
+			//  如果路由树是个对象，则在路由Map对象中添加
 	
-		//  判断路由对象是否有子树
-		subMenu = menuTree.subMenu;
-		if (subMenu != null && Object.prototype.toString(menuTree.subMenu) === "[object Object]") {
-			var _subMenu = menuTree.subMenu;
-	
-			//  有子树、递归添加子树中的路由数据
-			routerMap[routerPath].subRoutes = {};
-			for (var i = 0, len = _subMenu.length; i < len; i++) {
-				generateRouterMap(_subMenu[i], routerMap[routerPath].subRoutes, "" + componentPathPrefix + menuTree.name + "/");
+			//  路由树对象name 属性不为字符串或为空字符串，直接结束执行函数
+			if (typeof menuTree.name !== "string" || menuTree.name === "") {
+				generateRouterMap.menuLevel--;
+				return routerMap;
 			}
+	
+			routerPath = "/" + menuTree.name;
+			componentPath = "" + componentPathPrefix + menuTree.name + ".vue";
+	
+			routerMap[routerPath] = {
+				component: function () {
+					//  菜单路由加载菜单模块
+					if (generateRouterMap.menuLevel === 3) {
+						return __webpack_require__(20)(subMenuComponentPath);
+					}
+					try {
+						return __webpack_require__(20)(componentPath);
+					} catch (err) {
+						console.log(err);
+						return __webpack_require__(20)(NullComponentPath);
+					}
+				}(),
+				subRoutes: {}
+			};
+	
+			//  递归遍历子路由树
+			generateRouterMap(menuTree.subMenu, routerMap[routerPath].subRoutes, "" + componentPathPrefix + menuTree.name + "/");
 		}
 	
 		generateRouterMap.menuLevel--;
+	
 		return routerMap;
 	}
 	
@@ -13588,356 +13598,362 @@
 /* 19 */
 /***/ function(module, exports) {
 
-	module.exports = {
-		"name": "home",
-		"tag": "主页",
-		"subMenu": [
-			{
-				"name": "projects",
-				"tag": "项目",
-				"subMenu": [
-					{
-						"name": "newProject",
-						"tag": "新建项目"
-					},
-					{
-						"name": "openProject",
-						"tag": "打开项目"
-					},
-					{
-						"name": "deleteProject",
-						"tag": "删除项目"
-					},
-					{
-						"name": "projectSaveAs",
-						"tag": "另存为"
-					},
-					{
-						"name": "projectTrash",
-						"tag": "回收站"
-					},
-					{
-						"name": "projectInfo",
-						"tag": "项目信息"
-					},
-					{
-						"name": "importProject",
-						"tag": "导入"
-					},
-					{
-						"name": "exportProject",
-						"tag": "导出"
-					},
-					{
-						"name": "aboutProject",
-						"tag": "关于"
-					}
-				]
-			},
-			{
-				"name": "conventional",
-				"tag": "常规",
-				"subMenu": [
-					{
-						"name": "angleMeasuring",
-						"tag": "角度测量"
-					},
-					{
-						"name": "distanceMeasuring",
-						"tag": "距离测量"
-					},
-					{
-						"name": "coordinateMeasuring",
-						"tag": "坐标测量"
-					}
-				]
-			},
-			{
-				"name": "data",
-				"tag": "数据",
-				"subMenu": [
-					{
-						"name": "originalData",
-						"tag": "原始数据"
-					},
-					{
-						"name": "coordinateData",
-						"tag": "坐标数据"
-					},
-					{
-						"name": "codeData",
-						"tag": "编码数据"
-					},
-					{
-						"name": "graphData",
-						"tag": "数据图形"
-					},
-					{
-						"name": "viewGraph",
-						"tag": "查看图片"
-					}
-				]
-			},
-			{
-				"name": "buildStation",
-				"tag": "建站",
-				"subMenu": [
-					{
-						"name": "buildStationByKnownPoint",
-						"tag": "已知点建站"
-					},
-					{
-						"name": "stationElevation",
-						"tag": "测站高程"
-					},
-					{
-						"name": "afterInspection",
-						"tag": "后视检查"
-					},
-					{
-						"name": "resection",
-						"tag": "后方交会测量"
-					},
-					{
-						"name": "gyro",
-						"tag": "陀螺仪寻北"
-					},
-					{
-						"name": "buildStationByLine",
-						"tag": "点到直线建站"
-					},
-					{
-						"name": "DirectionalByMutilPoint",
-						"tag": "多点定向"
-					}
-				]
-			},
-			{
-				"name": "calculate",
-				"tag": "计算",
-				"subMenu": [
-					{
-						"name": "calculator",
-						"tag": "计算器"
-					},
-					{
-						"name": "coordinateTraverse",
-						"tag": "坐标正算"
-					},
-					{
-						"name": "coordinateInverse",
-						"tag": "坐标反算"
-					},
-					{
-						"name": "areaPerimeter",
-						"tag": "面积周长"
-					},
-					{
-						"name": "pointLineInverse",
-						"tag": "点线反算"
-					},
-					{
-						"name": "twoPointOfIntersection",
-						"tag": "两点计算交点"
-					},
-					{
-						"name": "fourPointOfIntersection",
-						"tag": "四点计算交点"
-					},
-					{
-						"name": "volumeCalculation",
-						"tag": "体积计算"
-					},
-					{
-						"name": "unitConversion",
-						"tag": "单位转换"
-					},
-					{
-						"name": "meridianConvergence",
-						"tag": "子午收敛角"
-					},
-					{
-						"name": "measuring",
-						"tag": "导线平差"
-					}
-				]
-			},
-			{
-				"name": "collection",
-				"tag": "采集",
-				"subMenu": [
-					{
-						"name": "distanceOfPoint",
-						"tag": "点距离"
-					},
-					{
-						"name": "distanceDeviation",
-						"tag": "距离偏差"
-					},
-					{
-						"name": "planeAngle",
-						"tag": "平面角点"
-					},
-					{
-						"name": "cylindricalCenter",
-						"tag": "圆柱中心点"
-					},
-					{
-						"name": "MLM",
-						"tag": "对边测量"
-					},
-					{
-						"name": "lineExtendMeasuring",
-						"tag": "线和延长点测量"
-					},
-					{
-						"name": "REM",
-						"tag": "悬高测量"
-					},
-					{
-						"name": "F1F2",
-						"tag": "F1/F2"
-					},
-					{
-						"name": "measuringImage",
-						"tag": "影像"
-					}
-				]
-			},
-			{
-				"name": "setUp",
-				"tag": "设置",
-				"subMenu": [
-					{
-						"name": "unitSetting",
-						"tag": "单位设置"
-					},
-					{
-						"name": "AngleSetting",
-						"tag": "角度相关设置"
-					},
-					{
-						"name": "distanceSetting",
-						"tag": "距离相关设置"
-					},
-					{
-						"name": "coordinateSetting",
-						"tag": "坐标相关设置"
-					},
-					{
-						"name": "RS232Setting",
-						"tag": "RS232通信设置"
-					},
-					{
-						"name": "bluetoothSetting",
-						"tag": "蓝牙通信设置"
-					},
-					{
-						"name": "powerSetting",
-						"tag": "电源管理"
-					},
-					{
-						"name": "otherSetting",
-						"tag": "其他设置"
-					},
-					{
-						"name": "updateFirmware",
-						"tag": "固件升级"
-					},
-					{
-						"name": "formatStorage",
-						"tag": "格式化存储器"
-					},
-					{
-						"name": "factoryReset",
-						"tag": "恢复出厂设置"
-					},
-					{
-						"name": "installSoftware",
-						"tag": "应用软件安装"
-					}
-				]
-			},
-			{
-				"name": "lofting",
-				"tag": "放样",
-				"subMenu": [
-					{
-						"name": "pointLofting",
-						"tag": "点放样"
-					},
-					{
-						"name": "angleDistanceLofting",
-						"tag": "角度距离放样"
-					},
-					{
-						"name": "directionLineLofting",
-						"tag": "方向线放样"
-					},
-					{
-						"name": "lineLofting",
-						"tag": "直线参考线放样"
-					}
-				]
-			},
-			{
-				"name": "calibration",
-				"tag": "校准",
-				"subMenu": [
-					{
-						"name": "compensatorCalibration",
-						"tag": "补偿器校正"
-					},
-					{
-						"name": "VenticalDatumCalibration",
-						"tag": "垂直基准校正"
-					},
-					{
-						"name": "correctionCalibration",
-						"tag": "仪器加常数校正"
-					},
-					{
-						"name": "touchCalibration",
-						"tag": "触摸屏校验"
-					},
-					{
-						"name": "gyroCalibration",
-						"tag": "陀螺仪校正"
-					},
-					{
-						"name": "measuringImageCalibration",
-						"tag": "影像中心校正"
-					}
-				]
-			},
-			{
-				"name": "road",
-				"tag": "道路",
-				"subMenu": [
-					{
-						"name": "selectRoad",
-						"tag": "道路选择"
-					},
-					{
-						"name": "editHorizontalLine",
-						"tag": "编辑水平定线"
-					},
-					{
-						"name": "editVerticalLine",
-						"tag": "编辑垂直定线"
-					},
-					{
-						"name": "roadLofting",
-						"tag": "道路放样"
-					},
-					{
-						"name": "calculateRoadCoordinate",
-						"tag": "计算道路坐标"
-					}
-				]
-			}
-		]
-	};
+	module.exports = [
+		{
+			"name": "home",
+			"tag": "主页",
+			"subMenu": [
+				{
+					"name": "projects",
+					"tag": "项目",
+					"subMenu": [
+						{
+							"name": "newProject",
+							"tag": "新建项目"
+						},
+						{
+							"name": "openProject",
+							"tag": "打开项目"
+						},
+						{
+							"name": "deleteProject",
+							"tag": "删除项目"
+						},
+						{
+							"name": "projectSaveAs",
+							"tag": "另存为"
+						},
+						{
+							"name": "projectTrash",
+							"tag": "回收站"
+						},
+						{
+							"name": "projectInfo",
+							"tag": "项目信息"
+						},
+						{
+							"name": "importProject",
+							"tag": "导入"
+						},
+						{
+							"name": "exportProject",
+							"tag": "导出"
+						},
+						{
+							"name": "aboutProject",
+							"tag": "关于"
+						}
+					]
+				},
+				{
+					"name": "conventional",
+					"tag": "常规",
+					"subMenu": [
+						{
+							"name": "angleMeasuring",
+							"tag": "角度测量"
+						},
+						{
+							"name": "distanceMeasuring",
+							"tag": "距离测量"
+						},
+						{
+							"name": "coordinateMeasuring",
+							"tag": "坐标测量"
+						}
+					]
+				},
+				{
+					"name": "data",
+					"tag": "数据",
+					"subMenu": [
+						{
+							"name": "originalData",
+							"tag": "原始数据"
+						},
+						{
+							"name": "coordinateData",
+							"tag": "坐标数据"
+						},
+						{
+							"name": "codeData",
+							"tag": "编码数据"
+						},
+						{
+							"name": "graphData",
+							"tag": "数据图形"
+						},
+						{
+							"name": "viewGraph",
+							"tag": "查看图片"
+						}
+					]
+				},
+				{
+					"name": "buildStation",
+					"tag": "建站",
+					"subMenu": [
+						{
+							"name": "buildStationByKnownPoint",
+							"tag": "已知点建站"
+						},
+						{
+							"name": "stationElevation",
+							"tag": "测站高程"
+						},
+						{
+							"name": "afterInspection",
+							"tag": "后视检查"
+						},
+						{
+							"name": "resection",
+							"tag": "后方交会测量"
+						},
+						{
+							"name": "gyro",
+							"tag": "陀螺仪寻北"
+						},
+						{
+							"name": "buildStationByLine",
+							"tag": "点到直线建站"
+						},
+						{
+							"name": "DirectionalByMutilPoint",
+							"tag": "多点定向"
+						}
+					]
+				},
+				{
+					"name": "calculate",
+					"tag": "计算",
+					"subMenu": [
+						{
+							"name": "calculator",
+							"tag": "计算器"
+						},
+						{
+							"name": "coordinateTraverse",
+							"tag": "坐标正算"
+						},
+						{
+							"name": "coordinateInverse",
+							"tag": "坐标反算"
+						},
+						{
+							"name": "areaPerimeter",
+							"tag": "面积周长"
+						},
+						{
+							"name": "pointLineInverse",
+							"tag": "点线反算"
+						},
+						{
+							"name": "twoPointOfIntersection",
+							"tag": "两点计算交点"
+						},
+						{
+							"name": "fourPointOfIntersection",
+							"tag": "四点计算交点"
+						},
+						{
+							"name": "volumeCalculation",
+							"tag": "体积计算"
+						},
+						{
+							"name": "unitConversion",
+							"tag": "单位转换"
+						},
+						{
+							"name": "meridianConvergence",
+							"tag": "子午收敛角"
+						},
+						{
+							"name": "measuring",
+							"tag": "导线平差"
+						}
+					]
+				},
+				{
+					"name": "collection",
+					"tag": "采集",
+					"subMenu": [
+						{
+							"name": "distanceOfPoint",
+							"tag": "点距离"
+						},
+						{
+							"name": "distanceDeviation",
+							"tag": "距离偏差"
+						},
+						{
+							"name": "planeAngle",
+							"tag": "平面角点"
+						},
+						{
+							"name": "cylindricalCenter",
+							"tag": "圆柱中心点"
+						},
+						{
+							"name": "MLM",
+							"tag": "对边测量"
+						},
+						{
+							"name": "lineExtendMeasuring",
+							"tag": "线和延长点测量"
+						},
+						{
+							"name": "REM",
+							"tag": "悬高测量"
+						},
+						{
+							"name": "F1F2",
+							"tag": "F1/F2"
+						},
+						{
+							"name": "measuringImage",
+							"tag": "影像"
+						}
+					]
+				},
+				{
+					"name": "setUp",
+					"tag": "设置",
+					"subMenu": [
+						{
+							"name": "unitSetting",
+							"tag": "单位设置"
+						},
+						{
+							"name": "AngleSetting",
+							"tag": "角度相关设置"
+						},
+						{
+							"name": "distanceSetting",
+							"tag": "距离相关设置"
+						},
+						{
+							"name": "coordinateSetting",
+							"tag": "坐标相关设置"
+						},
+						{
+							"name": "RS232Setting",
+							"tag": "RS232通信设置"
+						},
+						{
+							"name": "bluetoothSetting",
+							"tag": "蓝牙通信设置"
+						},
+						{
+							"name": "powerSetting",
+							"tag": "电源管理"
+						},
+						{
+							"name": "otherSetting",
+							"tag": "其他设置"
+						},
+						{
+							"name": "updateFirmware",
+							"tag": "固件升级"
+						},
+						{
+							"name": "formatStorage",
+							"tag": "格式化存储器"
+						},
+						{
+							"name": "factoryReset",
+							"tag": "恢复出厂设置"
+						},
+						{
+							"name": "installSoftware",
+							"tag": "应用软件安装"
+						}
+					]
+				},
+				{
+					"name": "lofting",
+					"tag": "放样",
+					"subMenu": [
+						{
+							"name": "pointLofting",
+							"tag": "点放样"
+						},
+						{
+							"name": "angleDistanceLofting",
+							"tag": "角度距离放样"
+						},
+						{
+							"name": "directionLineLofting",
+							"tag": "方向线放样"
+						},
+						{
+							"name": "lineLofting",
+							"tag": "直线参考线放样"
+						}
+					]
+				},
+				{
+					"name": "calibration",
+					"tag": "校准",
+					"subMenu": [
+						{
+							"name": "compensatorCalibration",
+							"tag": "补偿器校正"
+						},
+						{
+							"name": "VenticalDatumCalibration",
+							"tag": "垂直基准校正"
+						},
+						{
+							"name": "correctionCalibration",
+							"tag": "仪器加常数校正"
+						},
+						{
+							"name": "touchCalibration",
+							"tag": "触摸屏校验"
+						},
+						{
+							"name": "gyroCalibration",
+							"tag": "陀螺仪校正"
+						},
+						{
+							"name": "measuringImageCalibration",
+							"tag": "影像中心校正"
+						}
+					]
+				},
+				{
+					"name": "road",
+					"tag": "道路",
+					"subMenu": [
+						{
+							"name": "selectRoad",
+							"tag": "道路选择"
+						},
+						{
+							"name": "editHorizontalLine",
+							"tag": "编辑水平定线"
+						},
+						{
+							"name": "editVerticalLine",
+							"tag": "编辑垂直定线"
+						},
+						{
+							"name": "roadLofting",
+							"tag": "道路放样"
+						},
+						{
+							"name": "calculateRoadCoordinate",
+							"tag": "计算道路坐标"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "powerOff",
+			"tag": "关机"
+		}
+	];
 
 /***/ },
 /* 20 */
@@ -13947,9 +13963,10 @@
 		"./bottomBar.vue": 21,
 		"./home.vue": 29,
 		"./home/projects/newProject.vue": 60,
+		"./home/projects/openProject.vue": 88,
 		"./home/subMenu.vue": 65,
 		"./keyboard.vue": 11,
-		"./mainMenu.vue": 70,
+		"./menuList.vue": 79,
 		"./null.vue": 44,
 		"./routerMap.vue": 17,
 		"./topBar.vue": 33
@@ -14032,7 +14049,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.bottom-bar {\n\twidth: 100%;\n\theight: 100%;\n\tbackground: #DDDDDD;\n\tborder-radius: 3px;\n}\n\n.btn {\n\n}\n\n.bottom-bar-time {\n\tmargin: 0 1em;\n\tfloat: right;\n}\n", "", {"version":3,"sources":["/./src/components/bottomBar.vue?61e896a8"],"names":[],"mappings":";AA6BA;CACA,YAAA;CACA,aAAA;CACA,oBAAA;CACA,mBAAA;CACA;;AAEA;;CAEA;;AAEA;CACA,cAAA;CACA,aAAA;CACA","file":"bottomBar.vue","sourcesContent":["<template>\n\t<div class=\"bottom-bar clear-fix\">\n\t\t<button class=\"btn\" v-if=\"isConfirm\">确认</button>\n\t\t<button class=\"btn\" v-if=\"isCancel\">取消</button>\n\t\t<time class=\"bottom-bar-time\">{{ localTime }}</time>\n\t</div>\n</template>\n\n<script>\nimport commonsStyle from \"../static/styles/commons.css\";\n\nvar localTime;\n\nlocalTime = (() => {\n\tvar time = new Date();\n\treturn time.getHours() + \":\" + time.getMinutes();\n})();\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tlocalTime: localTime,\n\t\t}\n\t},\n\tprops: [\"isConfirm\", \"isCancel\"],\n}\n</script>\n\n<style>\n\t.bottom-bar {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tbackground: #DDDDDD;\n\t\tborder-radius: 3px;\n\t}\n\n\t.btn {\n\n\t}\n\n\t.bottom-bar-time {\n\t\tmargin: 0 1em;\n\t\tfloat: right;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.bottom-bar {\n\twidth: 100%;\n\theight: 100%;\n\tbackground: #DDDDDD;\n\tborder-radius: 3px;\n}\n\n.btn {\n\n}\n\n.bottom-bar-time {\n\tmargin: 0 1em;\n\tfloat: right;\n}\n", "", {"version":3,"sources":["/./src/components/bottomBar.vue?570778a2"],"names":[],"mappings":";AA+CA;CACA,YAAA;CACA,aAAA;CACA,oBAAA;CACA,mBAAA;CACA;;AAEA;;CAEA;;AAEA;CACA,cAAA;CACA,aAAA;CACA","file":"bottomBar.vue","sourcesContent":["<template>\n\t<div class=\"bottom-bar clear-fix\" @click=\"bottomBarButtonClicked\">\n\t\t<button class=\"btn\" value=\"confirm\" v-if=\"isConfirm\">确认</button>\n\t\t<button class=\"btn\" value=\"cancel\" v-if=\"isCancel\">取消</button>\n\t\t<time class=\"bottom-bar-time\">{{ localTime }}</time>\n\t</div>\n</template>\n\n<script>\nimport commonsStyle from \"../static/styles/commons.css\";\n\nvar localTime;\n\nlocalTime = (() => {\n\tvar time = new Date();\n\treturn time.getHours() + \":\" + time.getMinutes();\n})();\n\nfunction bottomBarButtonClicked(event) {\n\tvar value = event.target.value;\n\n\tif (value) {\n\t\tvalue = value === \"confirm\" ? \"ENT\" : \"ESC\";\n\t\tthis.$dispatch(\"keyboardclick\", {\n\t\t\tkeyType: \"FUN\",\n\t\t\tkeyValue: value,\n\t\t\tisReplace: false,\n\t\t\tsourceTarget: \"bottom-bar-button\"\n\t\t});\n\t}\n\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tlocalTime: localTime,\n\t\t}\n\t},\n\tprops: [\"isConfirm\", \"isCancel\"],\n\tmethods: {\n\t\tbottomBarButtonClicked: bottomBarButtonClicked\n\t}\n}\n</script>\n\n<style>\n\t.bottom-bar {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tbackground: #DDDDDD;\n\t\tborder-radius: 3px;\n\t}\n\n\t.btn {\n\n\t}\n\n\t.bottom-bar-time {\n\t\tmargin: 0 1em;\n\t\tfloat: right;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -14054,9 +14071,9 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var localTime; // <template>
-	// 	<div class="bottom-bar clear-fix">
-	// 		<button class="btn" v-if="isConfirm">确认</button>
-	// 		<button class="btn" v-if="isCancel">取消</button>
+	// 	<div class="bottom-bar clear-fix" @click="bottomBarButtonClicked">
+	// 		<button class="btn" value="confirm" v-if="isConfirm">确认</button>
+	// 		<button class="btn" value="cancel" v-if="isCancel">取消</button>
 	// 		<time class="bottom-bar-time">{{ localTime }}</time>
 	// 	</div>
 	// </template>
@@ -14069,6 +14086,20 @@
 		return time.getHours() + ":" + time.getMinutes();
 	}();
 	
+	function bottomBarButtonClicked(event) {
+		var value = event.target.value;
+	
+		if (value) {
+			value = value === "confirm" ? "ENT" : "ESC";
+			this.$dispatch("keyboardclick", {
+				keyType: "FUN",
+				keyValue: value,
+				isReplace: false,
+				sourceTarget: "bottom-bar-button"
+			});
+		}
+	}
+	
 	exports.default = {
 		data: function data() {
 			return {
@@ -14076,7 +14107,10 @@
 			};
 		},
 	
-		props: ["isConfirm", "isCancel"]
+		props: ["isConfirm", "isCancel"],
+		methods: {
+			bottomBarButtonClicked: bottomBarButtonClicked
+		}
 	};
 	// </script>
 	//
@@ -14397,7 +14431,7 @@
 /* 28 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"bottom-bar clear-fix\">\n\t<button class=\"btn\" v-if=\"isConfirm\">确认</button>\n\t<button class=\"btn\" v-if=\"isCancel\">取消</button>\n\t<time class=\"bottom-bar-time\">{{ localTime }}</time>\n</div>\n";
+	module.exports = "\n<div class=\"bottom-bar clear-fix\" @click=\"bottomBarButtonClicked\">\n\t<button class=\"btn\" value=\"confirm\" v-if=\"isConfirm\">确认</button>\n\t<button class=\"btn\" value=\"cancel\" v-if=\"isCancel\">取消</button>\n\t<time class=\"bottom-bar-time\">{{ localTime }}</time>\n</div>\n";
 
 /***/ },
 /* 29 */
@@ -14463,7 +14497,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.home {\n\theight: 100%;\n}\n\n.header {\n\theight: 13%;\n\tbackground: yellow;\n}\n\n.content {\n\theight: 74%;\n\tbackground: blue;\n\tposition: relative;\n}\n\n\n.footer {\n\theight: 13%;\n\tbackground: green;\n}\n", "", {"version":3,"sources":["/./src/components/home.vue?d5d3a950"],"names":[],"mappings":";AA2CA;CACA,aAAA;CACA;;AAEA;CACA,YAAA;CACA,mBAAA;CACA;;AAEA;CACA,YAAA;CACA,iBAAA;CACA,mBAAA;CACA;;;AAGA;CACA,YAAA;CACA,kBAAA;CACA","file":"home.vue","sourcesContent":["<template>\n\t<!-- 应用主页模板 -->\n\t<div class=\"home\">\n\t\t<!-- 应用页眉 start -->\n\t\t<div class=\"header\">\n\t\t\t<top-bar :top-header=\"topHeader\"></top-bar>\n\t\t</div>\n\t\t<!-- 应用页眉 end -->\n\t\t<!-- 应用内容 start -->\n\t\t<div class=\"content\">\n\t\t\t<main-menu></main-menu>\n\t\t</div>\n\t\t<!-- 应用内容 end -->\n\t\t<!-- 应用页脚 start -->\n\t\t<div class=\"footer\">\n\t\t\t<bottom-bar :is-confirm=\"isConfirm\" :is-cancel=\"isCancel\"></bottom-bar>\n\t\t</div>\n\t\t<!-- 应用页脚 end -->\n\t</div>\n</template>\n\n<script>\nimport TopBar from \"./topBar.vue\";\nimport MainMenu from \"./mainMenu.vue\";\nimport BottomBar from \"./bottomBar.vue\";\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\ttopHeader: \"Hack\",\n\t\t\tisConfirm: true,\n\t\t\tisCancel: true\n\t\t};\n\t},\n\tcomponents: {\n\t\ttopBar: TopBar,\n\t\tmainMenu: MainMenu,\n\t\tbottomBar: BottomBar\n\t}\n}\n</script>\n\n<style>\n\t.home {\n\t\theight: 100%;\n\t}\n\n\t.header {\n\t\theight: 13%;\n\t\tbackground: yellow;\n\t}\n\n\t.content {\n\t\theight: 74%;\n\t\tbackground: blue;\n\t\tposition: relative;\n\t}\n\n\t\n\t.footer {\n\t\theight: 13%;\n\t\tbackground: green;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.home {\n\theight: 100%;\n\tbackground: white;\n}\n\n.header {\n\theight: 13%;\n}\n\n.content {\n\theight: 74%;\n\tposition: relative;\n}\n\n\n.footer {\n\theight: 13%;\n}\n", "", {"version":3,"sources":["/./src/components/home.vue?6220e618"],"names":[],"mappings":";AA2CA;CACA,aAAA;CACA,kBAAA;CACA;;AAEA;CACA,YAAA;CACA;;AAEA;CACA,YAAA;CACA,mBAAA;CACA;;;AAGA;CACA,YAAA;CACA","file":"home.vue","sourcesContent":["<template>\n\t<!-- 应用主页模板 -->\n\t<div class=\"home\">\n\t\t<!-- 应用页眉 start -->\n\t\t<div class=\"header\">\n\t\t\t<top-bar :top-header=\"topHeader\"></top-bar>\n\t\t</div>\n\t\t<!-- 应用页眉 end -->\n\t\t<!-- 应用内容 start -->\n\t\t<div class=\"content\">\n\t\t\t<menu-list></menu-list>\n\t\t</div>\n\t\t<!-- 应用内容 end -->\n\t\t<!-- 应用页脚 start -->\n\t\t<div class=\"footer\">\n\t\t\t<bottom-bar :is-confirm=\"isConfirm\" :is-cancel=\"isCancel\"></bottom-bar>\n\t\t</div>\n\t\t<!-- 应用页脚 end -->\n\t</div>\n</template>\n\n<script>\nimport TopBar from \"./topBar.vue\";\nimport MenuList from \"./menuList.vue\";\nimport BottomBar from \"./bottomBar.vue\";\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\ttopHeader: \"Hack\",\n\t\t\tisConfirm: true,\n\t\t\tisCancel: true\n\t\t};\n\t},\n\tcomponents: {\n\t\ttopBar: TopBar,\n\t\tMenuList: MenuList,\n\t\tbottomBar: BottomBar\n\t}\n}\n</script>\n\n<style>\n\t.home {\n\t\theight: 100%;\n\t\tbackground: white;\n\t}\n\n\t.header {\n\t\theight: 13%;\n\t}\n\n\t.content {\n\t\theight: 74%;\n\t\tposition: relative;\n\t}\n\n\t\n\t.footer {\n\t\theight: 13%;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -14482,9 +14516,9 @@
 	
 	var _topBar2 = _interopRequireDefault(_topBar);
 	
-	var _mainMenu = __webpack_require__(70);
+	var _menuList = __webpack_require__(79);
 	
-	var _mainMenu2 = _interopRequireDefault(_mainMenu);
+	var _menuList2 = _interopRequireDefault(_menuList);
 	
 	var _bottomBar = __webpack_require__(21);
 	
@@ -14503,7 +14537,7 @@
 	
 		components: {
 			topBar: _topBar2.default,
-			mainMenu: _mainMenu2.default,
+			MenuList: _menuList2.default,
 			bottomBar: _bottomBar2.default
 		}
 	};
@@ -14512,23 +14546,21 @@
 	// <style>
 	// 	.home {
 	// 		height: 100%;
+	// 		background: white;
 	// 	}
 	//
 	// 	.header {
 	// 		height: 13%;
-	// 		background: yellow;
 	// 	}
 	//
 	// 	.content {
 	// 		height: 74%;
-	// 		background: blue;
 	// 		position: relative;
 	// 	}
 	//
 	//
 	// 	.footer {
 	// 		height: 13%;
-	// 		background: green;
 	// 	}
 	// </style>
 	/* generated by vue-loader */
@@ -14542,7 +14574,7 @@
 	// 		<!-- 应用页眉 end -->
 	// 		<!-- 应用内容 start -->
 	// 		<div class="content">
-	// 			<main-menu></main-menu>
+	// 			<menu-list></menu-list>
 	// 		</div>
 	// 		<!-- 应用内容 end -->
 	// 		<!-- 应用页脚 start -->
@@ -14693,7 +14725,7 @@
 /* 43 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<!-- 应用主页模板 -->\n<div class=\"home\">\n\t<!-- 应用页眉 start -->\n\t<div class=\"header\">\n\t\t<top-bar :top-header=\"topHeader\"></top-bar>\n\t</div>\n\t<!-- 应用页眉 end -->\n\t<!-- 应用内容 start -->\n\t<div class=\"content\">\n\t\t<main-menu></main-menu>\n\t</div>\n\t<!-- 应用内容 end -->\n\t<!-- 应用页脚 start -->\n\t<div class=\"footer\">\n\t\t<bottom-bar :is-confirm=\"isConfirm\" :is-cancel=\"isCancel\"></bottom-bar>\n\t</div>\n\t<!-- 应用页脚 end -->\n</div>\n";
+	module.exports = "\n<!-- 应用主页模板 -->\n<div class=\"home\">\n\t<!-- 应用页眉 start -->\n\t<div class=\"header\">\n\t\t<top-bar :top-header=\"topHeader\"></top-bar>\n\t</div>\n\t<!-- 应用页眉 end -->\n\t<!-- 应用内容 start -->\n\t<div class=\"content\">\n\t\t<menu-list></menu-list>\n\t</div>\n\t<!-- 应用内容 end -->\n\t<!-- 应用页脚 start -->\n\t<div class=\"footer\">\n\t\t<bottom-bar :is-confirm=\"isConfirm\" :is-cancel=\"isCancel\"></bottom-bar>\n\t</div>\n\t<!-- 应用页脚 end -->\n</div>\n";
 
 /***/ },
 /* 44 */
@@ -14861,7 +14893,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.new-project {\n\tbackground-color: #041;\n}\n", "", {"version":3,"sources":["/./src/components/home/projects/newProject.vue?46c2176b"],"names":[],"mappings":";AAYA;CACA,uBAAA;CACA","file":"newProject.vue","sourcesContent":["<template>\n\t<div class=\"new-project\">\n\t\tlll\n\t</div>\n</template>\n\n<script>\n\nexport default {};\n</script>\n\n<style>\n\t.new-project {\n\t\tbackground-color: #041;\n\t}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.new-project {\n\tbackground-color: white;\n}\n\n.new-project .form-item {\n\tmargin: 6% 10%;\n}\n\n.new-project .form-item input{\n\tpadding: .3em;\n\tborder: 1px solid #ccc;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/newProject.vue?00184ce0"],"names":[],"mappings":";AA6CA;CACA,wBAAA;CACA;;AAEA;CACA,eAAA;CACA;;AAEA;CACA,cAAA;CACA,uBAAA;CACA","file":"newProject.vue","sourcesContent":["<template>\n\t<div class=\"new-project\">\n\t\t<form action=\"#\">\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t\t</div>\n\t\t</form>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tstorageName: \"projects\",\n\t\t\tnewProject: {\n\t\t\t\tname: \"\",\n\t\t\t\tauthor: \"\",\n\t\t\t\tnote: \"\"\n\t\t\t}\n\t\t};\n\t},\n\tevents: {\n\t\tentclick: function() {\n\t\t\tif (this.newProject.name === \"\") {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tthis.$dispatch(\"savelocalstorage\", {\n\t\t\t\tname: this.storageName,\n\t\t\t\tdata: this.newProject\n\t\t\t});\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.new-project {\n\t\tbackground-color: white;\n\t}\n\n\t.new-project .form-item {\n\t\tmargin: 6% 10%;\n\t}\n\n\t.new-project .form-item input{\n\t\tpadding: .3em;\n\t\tborder: 1px solid #ccc;\n\t}\n\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -14871,25 +14903,69 @@
 /***/ function(module, exports) {
 
 	"use strict";
-
+	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	// <template>
 	// 	<div class="new-project">
-	// 		lll
+	// 		<form action="#">
+	// 			<div class="form-item">
+	// 				<label for="projectName" >名称:</label><input id="projectName" v-model="newProject.name" name="projectName" type="text">
+	// 			</div>
+	// 			<div class="form-item">
+	// 				<label for="projectAuthor">作者:</label><input id="projectAuthor" v-model="newProject.author" name="projectAuthor" type="text">
+	// 			</div>
+	// 			<div class="form-item">
+	// 				<label for="projectNote">注释:</label><input id="projectNote" v-model="newProject.note" name="projectNote" type="text">
+	// 			</div>
+	// 		</form>
 	// 	</div>
 	// </template>
 	//
 	// <script>
-
-	exports.default = {};
+	
+	exports.default = {
+		data: function data() {
+			return {
+				storageName: "projects",
+				newProject: {
+					name: "",
+					author: "",
+					note: ""
+				}
+			};
+		},
+	
+		events: {
+			entclick: function entclick() {
+				if (this.newProject.name === "") {
+					return false;
+				}
+	
+				this.$dispatch("savelocalstorage", {
+					name: this.storageName,
+					data: this.newProject
+				});
+			}
+		}
+	};
 	// </script>
 	//
 	// <style>
 	// 	.new-project {
-	// 		background-color: #041;
+	// 		background-color: white;
 	// 	}
+	//
+	// 	.new-project .form-item {
+	// 		margin: 6% 10%;
+	// 	}
+	//
+	// 	.new-project .form-item input{
+	// 		padding: .3em;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
 	// </style>
 
 	/* generated by vue-loader */
@@ -14898,7 +14974,7 @@
 /* 64 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"new-project\">\n\tlll\n</div>\n";
+	module.exports = "\n<div class=\"new-project\">\n\t<form action=\"#\">\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t</div>\n\t</form>\n</div>\n";
 
 /***/ },
 /* 65 */
@@ -14964,7 +15040,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.sub-menu-item-warp {\n\theight: 20%;\n\twidth: 100%;\n}\n\n.sub-menu-item-warp:hover {\n\tbackground-color: #B1D6EB;\n}\n\n.sub-menu-item {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n}\n\n.component-content {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n\tposition: absolute;\n\ttop: 0;\n\tright: 0;\n}\n", "", {"version":3,"sources":["/./src/components/home/subMenu.vue?9d8e78e0"],"names":[],"mappings":";AAuCA;CACA,YAAA;CACA,YAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA,mBAAA;CACA,OAAA;CACA,SAAA;CACA","file":"subMenu.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view class=\"component-content\"></router-view>\n\t<div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\t\t}\n\t},\n\tcomputed: {\n\t\tsubMenu: function () {\n\t\t\tif (this.activeMenu){\n\t\t\t\treturn this.activeMenu.subMenu;\n\t\t\t} else {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tsubPathPrefix: function () {\n\t\t\tif (this.mainPathPrefix) {\n\t\t\t\treturn `${ this.mainPathPrefix }${ this.activeMenu.name}/`;\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t}\n\t},\n\tprops: [\"activeMenu\", \"mainPathPrefix\"],\n\tmethods: {\n\n\t}\n}\n</script>\n\n<style>\n\t.sub-menu-item-warp {\n\t\theight: 20%;\n\t\twidth: 100%;\n\t}\n\t\n\t.sub-menu-item-warp:hover {\n\t\tbackground-color: #B1D6EB;\n\t}\n\n\t.sub-menu-item {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t}\n\n\t.component-content {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tright: 0;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.sub-menu-item-warp {\n\theight: 20%;\n\twidth: 100%;\n}\n\n.sub-menu-item-warp:hover {\n\tbackground-color: #B1D6EB;\n}\n\n.sub-menu-item {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n}\n\n.component-content {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n\tposition: absolute;\n\ttop: 0;\n\tright: 0;\n}\n", "", {"version":3,"sources":["/./src/components/home/subMenu.vue?60fc5342"],"names":[],"mappings":";AA4CA;CACA,YAAA;CACA,YAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA,mBAAA;CACA,OAAA;CACA,SAAA;CACA","file":"subMenu.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view id=\"component-content\" class=\"component-content\"></router-view>\n\t<div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\t\n\t\t}\n\t},\n\tcomputed: {\n\t\tsubMenu: function () {\n\t\t\tif (this.activeMenu){\n\t\t\t\treturn this.activeMenu.subMenu;\n\t\t\t} else {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tsubPathPrefix: function () {\n\t\t\tif (this.mainPathPrefix) {\n\t\t\t\treturn `${ this.mainPathPrefix }${ this.activeMenu.name}/`;\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t}\n\t},\n\tready() {\n\t\tconsole.log(this.activeMenu);\n\t},\n\tprops: [\"activeMenu\", \"mainPathPrefix\"],\n\tmethods: {\n\n\t}\n}\n</script>\n\n<style>\n\t.sub-menu-item-warp {\n\t\theight: 20%;\n\t\twidth: 100%;\n\t}\n\t\n\t.sub-menu-item-warp:hover {\n\t\tbackground-color: #B1D6EB;\n\t}\n\n\t.sub-menu-item {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t}\n\n\t.component-content {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tright: 0;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -14983,7 +15059,7 @@
 	// 		<div class="sub-menu-item-warp" v-for="menu of subMenu">
 	// 			<a v-link="subPathPrefix + menu.name" :name="menu.name" :index="$index" class="sub-menu-item">{{ $index }} {{ menu.tag }}</a>
 	// 		</div>
-	// 		<router-view class="component-content"></router-view>
+	// 		<router-view id="component-content" class="component-content"></router-view>
 	// 	<div>
 	// </template>
 	//
@@ -15010,6 +15086,10 @@
 				}
 			}
 		},
+		ready: function ready() {
+			console.log(this.activeMenu);
+		},
+	
 		props: ["activeMenu", "mainPathPrefix"],
 		methods: {}
 	};
@@ -15046,20 +15126,29 @@
 /* 69 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view class=\"component-content\"></router-view>\n\t<div>\n</template>";
+	module.exports = "\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view id=\"component-content\" class=\"component-content\"></router-view>\n\t<div>\n</template>";
 
 /***/ },
-/* 70 */
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(71)
-	__vue_script__ = __webpack_require__(73)
+	__webpack_require__(80)
+	__vue_script__ = __webpack_require__(82)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] src/components/mainMenu.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(74)
+	  console.warn("[vue-loader] src/components/menuList.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(83)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -15069,7 +15158,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/micro0/Sites/total-station/src/components/mainMenu.vue"
+	  var id = "/Users/micro0/Sites/total-station/src/components/menuList.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -15078,13 +15167,13 @@
 	})()}
 
 /***/ },
-/* 71 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(72);
+	var content = __webpack_require__(81);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -15093,8 +15182,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./mainMenu.vue", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./mainMenu.vue");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./menuList.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./menuList.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -15104,7 +15193,7 @@
 	}
 
 /***/ },
-/* 72 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -15112,13 +15201,13 @@
 	
 	
 	// module
-	exports.push([module.id, "\na:link,\na:visited,\na:hover,\na:active {\n\ttext-decoration: none;\n\tcolor: black;\n}\n\n.menu {\n\theight: 100%;\n}\n\n.sub-menu,\n.main-menu {\n\twidth: 50%;\n\theight: 100%;\n\tfloat: left;\n\toverflow: scroll;\n\tborder-top: 1px solid #707070;\n\tborder-bottom: 1px solid #707070;\n}\n\n.main-menu {\n\tbackground: #DDD;\n}\n\n.sub-menu {\n\tbackground: white;\n}\n\n.v-link-active {\n\tbackground-color: #456;\n}\n\n.main-menu-item-warp {\n\twidth: 50%;\n\theight: 20%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 0\n}\n\n.main-menu-item {\n\twidth: 99%;\n\theight: 100%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 1px solid #707070;\n\tborder-top: 0;\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/./src/components/mainMenu.vue?4275fd6c"],"names":[],"mappings":";AA6CA;;;;CAIA,sBAAA;CACA,aAAA;CACA;;AAEA;CACA,aAAA;CACA;;AAEA;;CAEA,WAAA;CACA,aAAA;CACA,YAAA;CACA,iBAAA;CACA,8BAAA;CACA,iCAAA;CACA;;AAEA;CACA,iBAAA;CACA;;AAEA;CACA,kBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,WAAA;CACA,YAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,SAAA;CACA;;AAEA;CACA,WAAA;CACA,aAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,0BAAA;CACA,cAAA;CACA,mBAAA;CACA","file":"mainMenu.vue","sourcesContent":["<template>\n\t<div class=\"menu\">\n\t\t<div class=\"main-menu\" @click=\"changeActiveMenu\">\n\t\t\t<div class=\"main-menu-item-warp\" v-for=\"menu of mainMenu\">\n\t\t\t\t<a v-link=\"mainPathPrefix + menu.name\" :index=\"$index\" :name=\"menu.name\" class=\"main-menu-item\">{{ menu.tag }}</a>\n\t\t\t</div>\n\t\t</div>\n\t\t<router-view class=\"sub-menu\" :active-menu=\"activeMenu\" :main-path-prefix=\"mainPathPrefix\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport Menu from \"../static/data/menu.json\";\nimport example from \"../directives/example.vue\";\n\nvar mainMenu = [],\n\tsubMenu = [],\n\tactiveMenu = {},\n\tmainPathPrefix = \"\",\n\tsubPathPrefix = \"\";\n\nmainMenu = Menu.subMenu;\nmainPathPrefix = `/${ Menu.name }/`;\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainMenu: mainMenu,\n\t\t\tmainPathPrefix: mainPathPrefix,\n\t\t\tactiveMenu: activeMenu\n\t\t};\n\t},\n\tmethods: {\n\t\tchangeActiveMenu: function (event) {\n\t\t\tvar activeMenuIndex = event.target.getAttribute(\"index\");\n\n\t\t\tif (activeMenuIndex != null) {\n\t\t\t\tthis.activeMenu = this.mainMenu[activeMenuIndex];\n\t\t\t}\n\t\t},\n\t}\n}\n</script>\n\n<style>\n\ta:link,\n\ta:visited,\n\ta:hover,\n\ta:active {\n\t\ttext-decoration: none;\n\t\tcolor: black;\n\t}\n\n\t.menu {\n\t\theight: 100%;\n\t}\n\n\t.sub-menu,\n\t.main-menu {\n\t\twidth: 50%;\n\t\theight: 100%;\n\t\tfloat: left;\n\t\toverflow: scroll;\n\t\tborder-top: 1px solid #707070;\n\t\tborder-bottom: 1px solid #707070;\n\t}\n\n\t.main-menu {\n\t\tbackground: #DDD;\n\t}\n\n\t.sub-menu {\n\t\tbackground: white;\n\t}\n\n\t.v-link-active {\n\t\tbackground-color: #456;\n\t}\n\n\t.main-menu-item-warp {\n\t\twidth: 50%;\n\t\theight: 20%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 0\n\t}\n\n\t.main-menu-item {\n\t\twidth: 99%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 1px solid #707070;\n\t\tborder-top: 0;\n\t\ttext-align: center;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\na:link,\na:visited,\na:hover,\na:active {\n\ttext-decoration: none;\n\tcolor: black;\n}\n\n.menu {\n\theight: 100%;\n}\n\n.sub-menu,\n.main-menu {\n\twidth: 50%;\n\theight: 100%;\n\tfloat: left;\n\toverflow: scroll;\n\tborder-top: 1px solid #707070;\n\tborder-bottom: 1px solid #707070;\n}\n\n.main-menu {\n\tbackground: #DDD;\n}\n\n.sub-menu {\n\tbackground: white;\n}\n\n.v-link-active {\n\tbackground-color: #456;\n}\n\n.main-menu-item-warp {\n\twidth: 50%;\n\theight: 20%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 0\n}\n\n.main-menu-item {\n\twidth: 99%;\n\theight: 100%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 1px solid #707070;\n\tborder-top: 0;\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/./src/components/menuList.vue?a8b090a4"],"names":[],"mappings":";AAkFA;;;;CAIA,sBAAA;CACA,aAAA;CACA;;AAEA;CACA,aAAA;CACA;;AAEA;;CAEA,WAAA;CACA,aAAA;CACA,YAAA;CACA,iBAAA;CACA,8BAAA;CACA,iCAAA;CACA;;AAEA;CACA,iBAAA;CACA;;AAEA;CACA,kBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,WAAA;CACA,YAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,SAAA;CACA;;AAEA;CACA,WAAA;CACA,aAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,0BAAA;CACA,cAAA;CACA,mBAAA;CACA","file":"menuList.vue","sourcesContent":["<template>\n\t<div class=\"menu\">\n\t\t<div class=\"main-menu\" @click=\"changeActiveMenu\">\n\t\t\t<div class=\"main-menu-item-warp\" v-for=\"menu of mainMenu\">\n\t\t\t\t<a v-link=\"mainPathPrefix + menu.name\" :index=\"$index\" :name=\"menu.name\" class=\"main-menu-item\">{{ menu.tag }}</a>\n\t\t\t</div>\n\t\t</div>\n\t\t<router-view class=\"sub-menu\" :active-menu=\"activeMenu\" :main-path-prefix=\"mainPathPrefix\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport Menu from \"../static/data/menu.json\";\nimport example from \"../directives/example.vue\";\n\nvar homeRouter = {},\n\tmainMenu = [],\n\tsubMenu = [],\n\tactiveMenu = {},\n\tmainPathPrefix = \"\",\n\tsubPathPrefix = \"\";\n\n/**\n * 在一个包含对象的数组中依据对象某个属性来寻找对象，返回第一个匹配的对象\n * @param  {Array} arr 要寻找对象的数组\n * @param  {String} pro 属性名\n * @param  {Any} val 属性值\n * @return {Object|Null}     寻找到的第一个匹配的对象\n */\nfunction findObjectByProperty (arr, pro, val) {\n\tvar obj = {};\n\n\tif (!(arr instanceof Array)) {\n\t\treturn null;\n\t} \n\n\tfor (let i = 0, len = arr.length; i < len; i++) {\n\t\tobj = arr[i];\n\n\t\tif (obj == null || !(obj instanceof Object)) {\n\t\t\tcontinue;\n\t\t}\n\n\t\tif (obj[pro] === val) {\n\t\t\treturn obj;\n\t\t}\n\t}\n\n\treturn null;\n}\n\nhomeRouter = findObjectByProperty(Menu, \"name\", \"home\");\nmainMenu = homeRouter.subMenu;\nmainPathPrefix = `/${ homeRouter.name }/`;\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainMenu: mainMenu,\n\t\t\tmainPathPrefix: mainPathPrefix,\n\t\t\tactiveMenu: activeMenu\n\t\t};\n\t},\n\tready () {\n\t\tvar href = location.href.split(\"/\"),\n\t\t\tcurrentPosition = href.pop();\n\n\t\tthis.activeMenu = findObjectByProperty(mainMenu, \"name\", currentPosition);\n\t},\n\tmethods: {\n\t\tchangeActiveMenu: function (event) {\n\t\t\tvar activeMenuIndex = event.target.getAttribute(\"index\");\n\n\t\t\tif (activeMenuIndex != null) {\n\t\t\t\tthis.activeMenu = this.mainMenu[activeMenuIndex];\n\t\t\t}\n\t\t},\n\t}\n}\n</script>\n\n<style>\n\ta:link,\n\ta:visited,\n\ta:hover,\n\ta:active {\n\t\ttext-decoration: none;\n\t\tcolor: black;\n\t}\n\n\t.menu {\n\t\theight: 100%;\n\t}\n\n\t.sub-menu,\n\t.main-menu {\n\t\twidth: 50%;\n\t\theight: 100%;\n\t\tfloat: left;\n\t\toverflow: scroll;\n\t\tborder-top: 1px solid #707070;\n\t\tborder-bottom: 1px solid #707070;\n\t}\n\n\t.main-menu {\n\t\tbackground: #DDD;\n\t}\n\n\t.sub-menu {\n\t\tbackground: white;\n\t}\n\n\t.v-link-active {\n\t\tbackground-color: #456;\n\t}\n\n\t.main-menu-item-warp {\n\t\twidth: 50%;\n\t\theight: 20%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 0\n\t}\n\n\t.main-menu-item {\n\t\twidth: 99%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 1px solid #707070;\n\t\tborder-top: 0;\n\t\ttext-align: center;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 73 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -15151,14 +15240,45 @@
 	// <script>
 	
 	
-	var mainMenu = [],
+	var homeRouter = {},
+	    mainMenu = [],
 	    subMenu = [],
 	    activeMenu = {},
 	    mainPathPrefix = "",
 	    subPathPrefix = "";
 	
-	mainMenu = _menu2.default.subMenu;
-	mainPathPrefix = "/" + _menu2.default.name + "/";
+	/**
+	 * 在一个包含对象的数组中依据对象某个属性来寻找对象，返回第一个匹配的对象
+	 * @param  {Array} arr 要寻找对象的数组
+	 * @param  {String} pro 属性名
+	 * @param  {Any} val 属性值
+	 * @return {Object|Null}     寻找到的第一个匹配的对象
+	 */
+	function findObjectByProperty(arr, pro, val) {
+		var obj = {};
+	
+		if (!(arr instanceof Array)) {
+			return null;
+		}
+	
+		for (var i = 0, len = arr.length; i < len; i++) {
+			obj = arr[i];
+	
+			if (obj == null || !(obj instanceof Object)) {
+				continue;
+			}
+	
+			if (obj[pro] === val) {
+				return obj;
+			}
+		}
+	
+		return null;
+	}
+	
+	homeRouter = findObjectByProperty(_menu2.default, "name", "home");
+	mainMenu = homeRouter.subMenu;
+	mainPathPrefix = "/" + homeRouter.name + "/";
 	
 	exports.default = {
 		data: function data() {
@@ -15167,6 +15287,12 @@
 				mainPathPrefix: mainPathPrefix,
 				activeMenu: activeMenu
 			};
+		},
+		ready: function ready() {
+			var href = location.href.split("/"),
+			    currentPosition = href.pop();
+	
+			this.activeMenu = findObjectByProperty(mainMenu, "name", currentPosition);
 		},
 	
 		methods: {
@@ -15239,10 +15365,212 @@
 	/* generated by vue-loader */
 
 /***/ },
-/* 74 */
+/* 83 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"menu\">\n\t<div class=\"main-menu\" @click=\"changeActiveMenu\">\n\t\t<div class=\"main-menu-item-warp\" v-for=\"menu of mainMenu\">\n\t\t\t<a v-link=\"mainPathPrefix + menu.name\" :index=\"$index\" :name=\"menu.name\" class=\"main-menu-item\">{{ menu.tag }}</a>\n\t\t</div>\n\t</div>\n\t<router-view class=\"sub-menu\" :active-menu=\"activeMenu\" :main-path-prefix=\"mainPathPrefix\"></router-view>\n</div>\n";
+
+/***/ },
+/* 84 */,
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(86), __esModule: true };
+
+/***/ },
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var core = __webpack_require__(87);
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return (core.JSON && core.JSON.stringify || JSON.stringify).apply(JSON, arguments);
+	};
+
+/***/ },
+/* 87 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(89)
+	__vue_script__ = __webpack_require__(91)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/projects/openProject.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(92)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/projects/openProject.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 89 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(90);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./openProject.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./openProject.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.open-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/openProject.vue?70a9e8b0","/./src/components/home/projects/openProject.vue"],"names":[],"mappings":";AAgDA;CACA,eAAA;EC9CC,QD+CD;CACA;;AAEA;CACA,wBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,eAAA;CACA,uBAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;;;CAGA,sBAAA;CACA,YAAA;CACA,mBAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA","file":"openProject.vue","sourcesContent":["<template>\n\t<div class=\"open-project\">\n\t\t<div class=\"project-header clearfix\">\n\t\t\t<label class=\"project-name\">项目名称</label>\n\t\t\t<label class=\"project-author\">项目作者</label>\n\t\t\t<label class=\"project-note\">项目注释</label>\n\t\t</div>\n\t\t<div class=\"project-list\">\n\t\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\">\n\t\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tstorageName: \"projects\",\n\t\t\tprojects: []\n\t\t};\n\t},\n\tready () {\n\t\tvar data = JSON.parse(localStorage.getItem(this.storageName));\n\n\t\tif (data == null || data.length < 0) {\n\t\t\treturn false;\n\t\t}\n\n\t\tthis.projects = data;\n\t},\n\tevents: {\n\t\tentclick: function () {\n\t\t\tthis.$dispatch(\"keyboardclick\", {\n\t\t\t\tkeyType: \"FUN\",\n\t\t\t\tkeyValue: \"ESC\",\n\t\t\t\tsourceTarget: \"open-project-confirm-button\"\n\t\t\t})\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.open-project {\n\t\tbackground-color: white;\n\t}\n\n\t.project-header {\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item {\n\t\tdisplay: block;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item:focus {\n\t\tborder: 1px solid #00B9F7;\n\t}\n\n\t.project-name,\n\t.project-author,\n\t.project-note {\n\t\tdisplay: inline-block;\n\t\tfloat: left;\n\t\ttext-align: center;\n\t}\n\n\t.project-name {\n\t\twidth: 30%;\n\t}\n\n\t.project-author {\n\t\twidth: 30%;\n\t}\n\n\t.project-note {\n\t\twidth: 40%;\n\t}\n\n</style>\n","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.open-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 91 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="open-project">
+	// 		<div class="project-header clearfix">
+	// 			<label class="project-name">项目名称</label>
+	// 			<label class="project-author">项目作者</label>
+	// 			<label class="project-note">项目注释</label>
+	// 		</div>
+	// 		<div class="project-list">
+	// 			<a href="javascript:;" class="project-item clearfix" v-for="project of projects">
+	// 				<div class="project-name">{{ project.name }}</div>
+	// 				<div class="project-author">{{ project.author }}</div>
+	// 				<div class="project-note">{{ project.note }}</div>
+	// 			</a>
+	// 		</div>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				storageName: "projects",
+				projects: []
+			};
+		},
+		ready: function ready() {
+			var data = JSON.parse(localStorage.getItem(this.storageName));
+	
+			if (data == null || data.length < 0) {
+				return false;
+			}
+	
+			this.projects = data;
+		},
+	
+		events: {
+			entclick: function entclick() {
+				this.$dispatch("keyboardclick", {
+					keyType: "FUN",
+					keyValue: "ESC",
+					sourceTarget: "open-project-confirm-button"
+				});
+			}
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.clearfix {
+	// 		overflow: auto;
+	// 		*zoom: 1;
+	// 	}
+	//
+	// 	.open-project {
+	// 		background-color: white;
+	// 	}
+	//
+	// 	.project-header {
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.project-item {
+	// 		display: block;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.project-item:focus {
+	// 		border: 1px solid #00B9F7;
+	// 	}
+	//
+	// 	.project-name,
+	// 	.project-author,
+	// 	.project-note {
+	// 		display: inline-block;
+	// 		float: left;
+	// 		text-align: center;
+	// 	}
+	//
+	// 	.project-name {
+	// 		width: 30%;
+	// 	}
+	//
+	// 	.project-author {
+	// 		width: 30%;
+	// 	}
+	//
+	// 	.project-note {
+	// 		width: 40%;
+	// 	}
+	//
+	// </style>
+
+	/* generated by vue-loader */
+
+/***/ },
+/* 92 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"open-project\">\n\t<div class=\"project-header clearfix\">\n\t\t<label class=\"project-name\">项目名称</label>\n\t\t<label class=\"project-author\">项目作者</label>\n\t\t<label class=\"project-note\">项目注释</label>\n\t</div>\n\t<div class=\"project-list\">\n\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\">\n\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t</a>\n\t</div>\n</div>\n";
 
 /***/ }
 /******/ ]);

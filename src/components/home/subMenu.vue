@@ -3,7 +3,7 @@
 		<div class="sub-menu-item-warp" v-for="menu of subMenu">
 			<a v-link="subPathPrefix + menu.name" :name="menu.name" :index="$index" class="sub-menu-item">{{ $index }} {{ menu.tag }}</a>
 		</div>
-		<router-view class="component-content"></router-view>
+		<router-view id="component-content" class="component-content"></router-view>
 	<div>
 </template>
 
@@ -11,7 +11,9 @@
 
 export default {
 	data () {
-		return {		}
+		return {
+			
+		}
 	},
 	computed: {
 		subMenu: function () {
@@ -28,6 +30,9 @@ export default {
 				return "";
 			}
 		}
+	},
+	ready() {
+		console.log(this.activeMenu);
 	},
 	props: ["activeMenu", "mainPathPrefix"],
 	methods: {

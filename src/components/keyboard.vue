@@ -134,7 +134,7 @@ function dealWithClicked (event) {
 	this.clickInfo = ({keyType, keyValue, isReplace, sourceTarget});
 	this.isClickEventComplate = true;
 
-	this.dispatchkeyboardClickedEvent();
+	this.dispatchkeyboardClickEvent();
 }
 
 /**
@@ -181,7 +181,7 @@ function keepFocusConstant(event) {
 	/** 焦点处理事件完成 */
 	this.isFocusEventComplate = true;
 
-	this.dispatchkeyboardClickedEvent();
+	this.dispatchkeyboardClickEvent();
 }
 
 /**
@@ -210,9 +210,9 @@ function isContainsElement(parent, child) {
 /**
  * 判断所有事件是否完成，触发自定义事件，传递信息
  */
-function dispatchkeyboardClickedEvent() {
+function dispatchkeyboardClickEvent() {
 	if (this.isClickEventComplate && this.isFocusEventComplate) {
-		this.$dispatch("keyboardClicked", this.clickInfo);
+		this.$dispatch("keyboardclick", this.clickInfo);
 		this.isClickEventComplate = false;
 		this.isFocusEventComplate = false;
 	}
@@ -257,7 +257,7 @@ export default {
 	methods: {
 		dealWithClicked: dealWithClicked,
 		keepFocusConstant: keepFocusConstant,
-		dispatchkeyboardClickedEvent: dispatchkeyboardClickedEvent
+		dispatchkeyboardClickEvent: dispatchkeyboardClickEvent
 	}
 };
 </script>
@@ -266,8 +266,8 @@ export default {
 	.key {
 		margin: 0;
 		padding: 0;
-		/*opacity: 0;*/
+		opacity: 0;
 		background: rgba(0, 0, 0, 0);
-		/*border: 0;*/
+		border: 0;
 	}
 </style>

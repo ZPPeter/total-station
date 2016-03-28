@@ -1,7 +1,7 @@
 <template>
-	<div class="bottom-bar clear-fix">
-		<button class="btn" v-if="isConfirm">确认</button>
-		<button class="btn" v-if="isCancel">取消</button>
+	<div class="bottom-bar clear-fix" @click="bottomBarButtonClicked">
+		<button class="btn" value="confirm" v-if="isConfirm">确认</button>
+		<button class="btn" value="cancel" v-if="isCancel">取消</button>
 		<time class="bottom-bar-time">{{ localTime }}</time>
 	</div>
 </template>
@@ -16,6 +16,21 @@ localTime = (() => {
 	return time.getHours() + ":" + time.getMinutes();
 })();
 
+function bottomBarButtonClicked(event) {
+	var value = event.target.value;
+
+	if (value) {
+		value = value === "confirm" ? "ENT" : "ESC";
+		this.$dispatch("keyboardclick", {
+			keyType: "FUN",
+			keyValue: value,
+			isReplace: false,
+			sourceTarget: "bottom-bar-button"
+		});
+	}
+
+}
+
 export default {
 	data () {
 		return {
@@ -23,6 +38,9 @@ export default {
 		}
 	},
 	props: ["isConfirm", "isCancel"],
+	methods: {
+		bottomBarButtonClicked: bottomBarButtonClicked
+	}
 }
 </script>
 

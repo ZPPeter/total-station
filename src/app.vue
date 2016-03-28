@@ -11,7 +11,6 @@
 			<keyboard :warp-style="rightViewStyle"></keyboard>
 		</div>
 		<!-- App 右方按键区 end -->
-		<input>
 	</div>
 </template>
 
@@ -76,6 +75,81 @@ rightViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}
 	}
 })(mainStyle, proportion.rightView);
 
+function keyboardclick({keyType, keyValue, isReplace = false, sourceTarget}) {
+	var activeElement = document.activeElement,
+		nodeName = activeElement.nodeName.toUpperCase(),
+		value = activeElement.value;
+
+	// console.log({keyType, keyValue, isReplace, sourceTarget});
+
+	if (keyType === "CHA" || keyType === "NUM"){
+		if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
+			if (isReplace) {
+				value = value.slice(0, value.length - 1) + keyValue;
+			} else {
+				value += keyValue;
+			}
+
+			activeElement.value = value;
+		}
+	} else if (keyType === "FUN") {
+		switch (keyValue) {
+			case "Power":
+				if (!this.isPower) {
+					location.href += "home/";
+					this.isPower = !this.isPower;
+				}
+				break;
+
+			case "Del":
+				if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
+					activeElement.value = "";
+				}
+				break;
+
+			case "Tab":
+				break;
+
+			case "B.S":
+				if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
+					activeElement.value = value.slice(0, value.length - 1);
+				}
+				break;
+			case "ESC":
+				let hash = location.hash.split("/");
+				if (hash.length > 2) {
+					hash.pop();
+				}
+				window.location.hash = hash.join("/");
+				break;
+
+			case "ENT":
+				this.$broadcast("entclick");
+				break;
+
+			default:
+				break;
+
+		}
+	} 
+}
+
+function savelocalstorage({name, data}) {
+	console.log({name, data});
+
+	// localStorage.removeItem(name);
+
+	var storageData = JSON.parse(localStorage.getItem(name));
+
+	if (storageData == null) {
+		storageData = [];
+	}
+
+	storageData.push(data);
+
+	localStorage.setItem(name, JSON.stringify(storageData));
+}
+
 export default {
 	data () {
 		return {
@@ -89,83 +163,8 @@ export default {
 		keyboard: keyboard
 	},
 	events: {
-		keyboardClicked: function({keyType, keyValue, isReplace, sourceTarget}) {
-			var activeElement = document.activeElement,
-				nodeName = activeElement.nodeName.toUpperCase(),
-				value = activeElement.value;
-			if (keyType === "CHA" || keyType === "NUM"){
-				if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
-					if (isReplace) {
-						value = value.slice(0, value.length - 1) + keyValue;
-					} else {
-						value += keyValue;
-					}
-
-					activeElement.value = value;
-				}
-			} else if (keyType === "FUN") {
-				switch (keyValue) {
-					case "Power":
-						if (!this.isPower) {
-							location.href += "home/";
-							this.isPower = !this.isPower;
-						}
-						break;
-
-					case "Start":
-						break;
-
-					case "React":
-						break;
-
-					case "Func":
-						break;
-
-					case "Ctrl":
-						break;
-
-					case "Alt":
-						break;
-
-					case "Del":
-						if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
-							activeElement.value = "";
-						}
-						break;
-
-					case "Tab":
-						break;
-
-					case "B.S":
-						if (nodeName === "INPUT" || nodeName === "TEXTAREA") {
-							activeElement.value = value.slice(0, value.length - 1);
-						}
-						break;
-					case "ESC":
-						break;
-
-					case "ENT":
-						break;
-
-					case "Up":
-						break;
-
-					case "Down":
-						break;
-
-					case "Left":
-						break;
-
-					case "Right":
-						break;
-
-					default:
-						break;
-						
-				}
-			} 
-			
-		}
+		keyboardclick: keyboardclick,
+		savelocalstorage: savelocalstorage
 	}
 }
 </script>
