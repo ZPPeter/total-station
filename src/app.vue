@@ -96,7 +96,10 @@ function keyboardclick({keyType, keyValue, isReplace = false, sourceTarget}) {
 		switch (keyValue) {
 			case "Power":
 				if (!this.isPower) {
-					location.href += "home/";
+					location.hash = "/home";
+					this.isPower = !this.isPower;
+				} else {
+					location.hash = "/powerOff";
 					this.isPower = !this.isPower;
 				}
 				break;
@@ -182,7 +185,6 @@ export default {
 		position: absolute;
 		top: 20%;
 		left: 10%;
-		background: red;
 		border-radius: 1%;
 	}
 

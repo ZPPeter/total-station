@@ -31,9 +31,6 @@ export default {
 			}
 		}
 	},
-	ready() {
-		console.log(this.activeMenu);
-	},
 	props: ["activeMenu", "mainPathPrefix"],
 	methods: {
 
@@ -64,5 +61,6 @@ export default {
 		position: absolute;
 		top: 0;
 		right: 0;
+		background: white;
 	}
 </style>

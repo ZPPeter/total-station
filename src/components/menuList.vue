@@ -74,6 +74,8 @@ export default {
 			if (activeMenuIndex != null) {
 				this.activeMenu = this.mainMenu[activeMenuIndex];
 			}
+
+			console.log(this.activeMenu);
 		},
 	}
 }

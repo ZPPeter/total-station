@@ -14,10 +14,10 @@
             "name": "deleteProject",
             "tag": "删除项目"
         }, {
-            "name": "projectSaveAs",
+            "name": "saveAsProject",
             "tag": "另存为"
         }, {
-            "name": "projectTrash",
+            "name": "projectsTrash",
             "tag": "回收站"
         }, {
             "name": "projectInfo",
@@ -253,6 +253,13 @@
         }, {
             "name": "calculateRoadCoordinate",
             "tag": "计算道路坐标"
+        }]
+    }, {
+        "name": "navigation",
+        "tag": "导航",
+        "subMenu": [{
+            "name": "locate",
+            "tag": "定位"
         }]
     }]
 }, {

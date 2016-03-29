@@ -1,5 +1,5 @@
 <template>
-	<div class="open-project">
+	<div class="projects-trash">
 		<div class="project-header clearfix">
 			<label class="project-name">项目名称</label>
 			<label class="project-author">项目作者</label>
@@ -21,18 +21,20 @@ export default {
 	data () {
 		return {
 			projectsStorageKey: "projects",
+			trashStorageKey: "projectsTrash",
 			activeItemIndex: -1,
 			projects: []
 		};
 	},
 	ready () {
-		var data = JSON.parse(localStorage.getItem(this.projectsStorageKey));
+		var data = JSON.parse(localStorage.getItem(this.trashStorageKey));
 
 		if (data == null || data.length < 0) {
 			return false;
 		}
 
 		this.projects = data;
+
 	},
 	methods: {
 		changeActiveItem: function (event) {
@@ -44,13 +46,33 @@ export default {
 	},
 	events: {
 		entclick: function () {
-			this.$dispatch("keyboardclick", {
-				keyType: "FUN",
-				keyValue: "ESC",
-				sourceTarget: "open-project-confirm-button"
-			});
+			var restoreItem = [],
+				restoreItemName = [],
+				projectsData = [];
 
-			alert(`打开项目: ${ this.projects[this.activeItemIndex].name }成功!`)
+			if (this.activeItemIndex < 0) {
+				return false;
+			}
+
+			restoreItem = this.projects.splice(this.activeItemIndex, 1);
+
+			localStorage.setItem(this.trashStorageKey, JSON.stringify(this.projects));
+
+			projectsData = localStorage.getItem(this.projectsStorageKey);
+
+			if (projectsData == null) {
+				projectsData = [];
+			}
+
+			projectsData.concat(restoreItem);
+
+			localStorage.setItem(this.projectsStorageKey, projectsData);
+
+			for (let i = 0, len = restoreItem.length; i < len; i++) {
+				restoreItemName.push(restoreItem[i].name);
+			}
+
+			alert(`项目: ${ restoreItemName.join(",") }已还原!`);
 		}
 	}
 };
@@ -62,7 +84,7 @@ export default {
 		*zoom: 1;
 	}
 
-	.open-project {
+	.projects-trash {
 		background-color: white;
 	}
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="open-project">
+	<div class="delete-project">
 		<div class="project-header clearfix">
 			<label class="project-name">项目名称</label>
 			<label class="project-author">项目作者</label>
@@ -21,6 +21,7 @@ export default {
 	data () {
 		return {
 			projectsStorageKey: "projects",
+			trashStorageKey: "projectsTrash",
 			activeItemIndex: -1,
 			projects: []
 		};
@@ -44,13 +45,35 @@ export default {
 	},
 	events: {
 		entclick: function () {
-			this.$dispatch("keyboardclick", {
-				keyType: "FUN",
-				keyValue: "ESC",
-				sourceTarget: "open-project-confirm-button"
-			});
+			var delItem = [],
+				delItemName = [],
+				trashData = [];
 
-			alert(`打开项目: ${ this.projects[this.activeItemIndex].name }成功!`)
+			if (this.activeItemIndex < 0) {
+				return false;
+			}
+
+			delItem = this.projects.splice(this.activeItemIndex, 1);
+
+			localStorage.setItem(this.projectsStorageKey, JSON.stringify(this.projects));
+
+			trashData = JSON.parse(localStorage.getItem(this.trashStorageKey));
+
+			console.log(localStorage.getItem(this.trashStorageKey));
+
+			if (!(trashData instanceof Array)) {
+				trashData = [];
+			}
+
+			trashData = trashData.concat(delItem);
+
+			localStorage.setItem(this.trashStorageKey, JSON.stringify(trashData));
+
+			for (let i = 0, len = delItem.length; i < len; i++) {
+				delItemName.push(delItem[i].name);
+			}
+
+			alert(`项目: ${ delItemName.join(",") }已放入回收站!`);
 		}
 	}
 };
@@ -62,7 +85,7 @@ export default {
 		*zoom: 1;
 	}
 
-	.open-project {
+	.delete-project {
 		background-color: white;
 	}
 

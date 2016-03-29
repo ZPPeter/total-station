@@ -178,6 +178,9 @@ function keepFocusConstant(event) {
 		}
 	}
 
+	//  点击目标失去焦点，防止多次点击同一对象时不触发focusin事件，导致不触发自定义事件
+	target.blur();
+
 	/** 焦点处理事件完成 */
 	this.isFocusEventComplate = true;
 

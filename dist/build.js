@@ -58,7 +58,7 @@
 	
 	var _app2 = _interopRequireDefault(_app);
 	
-	var _routerMap = __webpack_require__(17);
+	var _routerMap = __webpack_require__(20);
 	
 	var _routerMap2 = _interopRequireDefault(_routerMap);
 	
@@ -12550,7 +12550,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/app.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(16)
+	__vue_template__ = __webpack_require__(19)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -12603,7 +12603,7 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.main {\n\tmargin: 0 auto;\n\tpadding: 0;\n\tbackground: rgba(0, 0, 0, 0) url(" + __webpack_require__(8) + ") no-repeat center;\n\tbackground-size: 100%;\n\tposition: relative;\n}\n\n.left-view {\n\tposition: absolute;\n\ttop: 20%;\n\tleft: 10%;\n\tbackground: red;\n\tborder-radius: 1%;\n}\n\n.right-view {\n\tposition: absolute;\n\ttop: 14%;\n\tright: 9%;\n}\n", "", {"version":3,"sources":["/./src/app.vue?56d3d1c4"],"names":[],"mappings":";AA4KA;CACA,eAAA;CACA,WAAA;CACA,4EAAA;CACA,sBAAA;CACA,mBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA,gBAAA;CACA,kBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA","file":"app.vue","sourcesContent":["<template>\n\t<!-- App 页面基本框架 -->\n\t<div class=\"main\" :style=\"mainStyle\">\n\t\t<!-- App 左方界面区 start -->\n\t\t<div class=\"left-view\" :style=\"leftViewStyle\">\n\t\t\t<router-view></router-view>\n\t\t</div>\n\t\t<!-- App 左方界面区 end -->\n\t\t<!-- App 右方按键区 start -->\n\t\t<div class=\"right-view\" :style=\"rightViewStyle\">\n\t\t\t<keyboard :warp-style=\"rightViewStyle\"></keyboard>\n\t\t</div>\n\t\t<!-- App 右方按键区 end -->\n\t</div>\n</template>\n\n<script>\nimport keyboard from \"./components/keyboard.vue\";\n\nvar\tproportion = {},\n\tmainStyle = {},\n\trightViewStyle = {},\n\tleftViewStyle = {};\n\n//  页面各个区域所占大小比例\nproportion = {\n\t//  页面基本的长宽比 mainWidth / mainHeight\n\tbaseSize: 1.6,\n\t//  左方界面区所占大小比例\n\tleftView: {\n\t\twidth: 0.5,\n\t\theight: 0.61\n\t},\n\t//  右方按键区所占大小比例\n\trightView: {\n\t\twidth: 0.26,\n\t\theight: 0.75\n\t}\n}\n\n// 计算基本页面大小\nmainStyle = ((sizeProportion) => {\n\tvar style = {},\n\t\tclientWidth = document.documentElement.clientWidth,\n\t\tclientHeight = document.documentElement.clientHeight;\n\tif (clientWidth / sizeProportion <= clientHeight) {\n\t\tstyle = {\n\t\t\twidth: clientWidth + \"px\",\n\t\t\theight: clientWidth / sizeProportion + \"px\"\n\t\t};\n\t} else {\n\t\tstyle = {\n\t\t\twidth: clientHeight * sizeProportion + \"px\",\n\t\t\theight: clientHeight + \"px\"\n\t\t};\n\t}\n\n\treturn style;\n\n})(proportion.baseSize);\t\n\n//  计算左方界面去大小\nleftViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.leftView);\n\n// 计算右方键盘区大小\nrightViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.rightView);\n\nfunction keyboardclick({keyType, keyValue, isReplace = false, sourceTarget}) {\n\tvar activeElement = document.activeElement,\n\t\tnodeName = activeElement.nodeName.toUpperCase(),\n\t\tvalue = activeElement.value;\n\n\t// console.log({keyType, keyValue, isReplace, sourceTarget});\n\n\tif (keyType === \"CHA\" || keyType === \"NUM\"){\n\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\tif (isReplace) {\n\t\t\t\tvalue = value.slice(0, value.length - 1) + keyValue;\n\t\t\t} else {\n\t\t\t\tvalue += keyValue;\n\t\t\t}\n\n\t\t\tactiveElement.value = value;\n\t\t}\n\t} else if (keyType === \"FUN\") {\n\t\tswitch (keyValue) {\n\t\t\tcase \"Power\":\n\t\t\t\tif (!this.isPower) {\n\t\t\t\t\tlocation.href += \"home/\";\n\t\t\t\t\tthis.isPower = !this.isPower;\n\t\t\t\t}\n\t\t\t\tbreak;\n\n\t\t\tcase \"Del\":\n\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\tactiveElement.value = \"\";\n\t\t\t\t}\n\t\t\t\tbreak;\n\n\t\t\tcase \"Tab\":\n\t\t\t\tbreak;\n\n\t\t\tcase \"B.S\":\n\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\tactiveElement.value = value.slice(0, value.length - 1);\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\tcase \"ESC\":\n\t\t\t\tlet hash = location.hash.split(\"/\");\n\t\t\t\tif (hash.length > 2) {\n\t\t\t\t\thash.pop();\n\t\t\t\t}\n\t\t\t\twindow.location.hash = hash.join(\"/\");\n\t\t\t\tbreak;\n\n\t\t\tcase \"ENT\":\n\t\t\t\tthis.$broadcast(\"entclick\");\n\t\t\t\tbreak;\n\n\t\t\tdefault:\n\t\t\t\tbreak;\n\n\t\t}\n\t} \n}\n\nfunction savelocalstorage({name, data}) {\n\tconsole.log({name, data});\n\n\t// localStorage.removeItem(name);\n\n\tvar storageData = JSON.parse(localStorage.getItem(name));\n\n\tif (storageData == null) {\n\t\tstorageData = [];\n\t}\n\n\tstorageData.push(data);\n\n\tlocalStorage.setItem(name, JSON.stringify(storageData));\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainStyle: mainStyle,\n\t\t\tleftViewStyle: leftViewStyle,\n\t\t\trightViewStyle: rightViewStyle,\n\t\t\tisPower: false\n\t\t};\n\t},\n\tcomponents: {\n\t\tkeyboard: keyboard\n\t},\n\tevents: {\n\t\tkeyboardclick: keyboardclick,\n\t\tsavelocalstorage: savelocalstorage\n\t}\n}\n</script>\n\n<style>\n\t.main {\n\t\tmargin: 0 auto;\n\t\tpadding: 0;\n\t\tbackground: rgba(0, 0, 0, 0) url(./static/images/background.png) no-repeat center;\n\t\tbackground-size: 100%;\n\t\tposition: relative;\n\t}\n\n\t.left-view {\n\t\tposition: absolute;\n\t\ttop: 20%;\n\t\tleft: 10%;\n\t\tbackground: red;\n\t\tborder-radius: 1%;\n\t}\n\n\t.right-view {\n\t\tposition: absolute;\n\t\ttop: 14%;\n\t\tright: 9%;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.main {\n\tmargin: 0 auto;\n\tpadding: 0;\n\tbackground: rgba(0, 0, 0, 0) url(" + __webpack_require__(8) + ") no-repeat center;\n\tbackground-size: 100%;\n\tposition: relative;\n}\n\n.left-view {\n\tposition: absolute;\n\ttop: 20%;\n\tleft: 10%;\n\tborder-radius: 1%;\n}\n\n.right-view {\n\tposition: absolute;\n\ttop: 14%;\n\tright: 9%;\n}\n", "", {"version":3,"sources":["/./src/app.vue?bd2c2270"],"names":[],"mappings":";AA+KA;CACA,eAAA;CACA,WAAA;CACA,4EAAA;CACA,sBAAA;CACA,mBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA,kBAAA;CACA;;AAEA;CACA,mBAAA;CACA,SAAA;CACA,UAAA;CACA","file":"app.vue","sourcesContent":["<template>\n\t<!-- App 页面基本框架 -->\n\t<div class=\"main\" :style=\"mainStyle\">\n\t\t<!-- App 左方界面区 start -->\n\t\t<div class=\"left-view\" :style=\"leftViewStyle\">\n\t\t\t<router-view></router-view>\n\t\t</div>\n\t\t<!-- App 左方界面区 end -->\n\t\t<!-- App 右方按键区 start -->\n\t\t<div class=\"right-view\" :style=\"rightViewStyle\">\n\t\t\t<keyboard :warp-style=\"rightViewStyle\"></keyboard>\n\t\t</div>\n\t\t<!-- App 右方按键区 end -->\n\t</div>\n</template>\n\n<script>\nimport keyboard from \"./components/keyboard.vue\";\n\nvar\tproportion = {},\n\tmainStyle = {},\n\trightViewStyle = {},\n\tleftViewStyle = {};\n\n//  页面各个区域所占大小比例\nproportion = {\n\t//  页面基本的长宽比 mainWidth / mainHeight\n\tbaseSize: 1.6,\n\t//  左方界面区所占大小比例\n\tleftView: {\n\t\twidth: 0.5,\n\t\theight: 0.61\n\t},\n\t//  右方按键区所占大小比例\n\trightView: {\n\t\twidth: 0.26,\n\t\theight: 0.75\n\t}\n}\n\n// 计算基本页面大小\nmainStyle = ((sizeProportion) => {\n\tvar style = {},\n\t\tclientWidth = document.documentElement.clientWidth,\n\t\tclientHeight = document.documentElement.clientHeight;\n\tif (clientWidth / sizeProportion <= clientHeight) {\n\t\tstyle = {\n\t\t\twidth: clientWidth + \"px\",\n\t\t\theight: clientWidth / sizeProportion + \"px\"\n\t\t};\n\t} else {\n\t\tstyle = {\n\t\t\twidth: clientHeight * sizeProportion + \"px\",\n\t\t\theight: clientHeight + \"px\"\n\t\t};\n\t}\n\n\treturn style;\n\n})(proportion.baseSize);\t\n\n//  计算左方界面去大小\nleftViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.leftView);\n\n// 计算右方键盘区大小\nrightViewStyle = ((mainStyle, {width: widthProportion, height: heightProportion}) => {\n\treturn {\n\t\twidth: parseInt(mainStyle.width) * widthProportion + \"px\",\n\t\theight: parseInt(mainStyle.height) * heightProportion + \"px\"\n\t}\n})(mainStyle, proportion.rightView);\n\nfunction keyboardclick({keyType, keyValue, isReplace = false, sourceTarget}) {\n\tvar activeElement = document.activeElement,\n\t\tnodeName = activeElement.nodeName.toUpperCase(),\n\t\tvalue = activeElement.value;\n\n\t// console.log({keyType, keyValue, isReplace, sourceTarget});\n\n\tif (keyType === \"CHA\" || keyType === \"NUM\"){\n\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\tif (isReplace) {\n\t\t\t\tvalue = value.slice(0, value.length - 1) + keyValue;\n\t\t\t} else {\n\t\t\t\tvalue += keyValue;\n\t\t\t}\n\n\t\t\tactiveElement.value = value;\n\t\t}\n\t} else if (keyType === \"FUN\") {\n\t\tswitch (keyValue) {\n\t\t\tcase \"Power\":\n\t\t\t\tif (!this.isPower) {\n\t\t\t\t\tlocation.hash = \"/home\";\n\t\t\t\t\tthis.isPower = !this.isPower;\n\t\t\t\t} else {\n\t\t\t\t\tlocation.hash = \"/powerOff\";\n\t\t\t\t\tthis.isPower = !this.isPower;\n\t\t\t\t}\n\t\t\t\tbreak;\n\n\t\t\tcase \"Del\":\n\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\tactiveElement.value = \"\";\n\t\t\t\t}\n\t\t\t\tbreak;\n\n\t\t\tcase \"Tab\":\n\t\t\t\tbreak;\n\n\t\t\tcase \"B.S\":\n\t\t\t\tif (nodeName === \"INPUT\" || nodeName === \"TEXTAREA\") {\n\t\t\t\t\tactiveElement.value = value.slice(0, value.length - 1);\n\t\t\t\t}\n\t\t\t\tbreak;\n\t\t\tcase \"ESC\":\n\t\t\t\tlet hash = location.hash.split(\"/\");\n\t\t\t\tif (hash.length > 2) {\n\t\t\t\t\thash.pop();\n\t\t\t\t}\n\t\t\t\twindow.location.hash = hash.join(\"/\");\n\t\t\t\tbreak;\n\n\t\t\tcase \"ENT\":\n\t\t\t\tthis.$broadcast(\"entclick\");\n\t\t\t\tbreak;\n\n\t\t\tdefault:\n\t\t\t\tbreak;\n\n\t\t}\n\t} \n}\n\nfunction savelocalstorage({name, data}) {\n\tconsole.log({name, data});\n\n\t// localStorage.removeItem(name);\n\n\tvar storageData = JSON.parse(localStorage.getItem(name));\n\n\tif (storageData == null) {\n\t\tstorageData = [];\n\t}\n\n\tstorageData.push(data);\n\n\tlocalStorage.setItem(name, JSON.stringify(storageData));\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainStyle: mainStyle,\n\t\t\tleftViewStyle: leftViewStyle,\n\t\t\trightViewStyle: rightViewStyle,\n\t\t\tisPower: false\n\t\t};\n\t},\n\tcomponents: {\n\t\tkeyboard: keyboard\n\t},\n\tevents: {\n\t\tkeyboardclick: keyboardclick,\n\t\tsavelocalstorage: savelocalstorage\n\t}\n}\n</script>\n\n<style>\n\t.main {\n\t\tmargin: 0 auto;\n\t\tpadding: 0;\n\t\tbackground: rgba(0, 0, 0, 0) url(./static/images/background.png) no-repeat center;\n\t\tbackground-size: 100%;\n\t\tposition: relative;\n\t}\n\n\t.left-view {\n\t\tposition: absolute;\n\t\ttop: 20%;\n\t\tleft: 10%;\n\t\tborder-radius: 1%;\n\t}\n\n\t.right-view {\n\t\tposition: absolute;\n\t\ttop: 14%;\n\t\tright: 9%;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -12902,11 +12902,11 @@
 		value: true
 	});
 	
-	var _stringify = __webpack_require__(85);
+	var _stringify = __webpack_require__(11);
 	
 	var _stringify2 = _interopRequireDefault(_stringify);
 	
-	var _keyboard = __webpack_require__(11);
+	var _keyboard = __webpack_require__(14);
 	
 	var _keyboard2 = _interopRequireDefault(_keyboard);
 	
@@ -13019,7 +13019,10 @@
 			switch (keyValue) {
 				case "Power":
 					if (!this.isPower) {
-						location.href += "home/";
+						location.hash = "/home";
+						this.isPower = !this.isPower;
+					} else {
+						location.hash = "/powerOff";
 						this.isPower = !this.isPower;
 					}
 					break;
@@ -13109,7 +13112,6 @@
 	// 		position: absolute;
 	// 		top: 20%;
 	// 		left: 10%;
-	// 		background: red;
 	// 		border-radius: 1%;
 	// 	}
 	//
@@ -13125,14 +13127,36 @@
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = { "default": __webpack_require__(12), __esModule: true };
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var core = __webpack_require__(13);
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return (core.JSON && core.JSON.stringify || JSON.stringify).apply(JSON, arguments);
+	};
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __vue_script__, __vue_template__
-	__webpack_require__(12)
-	__vue_script__ = __webpack_require__(14)
+	__webpack_require__(15)
+	__vue_script__ = __webpack_require__(17)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/components/keyboard.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(15)
+	__vue_template__ = __webpack_require__(18)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -13151,13 +13175,13 @@
 	})()}
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(13);
+	var content = __webpack_require__(16);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -13177,7 +13201,7 @@
 	}
 
 /***/ },
-/* 13 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -13185,13 +13209,13 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.key {\n\tmargin: 0;\n\tpadding: 0;\n\topacity: 0;\n\tbackground: rgba(0, 0, 0, 0);\n\tborder: 0;\n}\n", "", {"version":3,"sources":["/./src/components/keyboard.vue?4e83a090"],"names":[],"mappings":";AAyQA;CACA,UAAA;CACA,WAAA;CACA,WAAA;CACA,6BAAA;CACA,UAAA;CACA","file":"keyboard.vue","sourcesContent":["<template>\n\t<div id='keyboard' @focusin=\"keepFocusConstant\" @click=\"dealWithClicked\">\n\t\t<div class='key-row' v-for='row of keys'>\n\t\t\t<button class=\"key\" type=\"button\" v-for='key of row' :key-type=\"key.slice(0, 3)\" :value=\"key.slice(4)\" :style=\"buttonStyle\" track-by='$index'>{{ key.slice(4) }}</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nvar numKeys,\n\tcharacterKeys;\n\n//  数字键盘\nnumKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['NUM_7', 'NUM_8', 'NUM_9', 'FUN_Tab'],\n\t['NUM_4', 'NUM_5', 'NUM_6', 'FUN_B.S'],\n\t['NUM_1', 'NUM_2', 'NUM_3', 'FUN_Shift'],\n\t['NUM_0', 'CHA_Dot', 'CHA_-', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n//  字母键盘\ncharacterKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['CHA_abc', 'CHA_def', 'CHA_ghi', 'FUN_Tab'],\n\t['CHA_jkl', 'CHA_mno', 'CHA_pqr', 'FUN_B.S'],\n\t['CHA_stu', 'CHA_vwx', 'CHA_yz_', 'FUN_Shift'],\n\t['CHA_#$%', 'CHA_!&@', 'CHA_+*/', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n\n/**\n * keyborad点击事件处理函数，通过对点击对象的信息的获取与处理，触发自定义事件，向父组件传递信息。\n * @param  {Event} event 事件对象\n * @return {Undefined | false} 返回值为false时、点击事件被组件内部处理，为undefined时、触发自定义事件，向父组件传递信息       \n */\nfunction dealWithClicked (event) {\n\tvar target = event.target,\n\t\t//  点击按钮的类型\n\t\tkeyType = target.getAttribute(\"key-type\"),\n\t\t//  点击按钮的值\n\t\tkeyValue = target.value,\n\t\t//  是否取代上一次输出的值\n\t\tisReplace = false,\n\t\tsourceTarget = \"keyboard-component\";\n\n\tif (keyType == null || keyValue == null) {\n\t\treturn false;\n\t}\n\n\t//  检查函数是否有lastClick对象，该对象包含上次点击事件发生时的一些信息\n\tif (dealWithClicked.lastClick == null) {\n\t\tdealWithClicked.lastClick = {\n\t\t\t//  上次事件发生的target对象\n\t\t\ttarget: target,\n\t\t\t//  点击同一按钮的次数\n\t\t\tcount: 0,\n\t\t\t//  上次事件发生的事件\n\t\t\ttime: Date.now()\n\t\t}\n\t} else {\n\t\t//  若点击事件的target对象不变则计算两次点击事件的发生的间隔，小于1000ms 则视为连续点击，点击次数加一\n\t\tif (target === dealWithClicked.lastClick.target) {\n\t\t\t//  点击事件的时间间隔\n\t\t\tlet timeInterval = Date.now() - dealWithClicked.lastClick.time;\n\n\t\t\tif (timeInterval <= 1000) {\n\t\t\t\tdealWithClicked.lastClick.count++;\n\t\t\t} else {\n\t\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\t}\n\n\t\t\t//  更新点击时间发生的时间\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t} else {\n\t\t\t//  两次点击的target对象不同，则更新lastClick对象\n\n\t\t\tdealWithClicked.lastClick.target = target;\n\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t}\n\t}\n\n\tif (keyType === \"FUN\") {\t\n\t\t//  类型为FUN\n\t\t\n\t\tswitch (keyValue) {\n\t\t\tcase \"Alpha\": \n\t\t\t\t//  大小写切换，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isUpper = !this.isUpper;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"Shift\":\n\t\t\t\t//  切换字母数字键盘，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isNumberKey = !this.isNumberKey;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"NULL\":\n\t\t\t\t//  空按钮 立即返回false,不处罚自定义事件\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tdefault:\n\t\t\t\t//  其他FUN类型按钮,向父组件传递按键值\n\t\t\t\tbreak;\n\t\t}\n\t} else if (keyType === \"CHA\") {\n\t\t//  类型为CHA\n\n\t\tlet charCode = 0;\n\n\t\tswitch (keyValue) {\n\t\t\tcase \"S.P\":\n\t\t\t\t//  键值为S.P 即为空格\n\t\t\t\tkeyValue = \" \";\n\t\t\t\tbreak;\n\t\t\tdefault: \n\t\t\t\t//  其他按键经过字符按键处理函数处理\n\t\t\t\t({keyValue, isReplace} = dealWithCharacter(keyValue, dealWithClicked.lastClick.count));\n\t\t}\n\n\t\t//  若按键值为 a-zA-Z 则判断大小写并转换\n\t\tcharCode = keyValue.charCodeAt(0);\n\t\tif (charCode >= 65 && charCode < 91 || charCode >= 97 && charCode < 123) {\n\t\t\tkeyValue = this.isUpper ? keyValue.toUpperCase() : keyValue.toLowerCase();\n\t\t}\n\t} else if (keyType === \"NUM\") {\n\t\t//  类型为NUM\n\t\t//  不做任何处理、直接返回按键类型和按键值\n\t}\n\n\t/** click事件完成，保存事件信息 */\n\tthis.clickInfo = ({keyType, keyValue, isReplace, sourceTarget});\n\tthis.isClickEventComplate = true;\n\n\tthis.dispatchkeyboardClickEvent();\n}\n\n/**\n * 处理按键类型为CHA的按键信息，通过对点击次数的判断，决定字母键盘所要返回具体值且判断是否取代上次的信息\n * @param  {String} keyValue     按键的值\n * @param  {Number} clickedCount 点击次数\n * @return {Object}              此次按键所产生的按键值与是否要取代上次信息\n */\nfunction dealWithCharacter(keyValue, clickedCount) {\n\tvar isReplace = false,\n\t\tlen = keyValue.length;\n\n\t//  按键值长度大于1、判断是否取代上次的信息\n\tif (len > 1) {\n\t\tif (clickedCount > 0) {\n\t\t\tisReplace = true;\n\t\t}\n\t\tclickedCount = clickedCount % len;\n\t\tkeyValue = keyValue[clickedCount];\n\t}\n\n\treturn ({keyValue, isReplace});\n}\n\n/**\n * 当点击键盘时、若页面有其他元素获得交点，则键盘不获得焦点,函数执行完毕、触发自定义事件\n * @param  {[type]} event [description]\n * @return {[type]}       [description]\n */\nfunction keepFocusConstant(event) {\n\tvar relatedTarget = event.relatedTarget,\n\t\ttarget = event.target,\n\t\tcurrentTarget = event.currentTarget;\n\t\n\t//  有其他元素获得焦点\n\tif (relatedTarget) {\n\t\t//  上一次获得焦点的元素不为键盘本身或键盘子元素\n\t\tif (target !== currentTarget && !isContainsElement(currentTarget, relatedTarget)) {\n\t\t\t//  其他元素继续保持焦点\n\t\t\tevent.relatedTarget.focus();\n\t\t}\n\t}\n\n\t/** 焦点处理事件完成 */\n\tthis.isFocusEventComplate = true;\n\n\tthis.dispatchkeyboardClickEvent();\n}\n\n/**\n * 判断child元素是否为parent元素的子元素\n * @param  {HTMLElement}  parent 要判断是否包含的父元素\n * @param  {HTMLElement}  child  要判断是否被包含的子元素\n * @return {Boolean}        若包含返回true,不包含返回false\n */\nfunction isContainsElement(parent, child) {\n\t//  若父元素为document或HTML元素，则一定包含子元素\n\tif (parent === document.documentElement || parent.nodeName.toUpperCase() === \"HTML\") {\n\t\treturn true;\n\t}\n\n\t//  子元素循环向上判断父元素是否等于parent元素\n\twhile (child.parentNode) {\n\t\tif (child.parentNode === parent) {\n\t\t\treturn true;\n\t\t}\n\t\tchild = child.parentNode;\n\t}\n\n\treturn false;\n}\n\n/**\n * 判断所有事件是否完成，触发自定义事件，传递信息\n */\nfunction dispatchkeyboardClickEvent() {\n\tif (this.isClickEventComplate && this.isFocusEventComplate) {\n\t\tthis.$dispatch(\"keyboardclick\", this.clickInfo);\n\t\tthis.isClickEventComplate = false;\n\t\tthis.isFocusEventComplate = false;\n\t}\n\t\t\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\t//  字母键盘 || 数字键盘\n\t\t\tisNumberKey: true,\n\t\t\t//  是否大小写\n\t\t\tisUpper: false,\n\t\t\t//  点击事件是否处理完成\n\t\t\tisClickEventComplate: false,\n\t\t\t//  点击按钮的信息\n\t\t\tclickInfo: {},\n\t\t\t//  焦点处理事件是否完成\n\t\t\tisFocusEventComplate: false,\n\t\t\t//  键盘布局的行数\n\t\t\trow: 8,\n\t\t\t//  键盘布局的列数\n\t\t\tcol: 4\n\t\t}\n\t},\n\tprops: ['warpStyle'],\n\tcomputed: {\n\t\tbuttonStyle: function () {\n\t\t\tvar warpStyle = this.warpStyle,\n\t\t\t\twidth = parseInt(warpStyle.width) / this.col,\n\t\t\t\theight = parseInt(warpStyle.height) /this.row;\n\n\t\t\treturn {\n\t\t\t\twidth: width + \"px\",\n\t\t\t\theight: height + \"px\"\n\t\t\t}\n\t\t},\n\t\tkeys: function () {\n\t\t\treturn this.isNumberKey ? numKeys : characterKeys;\n\t\t}\n\t},\n\tmethods: {\n\t\tdealWithClicked: dealWithClicked,\n\t\tkeepFocusConstant: keepFocusConstant,\n\t\tdispatchkeyboardClickEvent: dispatchkeyboardClickEvent\n\t}\n};\n</script>\n\n<style>\n\t.key {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\topacity: 0;\n\t\tbackground: rgba(0, 0, 0, 0);\n\t\tborder: 0;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.key {\n\tmargin: 0;\n\tpadding: 0;\n\topacity: 0;\n\tbackground: rgba(0, 0, 0, 0);\n\tborder: 0;\n}\n", "", {"version":3,"sources":["/./src/components/keyboard.vue?94df8a92"],"names":[],"mappings":";AA4QA;CACA,UAAA;CACA,WAAA;CACA,WAAA;CACA,6BAAA;CACA,UAAA;CACA","file":"keyboard.vue","sourcesContent":["<template>\n\t<div id='keyboard' @focusin=\"keepFocusConstant\" @click=\"dealWithClicked\">\n\t\t<div class='key-row' v-for='row of keys'>\n\t\t\t<button class=\"key\" type=\"button\" v-for='key of row' :key-type=\"key.slice(0, 3)\" :value=\"key.slice(4)\" :style=\"buttonStyle\" track-by='$index'>{{ key.slice(4) }}</button>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nvar numKeys,\n\tcharacterKeys;\n\n//  数字键盘\nnumKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['NUM_7', 'NUM_8', 'NUM_9', 'FUN_Tab'],\n\t['NUM_4', 'NUM_5', 'NUM_6', 'FUN_B.S'],\n\t['NUM_1', 'NUM_2', 'NUM_3', 'FUN_Shift'],\n\t['NUM_0', 'CHA_Dot', 'CHA_-', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n//  字母键盘\ncharacterKeys = [['FUN_Alpha', 'FUN_React', 'FUN_Start', 'FUN_Power'],\n\t['FUN_Func', 'FUN_Ctrl', 'FUN_Alt', 'FUN_Del'],\n\t['CHA_abc', 'CHA_def', 'CHA_ghi', 'FUN_Tab'],\n\t['CHA_jkl', 'CHA_mno', 'CHA_pqr', 'FUN_B.S'],\n\t['CHA_stu', 'CHA_vwx', 'CHA_yz_', 'FUN_Shift'],\n\t['CHA_#$%', 'CHA_!&@', 'CHA_+*/', 'CHA_S.P'],\n\t['FUN_NULL', 'FUN_Up', 'FUN_NULL', 'FUN_ESC'],\n\t['FUN_Left', 'FUN_Down', 'FUN_Right', 'FUN_ENT']];\n\n\n/**\n * keyborad点击事件处理函数，通过对点击对象的信息的获取与处理，触发自定义事件，向父组件传递信息。\n * @param  {Event} event 事件对象\n * @return {Undefined | false} 返回值为false时、点击事件被组件内部处理，为undefined时、触发自定义事件，向父组件传递信息       \n */\nfunction dealWithClicked (event) {\n\tvar target = event.target,\n\t\t//  点击按钮的类型\n\t\tkeyType = target.getAttribute(\"key-type\"),\n\t\t//  点击按钮的值\n\t\tkeyValue = target.value,\n\t\t//  是否取代上一次输出的值\n\t\tisReplace = false,\n\t\tsourceTarget = \"keyboard-component\";\n\n\tif (keyType == null || keyValue == null) {\n\t\treturn false;\n\t}\n\n\t//  检查函数是否有lastClick对象，该对象包含上次点击事件发生时的一些信息\n\tif (dealWithClicked.lastClick == null) {\n\t\tdealWithClicked.lastClick = {\n\t\t\t//  上次事件发生的target对象\n\t\t\ttarget: target,\n\t\t\t//  点击同一按钮的次数\n\t\t\tcount: 0,\n\t\t\t//  上次事件发生的事件\n\t\t\ttime: Date.now()\n\t\t}\n\t} else {\n\t\t//  若点击事件的target对象不变则计算两次点击事件的发生的间隔，小于1000ms 则视为连续点击，点击次数加一\n\t\tif (target === dealWithClicked.lastClick.target) {\n\t\t\t//  点击事件的时间间隔\n\t\t\tlet timeInterval = Date.now() - dealWithClicked.lastClick.time;\n\n\t\t\tif (timeInterval <= 1000) {\n\t\t\t\tdealWithClicked.lastClick.count++;\n\t\t\t} else {\n\t\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\t}\n\n\t\t\t//  更新点击时间发生的时间\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t} else {\n\t\t\t//  两次点击的target对象不同，则更新lastClick对象\n\n\t\t\tdealWithClicked.lastClick.target = target;\n\t\t\tdealWithClicked.lastClick.count = 0;\n\t\t\tdealWithClicked.lastClick.time = Date.now();\n\t\t}\n\t}\n\n\tif (keyType === \"FUN\") {\t\n\t\t//  类型为FUN\n\t\t\n\t\tswitch (keyValue) {\n\t\t\tcase \"Alpha\": \n\t\t\t\t//  大小写切换，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isUpper = !this.isUpper;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"Shift\":\n\t\t\t\t//  切换字母数字键盘，并且立即返回false，不触发自定义事件\n\t\t\t\tthis.isNumberKey = !this.isNumberKey;\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tcase \"NULL\":\n\t\t\t\t//  空按钮 立即返回false,不处罚自定义事件\n\t\t\t\treturn false;\n\t\t\t\tbreak;\n\t\t\tdefault:\n\t\t\t\t//  其他FUN类型按钮,向父组件传递按键值\n\t\t\t\tbreak;\n\t\t}\n\t} else if (keyType === \"CHA\") {\n\t\t//  类型为CHA\n\n\t\tlet charCode = 0;\n\n\t\tswitch (keyValue) {\n\t\t\tcase \"S.P\":\n\t\t\t\t//  键值为S.P 即为空格\n\t\t\t\tkeyValue = \" \";\n\t\t\t\tbreak;\n\t\t\tdefault: \n\t\t\t\t//  其他按键经过字符按键处理函数处理\n\t\t\t\t({keyValue, isReplace} = dealWithCharacter(keyValue, dealWithClicked.lastClick.count));\n\t\t}\n\n\t\t//  若按键值为 a-zA-Z 则判断大小写并转换\n\t\tcharCode = keyValue.charCodeAt(0);\n\t\tif (charCode >= 65 && charCode < 91 || charCode >= 97 && charCode < 123) {\n\t\t\tkeyValue = this.isUpper ? keyValue.toUpperCase() : keyValue.toLowerCase();\n\t\t}\n\t} else if (keyType === \"NUM\") {\n\t\t//  类型为NUM\n\t\t//  不做任何处理、直接返回按键类型和按键值\n\t}\n\n\t/** click事件完成，保存事件信息 */\n\tthis.clickInfo = ({keyType, keyValue, isReplace, sourceTarget});\n\tthis.isClickEventComplate = true;\n\n\tthis.dispatchkeyboardClickEvent();\n}\n\n/**\n * 处理按键类型为CHA的按键信息，通过对点击次数的判断，决定字母键盘所要返回具体值且判断是否取代上次的信息\n * @param  {String} keyValue     按键的值\n * @param  {Number} clickedCount 点击次数\n * @return {Object}              此次按键所产生的按键值与是否要取代上次信息\n */\nfunction dealWithCharacter(keyValue, clickedCount) {\n\tvar isReplace = false,\n\t\tlen = keyValue.length;\n\n\t//  按键值长度大于1、判断是否取代上次的信息\n\tif (len > 1) {\n\t\tif (clickedCount > 0) {\n\t\t\tisReplace = true;\n\t\t}\n\t\tclickedCount = clickedCount % len;\n\t\tkeyValue = keyValue[clickedCount];\n\t}\n\n\treturn ({keyValue, isReplace});\n}\n\n/**\n * 当点击键盘时、若页面有其他元素获得交点，则键盘不获得焦点,函数执行完毕、触发自定义事件\n * @param  {[type]} event [description]\n * @return {[type]}       [description]\n */\nfunction keepFocusConstant(event) {\n\tvar relatedTarget = event.relatedTarget,\n\t\ttarget = event.target,\n\t\tcurrentTarget = event.currentTarget;\n\t\n\t//  有其他元素获得焦点\n\tif (relatedTarget) {\n\t\t//  上一次获得焦点的元素不为键盘本身或键盘子元素\n\t\tif (target !== currentTarget && !isContainsElement(currentTarget, relatedTarget)) {\n\t\t\t//  其他元素继续保持焦点\n\t\t\tevent.relatedTarget.focus();\n\t\t}\n\t}\n\n\t//  点击目标失去焦点，防止多次点击同一对象时不触发focusin事件，导致不触发自定义事件\n\ttarget.blur();\n\n\t/** 焦点处理事件完成 */\n\tthis.isFocusEventComplate = true;\n\n\tthis.dispatchkeyboardClickEvent();\n}\n\n/**\n * 判断child元素是否为parent元素的子元素\n * @param  {HTMLElement}  parent 要判断是否包含的父元素\n * @param  {HTMLElement}  child  要判断是否被包含的子元素\n * @return {Boolean}        若包含返回true,不包含返回false\n */\nfunction isContainsElement(parent, child) {\n\t//  若父元素为document或HTML元素，则一定包含子元素\n\tif (parent === document.documentElement || parent.nodeName.toUpperCase() === \"HTML\") {\n\t\treturn true;\n\t}\n\n\t//  子元素循环向上判断父元素是否等于parent元素\n\twhile (child.parentNode) {\n\t\tif (child.parentNode === parent) {\n\t\t\treturn true;\n\t\t}\n\t\tchild = child.parentNode;\n\t}\n\n\treturn false;\n}\n\n/**\n * 判断所有事件是否完成，触发自定义事件，传递信息\n */\nfunction dispatchkeyboardClickEvent() {\n\tif (this.isClickEventComplate && this.isFocusEventComplate) {\n\t\tthis.$dispatch(\"keyboardclick\", this.clickInfo);\n\t\tthis.isClickEventComplate = false;\n\t\tthis.isFocusEventComplate = false;\n\t}\n\t\t\n}\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\t//  字母键盘 || 数字键盘\n\t\t\tisNumberKey: true,\n\t\t\t//  是否大小写\n\t\t\tisUpper: false,\n\t\t\t//  点击事件是否处理完成\n\t\t\tisClickEventComplate: false,\n\t\t\t//  点击按钮的信息\n\t\t\tclickInfo: {},\n\t\t\t//  焦点处理事件是否完成\n\t\t\tisFocusEventComplate: false,\n\t\t\t//  键盘布局的行数\n\t\t\trow: 8,\n\t\t\t//  键盘布局的列数\n\t\t\tcol: 4\n\t\t}\n\t},\n\tprops: ['warpStyle'],\n\tcomputed: {\n\t\tbuttonStyle: function () {\n\t\t\tvar warpStyle = this.warpStyle,\n\t\t\t\twidth = parseInt(warpStyle.width) / this.col,\n\t\t\t\theight = parseInt(warpStyle.height) /this.row;\n\n\t\t\treturn {\n\t\t\t\twidth: width + \"px\",\n\t\t\t\theight: height + \"px\"\n\t\t\t}\n\t\t},\n\t\tkeys: function () {\n\t\t\treturn this.isNumberKey ? numKeys : characterKeys;\n\t\t}\n\t},\n\tmethods: {\n\t\tdealWithClicked: dealWithClicked,\n\t\tkeepFocusConstant: keepFocusConstant,\n\t\tdispatchkeyboardClickEvent: dispatchkeyboardClickEvent\n\t}\n};\n</script>\n\n<style>\n\t.key {\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\topacity: 0;\n\t\tbackground: rgba(0, 0, 0, 0);\n\t\tborder: 0;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 14 */
+/* 17 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -13371,6 +13395,9 @@
 			}
 		}
 	
+		//  点击目标失去焦点，防止多次点击同一对象时不触发focusin事件，导致不触发自定义事件
+		target.blur();
+	
 		/** 焦点处理事件完成 */
 		this.isFocusEventComplate = true;
 	
@@ -13467,23 +13494,23 @@
 	/* generated by vue-loader */
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div id='keyboard' @focusin=\"keepFocusConstant\" @click=\"dealWithClicked\">\n\t<div class='key-row' v-for='row of keys'>\n\t\t<button class=\"key\" type=\"button\" v-for='key of row' :key-type=\"key.slice(0, 3)\" :value=\"key.slice(4)\" :style=\"buttonStyle\" track-by='$index'>{{ key.slice(4) }}</button>\n\t</div>\n</div>\n";
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<!-- App 页面基本框架 -->\n<div class=\"main\" :style=\"mainStyle\">\n\t<!-- App 左方界面区 start -->\n\t<div class=\"left-view\" :style=\"leftViewStyle\">\n\t\t<router-view></router-view>\n\t</div>\n\t<!-- App 左方界面区 end -->\n\t<!-- App 右方按键区 start -->\n\t<div class=\"right-view\" :style=\"rightViewStyle\">\n\t\t<keyboard :warp-style=\"rightViewStyle\"></keyboard>\n\t</div>\n\t<!-- App 右方按键区 end -->\n</div>\n";
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(18)
+	__vue_script__ = __webpack_require__(21)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
@@ -13506,7 +13533,7 @@
 	})()}
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13515,7 +13542,7 @@
 		value: true
 	});
 	
-	var _menu = __webpack_require__(19);
+	var _menu = __webpack_require__(22);
 	
 	var _menu2 = _interopRequireDefault(_menu);
 	
@@ -13567,13 +13594,13 @@
 				component: function () {
 					//  菜单路由加载菜单模块
 					if (generateRouterMap.menuLevel === 3) {
-						return __webpack_require__(20)(subMenuComponentPath);
+						return __webpack_require__(23)(subMenuComponentPath);
 					}
 					try {
-						return __webpack_require__(20)(componentPath);
+						return __webpack_require__(23)(componentPath);
 					} catch (err) {
 						console.log(err);
-						return __webpack_require__(20)(NullComponentPath);
+						return __webpack_require__(23)(NullComponentPath);
 					}
 				}(),
 				subRoutes: {}
@@ -13595,7 +13622,7 @@
 	/* generated by vue-loader */
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = [
@@ -13620,11 +13647,11 @@
 							"tag": "删除项目"
 						},
 						{
-							"name": "projectSaveAs",
+							"name": "saveAsProject",
 							"tag": "另存为"
 						},
 						{
-							"name": "projectTrash",
+							"name": "projectsTrash",
 							"tag": "回收站"
 						},
 						{
@@ -13946,6 +13973,16 @@
 							"tag": "计算道路坐标"
 						}
 					]
+				},
+				{
+					"name": "navigation",
+					"tag": "导航",
+					"subMenu": [
+						{
+							"name": "locate",
+							"tag": "定位"
+						}
+					]
 				}
 			]
 		},
@@ -13956,20 +13993,28 @@
 	];
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./bottomBar.vue": 21,
-		"./home.vue": 29,
-		"./home/projects/newProject.vue": 60,
-		"./home/projects/openProject.vue": 88,
-		"./home/subMenu.vue": 65,
-		"./keyboard.vue": 11,
-		"./menuList.vue": 79,
-		"./null.vue": 44,
-		"./routerMap.vue": 17,
-		"./topBar.vue": 33
+		"./bottomBar.vue": 24,
+		"./home.vue": 32,
+		"./home/calculate/coordinateInverse.vue": 92,
+		"./home/calculate/coordinateTraverse.vue": 87,
+		"./home/collection/distanceOfPoint.vue": 97,
+		"./home/navigation/locate.vue": 49,
+		"./home/projects/deleteProject.vue": 54,
+		"./home/projects/newProject.vue": 59,
+		"./home/projects/openProject.vue": 64,
+		"./home/projects/projectsTrash.vue": 69,
+		"./home/projects/saveAsProject.vue": 74,
+		"./home/subMenu.vue": 79,
+		"./keyboard.vue": 14,
+		"./menuList.vue": 41,
+		"./null.vue": 84,
+		"./powerOff.vue": 102,
+		"./routerMap.vue": 20,
+		"./topBar.vue": 36
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -13982,21 +14027,21 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 20;
+	webpackContext.id = 23;
 
 
 /***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(22)
-	__vue_script__ = __webpack_require__(24)
+	__webpack_require__(25)
+	__vue_script__ = __webpack_require__(27)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/components/bottomBar.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(28)
+	__vue_template__ = __webpack_require__(31)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -14015,13 +14060,13 @@
 	})()}
 
 /***/ },
-/* 22 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(23);
+	var content = __webpack_require__(26);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -14041,7 +14086,7 @@
 	}
 
 /***/ },
-/* 23 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -14055,7 +14100,7 @@
 
 
 /***/ },
-/* 24 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14064,7 +14109,7 @@
 		value: true
 	});
 	
-	var _commons = __webpack_require__(25);
+	var _commons = __webpack_require__(28);
 	
 	var _commons2 = _interopRequireDefault(_commons);
 	
@@ -14134,16 +14179,16 @@
 	/* generated by vue-loader */
 
 /***/ },
-/* 25 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(26);
+	var content = __webpack_require__(29);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(27)(content, {});
+	var update = __webpack_require__(30)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -14160,7 +14205,7 @@
 	}
 
 /***/ },
-/* 26 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -14174,7 +14219,7 @@
 
 
 /***/ },
-/* 27 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -14428,23 +14473,23 @@
 
 
 /***/ },
-/* 28 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"bottom-bar clear-fix\" @click=\"bottomBarButtonClicked\">\n\t<button class=\"btn\" value=\"confirm\" v-if=\"isConfirm\">确认</button>\n\t<button class=\"btn\" value=\"cancel\" v-if=\"isCancel\">取消</button>\n\t<time class=\"bottom-bar-time\">{{ localTime }}</time>\n</div>\n";
 
 /***/ },
-/* 29 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(30)
-	__vue_script__ = __webpack_require__(32)
+	__webpack_require__(33)
+	__vue_script__ = __webpack_require__(35)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/components/home.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(43)
+	__vue_template__ = __webpack_require__(48)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -14463,13 +14508,13 @@
 	})()}
 
 /***/ },
-/* 30 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(31);
+	var content = __webpack_require__(34);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -14489,7 +14534,7 @@
 	}
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -14503,7 +14548,7 @@
 
 
 /***/ },
-/* 32 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14512,15 +14557,15 @@
 		value: true
 	});
 	
-	var _topBar = __webpack_require__(33);
+	var _topBar = __webpack_require__(36);
 	
 	var _topBar2 = _interopRequireDefault(_topBar);
 	
-	var _menuList = __webpack_require__(79);
+	var _menuList = __webpack_require__(41);
 	
 	var _menuList2 = _interopRequireDefault(_menuList);
 	
-	var _bottomBar = __webpack_require__(21);
+	var _bottomBar = __webpack_require__(24);
 	
 	var _bottomBar2 = _interopRequireDefault(_bottomBar);
 	
@@ -14588,17 +14633,17 @@
 	// <script>
 
 /***/ },
-/* 33 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(34)
-	__vue_script__ = __webpack_require__(36)
+	__webpack_require__(37)
+	__vue_script__ = __webpack_require__(39)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/components/topBar.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(37)
+	__vue_template__ = __webpack_require__(40)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -14617,13 +14662,13 @@
 	})()}
 
 /***/ },
-/* 34 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(35);
+	var content = __webpack_require__(38);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -14643,7 +14688,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -14651,13 +14696,13 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.top-bar {\n\twidth: 100%;\n\theight: 100%;\n\tbackground: #DDDDDD;\n\tborder-radius: 3px;\n}\n\n.left-top-bar,\n.right-top-bar {\n\twidth: 49%;\n\theight: 100%;\n\tfloat: left;\n\ttext-align: center;\n\tdisplay: inline-block;\n\tborder-left: 1px solid #707079;\n\tborder-radius: 3px;\n}\n", "", {"version":3,"sources":["/./src/components/topBar.vue?8b76833c"],"names":[],"mappings":";AAmBA;CACA,YAAA;CACA,aAAA;CACA,oBAAA;CACA,mBAAA;CACA;;AAEA;;CAEA,WAAA;CACA,aAAA;CACA,YAAA;CACA,mBAAA;CACA,sBAAA;CACA,+BAAA;CACA,mBAAA;CACA","file":"topBar.vue","sourcesContent":["<template>\n\t<div class=\"top-bar clear-fix\">\n\t\t<div class=\"left-top-bar\">{{ topHeader }}</div>\n\t\t<div class=\"right-top-bar\"></div>\n\t</div>\n</template>\n\n<script>\nimport commonsStyle from \"../static/styles/commons.css\";\n\nexport default {\n\tdata () {\n\t\treturn {}\n\t},\n\tprops: [\"topHeader\"],\n}\n</script>\n\n<style>\n\t.top-bar {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tbackground: #DDDDDD;\n\t\tborder-radius: 3px;\n\t}\n\n\t.left-top-bar,\n\t.right-top-bar {\n\t\twidth: 49%;\n\t\theight: 100%;\n\t\tfloat: left;\n\t\ttext-align: center;\n\t\tdisplay: inline-block;\n\t\tborder-left: 1px solid #707079;\n\t\tborder-radius: 3px;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.top-bar {\n\twidth: 100%;\n\theight: 100%;\n\tbackground: #DDDDDD;\n\tborder-radius: 3px;\n}\n\n.left-top-bar,\n.right-top-bar {\n\twidth: 49%;\n\theight: 100%;\n\tfloat: left;\n\ttext-align: center;\n\tdisplay: inline-block;\n\tborder-left: 1px solid #707079;\n\tborder-radius: 3px;\n}\n\n.navigation {\n\twidth: 15px;\n\theight: 15px;\n\tborder: 1px solid #646464;\n\tborder-radius: 100%;\n\tdisplay: inline-block;\n\tposition: absolute;\n\ttop: 3%;\n\tright: 5%;\n\tpadding: 0;\n}\n\n.navigation div {\n\twidth: 10px;\n\theight: 10px;\n\tbackground: #646464;\n\tborder-radius: 100%;\n\tdisplay: inline-block;\n\tposition: absolute;\n\tleft: 2px;\n\ttop: 2px;\n\n}\n", "", {"version":3,"sources":["/./src/components/topBar.vue?004ed3c7"],"names":[],"mappings":";AAwBA;CACA,YAAA;CACA,aAAA;CACA,oBAAA;CACA,mBAAA;CACA;;AAEA;;CAEA,WAAA;CACA,aAAA;CACA,YAAA;CACA,mBAAA;CACA,sBAAA;CACA,+BAAA;CACA,mBAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,0BAAA;CACA,oBAAA;CACA,sBAAA;CACA,mBAAA;CACA,QAAA;CACA,UAAA;CACA,WAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,oBAAA;CACA,oBAAA;CACA,sBAAA;CACA,mBAAA;CACA,UAAA;CACA,SAAA;;CAEA","file":"topBar.vue","sourcesContent":["<template>\n\t<div class=\"top-bar clear-fix\">\n\t\t<div class=\"left-top-bar\">{{ topHeader }}</div>\n\t\t<div class=\"right-top-bar\">\n\t\t\t<a v-link=\"'/home/navigation/locate'\" class=\"navigation\">\n\t\t\t\t<div>\n\t\t\t\t</div>\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\nimport commonsStyle from \"../static/styles/commons.css\";\n\nexport default {\n\tdata () {\n\t\treturn {}\n\t},\n\tprops: [\"topHeader\"],\n}\n</script>\n\n<style>\n\t.top-bar {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tbackground: #DDDDDD;\n\t\tborder-radius: 3px;\n\t}\n\n\t.left-top-bar,\n\t.right-top-bar {\n\t\twidth: 49%;\n\t\theight: 100%;\n\t\tfloat: left;\n\t\ttext-align: center;\n\t\tdisplay: inline-block;\n\t\tborder-left: 1px solid #707079;\n\t\tborder-radius: 3px;\n\t}\n\n\t.navigation {\n\t\twidth: 15px;\n\t\theight: 15px;\n\t\tborder: 1px solid #646464;\n\t\tborder-radius: 100%;\n\t\tdisplay: inline-block;\n\t\tposition: absolute;\n\t\ttop: 3%;\n\t\tright: 5%;\n\t\tpadding: 0;\n\t}\n\n\t.navigation div {\n\t\twidth: 10px;\n\t\theight: 10px;\n\t\tbackground: #646464;\n\t\tborder-radius: 100%;\n\t\tdisplay: inline-block;\n\t\tposition: absolute;\n\t\tleft: 2px;\n\t\ttop: 2px;\n\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 36 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -14666,7 +14711,7 @@
 		value: true
 	});
 	
-	var _commons = __webpack_require__(25);
+	var _commons = __webpack_require__(28);
 	
 	var _commons2 = _interopRequireDefault(_commons);
 	
@@ -14699,456 +14744,64 @@
 	// 		border-left: 1px solid #707079;
 	// 		border-radius: 3px;
 	// 	}
+	//
+	// 	.navigation {
+	// 		width: 15px;
+	// 		height: 15px;
+	// 		border: 1px solid #646464;
+	// 		border-radius: 100%;
+	// 		display: inline-block;
+	// 		position: absolute;
+	// 		top: 3%;
+	// 		right: 5%;
+	// 		padding: 0;
+	// 	}
+	//
+	// 	.navigation div {
+	// 		width: 10px;
+	// 		height: 10px;
+	// 		background: #646464;
+	// 		border-radius: 100%;
+	// 		display: inline-block;
+	// 		position: absolute;
+	// 		left: 2px;
+	// 		top: 2px;
+	//
+	// 	}
 	// </style>
 	/* generated by vue-loader */
 	// <template>
 	// 	<div class="top-bar clear-fix">
 	// 		<div class="left-top-bar">{{ topHeader }}</div>
-	// 		<div class="right-top-bar"></div>
-	// 	</div>
-	// </template>
-	//
-	// <script>
-
-/***/ },
-/* 37 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<div class=\"top-bar clear-fix\">\n\t<div class=\"left-top-bar\">{{ topHeader }}</div>\n\t<div class=\"right-top-bar\"></div>\n</div>\n";
-
-/***/ },
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<!-- 应用主页模板 -->\n<div class=\"home\">\n\t<!-- 应用页眉 start -->\n\t<div class=\"header\">\n\t\t<top-bar :top-header=\"topHeader\"></top-bar>\n\t</div>\n\t<!-- 应用页眉 end -->\n\t<!-- 应用内容 start -->\n\t<div class=\"content\">\n\t\t<menu-list></menu-list>\n\t</div>\n\t<!-- 应用内容 end -->\n\t<!-- 应用页脚 start -->\n\t<div class=\"footer\">\n\t\t<bottom-bar :is-confirm=\"isConfirm\" :is-cancel=\"isCancel\"></bottom-bar>\n\t</div>\n\t<!-- 应用页脚 end -->\n</div>\n";
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(45)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] src/components/null.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(46)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "/Users/micro0/Sites/total-station/src/components/null.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 45 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// <template>
-	// 	NULL
-	// </template>
-	//
-	// <script>
-	exports.default = {};
-	// </script>
-	/* generated by vue-loader */
-
-/***/ },
-/* 46 */
-/***/ function(module, exports) {
-
-	module.exports = "\nNULL\n";
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(48)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] src/directives/example.vue: named exports in *.vue files are ignored.")}
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "/Users/micro0/Sites/total-station/src/directives/example.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _vue = __webpack_require__(1);
-	
-	var _vue2 = _interopRequireDefault(_vue);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ },
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__webpack_require__(61)
-	__vue_script__ = __webpack_require__(63)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] src/components/home/projects/newProject.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(64)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "/Users/micro0/Sites/total-station/src/components/home/projects/newProject.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 61 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(62);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(9)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./newProject.vue", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./newProject.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 62 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(7)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "\n.new-project {\n\tbackground-color: white;\n}\n\n.new-project .form-item {\n\tmargin: 6% 10%;\n}\n\n.new-project .form-item input{\n\tpadding: .3em;\n\tborder: 1px solid #ccc;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/newProject.vue?00184ce0"],"names":[],"mappings":";AA6CA;CACA,wBAAA;CACA;;AAEA;CACA,eAAA;CACA;;AAEA;CACA,cAAA;CACA,uBAAA;CACA","file":"newProject.vue","sourcesContent":["<template>\n\t<div class=\"new-project\">\n\t\t<form action=\"#\">\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t\t</div>\n\t\t</form>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tstorageName: \"projects\",\n\t\t\tnewProject: {\n\t\t\t\tname: \"\",\n\t\t\t\tauthor: \"\",\n\t\t\t\tnote: \"\"\n\t\t\t}\n\t\t};\n\t},\n\tevents: {\n\t\tentclick: function() {\n\t\t\tif (this.newProject.name === \"\") {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tthis.$dispatch(\"savelocalstorage\", {\n\t\t\t\tname: this.storageName,\n\t\t\t\tdata: this.newProject\n\t\t\t});\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.new-project {\n\t\tbackground-color: white;\n\t}\n\n\t.new-project .form-item {\n\t\tmargin: 6% 10%;\n\t}\n\n\t.new-project .form-item input{\n\t\tpadding: .3em;\n\t\tborder: 1px solid #ccc;\n\t}\n\n</style>\n"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 63 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	// <template>
-	// 	<div class="new-project">
-	// 		<form action="#">
-	// 			<div class="form-item">
-	// 				<label for="projectName" >名称:</label><input id="projectName" v-model="newProject.name" name="projectName" type="text">
-	// 			</div>
-	// 			<div class="form-item">
-	// 				<label for="projectAuthor">作者:</label><input id="projectAuthor" v-model="newProject.author" name="projectAuthor" type="text">
-	// 			</div>
-	// 			<div class="form-item">
-	// 				<label for="projectNote">注释:</label><input id="projectNote" v-model="newProject.note" name="projectNote" type="text">
-	// 			</div>
-	// 		</form>
-	// 	</div>
-	// </template>
-	//
-	// <script>
-	
-	exports.default = {
-		data: function data() {
-			return {
-				storageName: "projects",
-				newProject: {
-					name: "",
-					author: "",
-					note: ""
-				}
-			};
-		},
-	
-		events: {
-			entclick: function entclick() {
-				if (this.newProject.name === "") {
-					return false;
-				}
-	
-				this.$dispatch("savelocalstorage", {
-					name: this.storageName,
-					data: this.newProject
-				});
-			}
-		}
-	};
-	// </script>
-	//
-	// <style>
-	// 	.new-project {
-	// 		background-color: white;
-	// 	}
-	//
-	// 	.new-project .form-item {
-	// 		margin: 6% 10%;
-	// 	}
-	//
-	// 	.new-project .form-item input{
-	// 		padding: .3em;
-	// 		border: 1px solid #ccc;
-	// 	}
-	//
-	// </style>
-
-	/* generated by vue-loader */
-
-/***/ },
-/* 64 */
-/***/ function(module, exports) {
-
-	module.exports = "\n<div class=\"new-project\">\n\t<form action=\"#\">\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t</div>\n\t</form>\n</div>\n";
-
-/***/ },
-/* 65 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__webpack_require__(66)
-	__vue_script__ = __webpack_require__(68)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] src/components/home/subMenu.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(69)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "/Users/micro0/Sites/total-station/src/components/home/subMenu.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 66 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(67);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(9)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./subMenu.vue", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./subMenu.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 67 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(7)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "\n.sub-menu-item-warp {\n\theight: 20%;\n\twidth: 100%;\n}\n\n.sub-menu-item-warp:hover {\n\tbackground-color: #B1D6EB;\n}\n\n.sub-menu-item {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n}\n\n.component-content {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n\tposition: absolute;\n\ttop: 0;\n\tright: 0;\n}\n", "", {"version":3,"sources":["/./src/components/home/subMenu.vue?60fc5342"],"names":[],"mappings":";AA4CA;CACA,YAAA;CACA,YAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA,mBAAA;CACA,OAAA;CACA,SAAA;CACA","file":"subMenu.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view id=\"component-content\" class=\"component-content\"></router-view>\n\t<div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\t\n\t\t}\n\t},\n\tcomputed: {\n\t\tsubMenu: function () {\n\t\t\tif (this.activeMenu){\n\t\t\t\treturn this.activeMenu.subMenu;\n\t\t\t} else {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tsubPathPrefix: function () {\n\t\t\tif (this.mainPathPrefix) {\n\t\t\t\treturn `${ this.mainPathPrefix }${ this.activeMenu.name}/`;\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t}\n\t},\n\tready() {\n\t\tconsole.log(this.activeMenu);\n\t},\n\tprops: [\"activeMenu\", \"mainPathPrefix\"],\n\tmethods: {\n\n\t}\n}\n</script>\n\n<style>\n\t.sub-menu-item-warp {\n\t\theight: 20%;\n\t\twidth: 100%;\n\t}\n\t\n\t.sub-menu-item-warp:hover {\n\t\tbackground-color: #B1D6EB;\n\t}\n\n\t.sub-menu-item {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t}\n\n\t.component-content {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tright: 0;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 68 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	// <template>
-	// 	<div>
-	// 		<div class="sub-menu-item-warp" v-for="menu of subMenu">
-	// 			<a v-link="subPathPrefix + menu.name" :name="menu.name" :index="$index" class="sub-menu-item">{{ $index }} {{ menu.tag }}</a>
+	// 		<div class="right-top-bar">
+	// 			<a v-link="'/home/navigation/locate'" class="navigation">
+	// 				<div>
+	// 				</div>
+	// 			</a>
 	// 		</div>
-	// 		<router-view id="component-content" class="component-content"></router-view>
-	// 	<div>
+	// 	</div>
 	// </template>
 	//
 	// <script>
-	
-	exports.default = {
-		data: function data() {
-			return {};
-		},
-	
-		computed: {
-			subMenu: function subMenu() {
-				if (this.activeMenu) {
-					return this.activeMenu.subMenu;
-				} else {
-					return [];
-				}
-			},
-			subPathPrefix: function subPathPrefix() {
-				if (this.mainPathPrefix) {
-					return "" + this.mainPathPrefix + this.activeMenu.name + "/";
-				} else {
-					return "";
-				}
-			}
-		},
-		ready: function ready() {
-			console.log(this.activeMenu);
-		},
-	
-		props: ["activeMenu", "mainPathPrefix"],
-		methods: {}
-	};
-	// </script>
-	//
-	// <style>
-	// 	.sub-menu-item-warp {
-	// 		height: 20%;
-	// 		width: 100%;
-	// 	}
-	//
-	// 	.sub-menu-item-warp:hover {
-	// 		background-color: #B1D6EB;
-	// 	}
-	//
-	// 	.sub-menu-item {
-	// 		width: 100%;
-	// 		height: 100%;
-	// 		display: inline-block;
-	// 	}
-	//
-	// 	.component-content {
-	// 		width: 100%;
-	// 		height: 100%;
-	// 		display: inline-block;
-	// 		position: absolute;
-	// 		top: 0;
-	// 		right: 0;
-	// 	}
-	// </style>
-	/* generated by vue-loader */
 
 /***/ },
-/* 69 */
+/* 40 */
 /***/ function(module, exports) {
 
-	module.exports = "\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view id=\"component-content\" class=\"component-content\"></router-view>\n\t<div>\n</template>";
+	module.exports = "\n<div class=\"top-bar clear-fix\">\n\t<div class=\"left-top-bar\">{{ topHeader }}</div>\n\t<div class=\"right-top-bar\">\n\t\t<a v-link=\"'/home/navigation/locate'\" class=\"navigation\">\n\t\t\t<div>\n\t\t\t</div>\n\t\t</a>\n\t</div>\n</div>\n";
 
 /***/ },
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(80)
-	__vue_script__ = __webpack_require__(82)
+	__webpack_require__(42)
+	__vue_script__ = __webpack_require__(44)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/components/menuList.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(83)
+	__vue_template__ = __webpack_require__(47)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -15167,13 +14820,13 @@
 	})()}
 
 /***/ },
-/* 80 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(81);
+	var content = __webpack_require__(43);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -15193,7 +14846,7 @@
 	}
 
 /***/ },
-/* 81 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -15201,13 +14854,13 @@
 	
 	
 	// module
-	exports.push([module.id, "\na:link,\na:visited,\na:hover,\na:active {\n\ttext-decoration: none;\n\tcolor: black;\n}\n\n.menu {\n\theight: 100%;\n}\n\n.sub-menu,\n.main-menu {\n\twidth: 50%;\n\theight: 100%;\n\tfloat: left;\n\toverflow: scroll;\n\tborder-top: 1px solid #707070;\n\tborder-bottom: 1px solid #707070;\n}\n\n.main-menu {\n\tbackground: #DDD;\n}\n\n.sub-menu {\n\tbackground: white;\n}\n\n.v-link-active {\n\tbackground-color: #456;\n}\n\n.main-menu-item-warp {\n\twidth: 50%;\n\theight: 20%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 0\n}\n\n.main-menu-item {\n\twidth: 99%;\n\theight: 100%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 1px solid #707070;\n\tborder-top: 0;\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/./src/components/menuList.vue?a8b090a4"],"names":[],"mappings":";AAkFA;;;;CAIA,sBAAA;CACA,aAAA;CACA;;AAEA;CACA,aAAA;CACA;;AAEA;;CAEA,WAAA;CACA,aAAA;CACA,YAAA;CACA,iBAAA;CACA,8BAAA;CACA,iCAAA;CACA;;AAEA;CACA,iBAAA;CACA;;AAEA;CACA,kBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,WAAA;CACA,YAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,SAAA;CACA;;AAEA;CACA,WAAA;CACA,aAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,0BAAA;CACA,cAAA;CACA,mBAAA;CACA","file":"menuList.vue","sourcesContent":["<template>\n\t<div class=\"menu\">\n\t\t<div class=\"main-menu\" @click=\"changeActiveMenu\">\n\t\t\t<div class=\"main-menu-item-warp\" v-for=\"menu of mainMenu\">\n\t\t\t\t<a v-link=\"mainPathPrefix + menu.name\" :index=\"$index\" :name=\"menu.name\" class=\"main-menu-item\">{{ menu.tag }}</a>\n\t\t\t</div>\n\t\t</div>\n\t\t<router-view class=\"sub-menu\" :active-menu=\"activeMenu\" :main-path-prefix=\"mainPathPrefix\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport Menu from \"../static/data/menu.json\";\nimport example from \"../directives/example.vue\";\n\nvar homeRouter = {},\n\tmainMenu = [],\n\tsubMenu = [],\n\tactiveMenu = {},\n\tmainPathPrefix = \"\",\n\tsubPathPrefix = \"\";\n\n/**\n * 在一个包含对象的数组中依据对象某个属性来寻找对象，返回第一个匹配的对象\n * @param  {Array} arr 要寻找对象的数组\n * @param  {String} pro 属性名\n * @param  {Any} val 属性值\n * @return {Object|Null}     寻找到的第一个匹配的对象\n */\nfunction findObjectByProperty (arr, pro, val) {\n\tvar obj = {};\n\n\tif (!(arr instanceof Array)) {\n\t\treturn null;\n\t} \n\n\tfor (let i = 0, len = arr.length; i < len; i++) {\n\t\tobj = arr[i];\n\n\t\tif (obj == null || !(obj instanceof Object)) {\n\t\t\tcontinue;\n\t\t}\n\n\t\tif (obj[pro] === val) {\n\t\t\treturn obj;\n\t\t}\n\t}\n\n\treturn null;\n}\n\nhomeRouter = findObjectByProperty(Menu, \"name\", \"home\");\nmainMenu = homeRouter.subMenu;\nmainPathPrefix = `/${ homeRouter.name }/`;\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainMenu: mainMenu,\n\t\t\tmainPathPrefix: mainPathPrefix,\n\t\t\tactiveMenu: activeMenu\n\t\t};\n\t},\n\tready () {\n\t\tvar href = location.href.split(\"/\"),\n\t\t\tcurrentPosition = href.pop();\n\n\t\tthis.activeMenu = findObjectByProperty(mainMenu, \"name\", currentPosition);\n\t},\n\tmethods: {\n\t\tchangeActiveMenu: function (event) {\n\t\t\tvar activeMenuIndex = event.target.getAttribute(\"index\");\n\n\t\t\tif (activeMenuIndex != null) {\n\t\t\t\tthis.activeMenu = this.mainMenu[activeMenuIndex];\n\t\t\t}\n\t\t},\n\t}\n}\n</script>\n\n<style>\n\ta:link,\n\ta:visited,\n\ta:hover,\n\ta:active {\n\t\ttext-decoration: none;\n\t\tcolor: black;\n\t}\n\n\t.menu {\n\t\theight: 100%;\n\t}\n\n\t.sub-menu,\n\t.main-menu {\n\t\twidth: 50%;\n\t\theight: 100%;\n\t\tfloat: left;\n\t\toverflow: scroll;\n\t\tborder-top: 1px solid #707070;\n\t\tborder-bottom: 1px solid #707070;\n\t}\n\n\t.main-menu {\n\t\tbackground: #DDD;\n\t}\n\n\t.sub-menu {\n\t\tbackground: white;\n\t}\n\n\t.v-link-active {\n\t\tbackground-color: #456;\n\t}\n\n\t.main-menu-item-warp {\n\t\twidth: 50%;\n\t\theight: 20%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 0\n\t}\n\n\t.main-menu-item {\n\t\twidth: 99%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 1px solid #707070;\n\t\tborder-top: 0;\n\t\ttext-align: center;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\na:link,\na:visited,\na:hover,\na:active {\n\ttext-decoration: none;\n\tcolor: black;\n}\n\n.menu {\n\theight: 100%;\n}\n\n.sub-menu,\n.main-menu {\n\twidth: 50%;\n\theight: 100%;\n\tfloat: left;\n\toverflow: scroll;\n\tborder-top: 1px solid #707070;\n\tborder-bottom: 1px solid #707070;\n}\n\n.main-menu {\n\tbackground: #DDD;\n}\n\n.sub-menu {\n\tbackground: white;\n}\n\n.v-link-active {\n\tbackground-color: #456;\n}\n\n.main-menu-item-warp {\n\twidth: 50%;\n\theight: 20%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 0\n}\n\n.main-menu-item {\n\twidth: 99%;\n\theight: 100%;\n\tmargin: 0;\n\tpadding: 0;\n\tdisplay: inline-block;\n\tborder: 1px solid #707070;\n\tborder-top: 0;\n\ttext-align: center;\n}\n", "", {"version":3,"sources":["/./src/components/menuList.vue?3ebc60b1"],"names":[],"mappings":";AAoFA;;;;CAIA,sBAAA;CACA,aAAA;CACA;;AAEA;CACA,aAAA;CACA;;AAEA;;CAEA,WAAA;CACA,aAAA;CACA,YAAA;CACA,iBAAA;CACA,8BAAA;CACA,iCAAA;CACA;;AAEA;CACA,iBAAA;CACA;;AAEA;CACA,kBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,WAAA;CACA,YAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,SAAA;CACA;;AAEA;CACA,WAAA;CACA,aAAA;CACA,UAAA;CACA,WAAA;CACA,sBAAA;CACA,0BAAA;CACA,cAAA;CACA,mBAAA;CACA","file":"menuList.vue","sourcesContent":["<template>\n\t<div class=\"menu\">\n\t\t<div class=\"main-menu\" @click=\"changeActiveMenu\">\n\t\t\t<div class=\"main-menu-item-warp\" v-for=\"menu of mainMenu\">\n\t\t\t\t<a v-link=\"mainPathPrefix + menu.name\" :index=\"$index\" :name=\"menu.name\" class=\"main-menu-item\">{{ menu.tag }}</a>\n\t\t\t</div>\n\t\t</div>\n\t\t<router-view class=\"sub-menu\" :active-menu=\"activeMenu\" :main-path-prefix=\"mainPathPrefix\"></router-view>\n\t</div>\n</template>\n\n<script>\nimport Menu from \"../static/data/menu.json\";\nimport example from \"../directives/example.vue\";\n\nvar homeRouter = {},\n\tmainMenu = [],\n\tsubMenu = [],\n\tactiveMenu = {},\n\tmainPathPrefix = \"\",\n\tsubPathPrefix = \"\";\n\n/**\n * 在一个包含对象的数组中依据对象某个属性来寻找对象，返回第一个匹配的对象\n * @param  {Array} arr 要寻找对象的数组\n * @param  {String} pro 属性名\n * @param  {Any} val 属性值\n * @return {Object|Null}     寻找到的第一个匹配的对象\n */\nfunction findObjectByProperty (arr, pro, val) {\n\tvar obj = {};\n\n\tif (!(arr instanceof Array)) {\n\t\treturn null;\n\t} \n\n\tfor (let i = 0, len = arr.length; i < len; i++) {\n\t\tobj = arr[i];\n\n\t\tif (obj == null || !(obj instanceof Object)) {\n\t\t\tcontinue;\n\t\t}\n\n\t\tif (obj[pro] === val) {\n\t\t\treturn obj;\n\t\t}\n\t}\n\n\treturn null;\n}\n\nhomeRouter = findObjectByProperty(Menu, \"name\", \"home\");\nmainMenu = homeRouter.subMenu;\nmainPathPrefix = `/${ homeRouter.name }/`;\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tmainMenu: mainMenu,\n\t\t\tmainPathPrefix: mainPathPrefix,\n\t\t\tactiveMenu: activeMenu\n\t\t};\n\t},\n\tready () {\n\t\tvar href = location.href.split(\"/\"),\n\t\t\tcurrentPosition = href.pop();\n\n\t\tthis.activeMenu = findObjectByProperty(mainMenu, \"name\", currentPosition);\n\t},\n\tmethods: {\n\t\tchangeActiveMenu: function (event) {\n\t\t\tvar activeMenuIndex = event.target.getAttribute(\"index\");\n\n\t\t\tif (activeMenuIndex != null) {\n\t\t\t\tthis.activeMenu = this.mainMenu[activeMenuIndex];\n\t\t\t}\n\n\t\t\tconsole.log(this.activeMenu);\n\t\t},\n\t}\n}\n</script>\n\n<style>\n\ta:link,\n\ta:visited,\n\ta:hover,\n\ta:active {\n\t\ttext-decoration: none;\n\t\tcolor: black;\n\t}\n\n\t.menu {\n\t\theight: 100%;\n\t}\n\n\t.sub-menu,\n\t.main-menu {\n\t\twidth: 50%;\n\t\theight: 100%;\n\t\tfloat: left;\n\t\toverflow: scroll;\n\t\tborder-top: 1px solid #707070;\n\t\tborder-bottom: 1px solid #707070;\n\t}\n\n\t.main-menu {\n\t\tbackground: #DDD;\n\t}\n\n\t.sub-menu {\n\t\tbackground: white;\n\t}\n\n\t.v-link-active {\n\t\tbackground-color: #456;\n\t}\n\n\t.main-menu-item-warp {\n\t\twidth: 50%;\n\t\theight: 20%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 0\n\t}\n\n\t.main-menu-item {\n\t\twidth: 99%;\n\t\theight: 100%;\n\t\tmargin: 0;\n\t\tpadding: 0;\n\t\tdisplay: inline-block;\n\t\tborder: 1px solid #707070;\n\t\tborder-top: 0;\n\t\ttext-align: center;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 82 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -15216,11 +14869,11 @@
 		value: true
 	});
 	
-	var _menu = __webpack_require__(19);
+	var _menu = __webpack_require__(22);
 	
 	var _menu2 = _interopRequireDefault(_menu);
 	
-	var _example = __webpack_require__(47);
+	var _example = __webpack_require__(45);
 	
 	var _example2 = _interopRequireDefault(_example);
 	
@@ -15302,6 +14955,8 @@
 				if (activeMenuIndex != null) {
 					this.activeMenu = this.mainMenu[activeMenuIndex];
 				}
+	
+				console.log(this.activeMenu);
 			}
 		}
 	};
@@ -15365,46 +15020,609 @@
 	/* generated by vue-loader */
 
 /***/ },
-/* 83 */
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(46)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/directives/example.vue: named exports in *.vue files are ignored.")}
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/directives/example.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _vue = __webpack_require__(1);
+	
+	var _vue2 = _interopRequireDefault(_vue);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 47 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"menu\">\n\t<div class=\"main-menu\" @click=\"changeActiveMenu\">\n\t\t<div class=\"main-menu-item-warp\" v-for=\"menu of mainMenu\">\n\t\t\t<a v-link=\"mainPathPrefix + menu.name\" :index=\"$index\" :name=\"menu.name\" class=\"main-menu-item\">{{ menu.tag }}</a>\n\t\t</div>\n\t</div>\n\t<router-view class=\"sub-menu\" :active-menu=\"activeMenu\" :main-path-prefix=\"mainPathPrefix\"></router-view>\n</div>\n";
 
 /***/ },
-/* 84 */,
-/* 85 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(86), __esModule: true };
-
-/***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var core = __webpack_require__(87);
-	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
-	  return (core.JSON && core.JSON.stringify || JSON.stringify).apply(JSON, arguments);
-	};
-
-/***/ },
-/* 87 */
+/* 48 */
 /***/ function(module, exports) {
 
-	var core = module.exports = {version: '1.2.6'};
-	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+	module.exports = "\n<!-- 应用主页模板 -->\n<div class=\"home\">\n\t<!-- 应用页眉 start -->\n\t<div class=\"header\">\n\t\t<top-bar :top-header=\"topHeader\"></top-bar>\n\t</div>\n\t<!-- 应用页眉 end -->\n\t<!-- 应用内容 start -->\n\t<div class=\"content\">\n\t\t<menu-list></menu-list>\n\t</div>\n\t<!-- 应用内容 end -->\n\t<!-- 应用页脚 start -->\n\t<div class=\"footer\">\n\t\t<bottom-bar :is-confirm=\"isConfirm\" :is-cancel=\"isCancel\"></bottom-bar>\n\t</div>\n\t<!-- 应用页脚 end -->\n</div>\n";
 
 /***/ },
-/* 88 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(89)
-	__vue_script__ = __webpack_require__(91)
+	__webpack_require__(50)
+	__vue_script__ = __webpack_require__(52)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/navigation/locate.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(53)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/navigation/locate.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(51);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locate.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./locate.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.locate {\n\tbackground: white;\n\theight: 100%;\n\ttext-align: center;\n}\n\n.locate-error {\n\tmargin: 20% auto;\n}\n\n.position {\n\tmargin: 20% auto;\n}\n", "", {"version":3,"sources":["/./src/components/home/navigation/locate.vue?5754f8e5"],"names":[],"mappings":";AAqEA;CACA,kBAAA;CACA,aAAA;CACA,mBAAA;CACA;;AAEA;CACA,iBAAA;CACA;;AAEA;CACA,iBAAA;CACA","file":"locate.vue","sourcesContent":["<template>\n\t<div class=\"locate\">\n\t\t<div class=\"locate-error\" v-if=\"!isGeolocation\">\n\t\t\t您的设备不支持导航、或未授权导航<br>\n\t\t\tCode: {{ errorCode }}<br>\n\t\t\tMessage: {{ errorMessage }}\n\t\t</div>\n\t\t<div v-else class=\"position\">\n\t\t\t<div class=\"locating\" v-if=\"isLocating\">\n\t\t\t\t<p>定位中……</p>\n\t\t\t</div>\n\t\t\t<div v-else class=\"located\">\n\t\t\t\t<div class=\"position-list\">\n\t\t\t\t\t<label>Latitude: </label><span>{{ latitude }}</span>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"position-list\">\n\t\t\t\t\t<label>Longitude: </label><span>{{ longitude }}</span>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tgeolocationConf: {\n\t\t\t\tenableHighAccuracy: false,\n\t\t\t\tmaximumAge: 30000,\n\t\t\t\ttimeout: 300000\n\t\t\t},\n\t\t\tisGeolocation: true,\n\t\t\tisLocating: true,\n\t\t\tlatitude: 0,\n\t\t\tlongitude: 0,\n\t\t\ttimestamp: 0,\n\t\t\terrorCode: \"\",\n\t\t\terrorMessage: \"\"\n\t\t};\n\t},\n\tready () {\n\t\tif (navigator.geolocation) {\n\t\t\tthis.isGeolocation = true;\n\t\t\tnavigator.geolocation.getCurrentPosition(this.getPositionSuccess, this.getPositionError, this.geolocationConf);\n\n\t\t} else {\n\t\t\tthis.isGeolocation = false;\n\t\t}\n\t},\n\tmethods: {\n\t\tgetPositionSuccess: function(position) {\n\t\t\tthis.latitude = position.coords.latitude;\n\t\t\tthis.longitude = position.coords.longitude;\n\t\t\tthis.isLocating = false;\n\t\t},\n\t\tgetPositionError: function(error) {\n\t\t\tthis.isGeolocation = false;\n\t\t\tthis.errorCode = error.code;\n\t\t\tthis.errorMessage = error.message;\n\t\t}\n\t}\n}\n\n\n</script>\n\n<style>\n\t.locate {\n\t\tbackground: white;\n\t\theight: 100%;\n\t\ttext-align: center;\n\t}\n\n\t.locate-error {\n\t\tmargin: 20% auto;\n\t}\n\n\t.position {\n\t\tmargin: 20% auto;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 52 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="locate">
+	// 		<div class="locate-error" v-if="!isGeolocation">
+	// 			您的设备不支持导航、或未授权导航<br>
+	// 			Code: {{ errorCode }}<br>
+	// 			Message: {{ errorMessage }}
+	// 		</div>
+	// 		<div v-else class="position">
+	// 			<div class="locating" v-if="isLocating">
+	// 				<p>定位中……</p>
+	// 			</div>
+	// 			<div v-else class="located">
+	// 				<div class="position-list">
+	// 					<label>Latitude: </label><span>{{ latitude }}</span>
+	// 				</div>
+	// 				<div class="position-list">
+	// 					<label>Longitude: </label><span>{{ longitude }}</span>
+	// 				</div>
+	// 			</div>
+	// 		</div>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				geolocationConf: {
+					enableHighAccuracy: false,
+					maximumAge: 30000,
+					timeout: 300000
+				},
+				isGeolocation: true,
+				isLocating: true,
+				latitude: 0,
+				longitude: 0,
+				timestamp: 0,
+				errorCode: "",
+				errorMessage: ""
+			};
+		},
+		ready: function ready() {
+			if (navigator.geolocation) {
+				this.isGeolocation = true;
+				navigator.geolocation.getCurrentPosition(this.getPositionSuccess, this.getPositionError, this.geolocationConf);
+			} else {
+				this.isGeolocation = false;
+			}
+		},
+	
+		methods: {
+			getPositionSuccess: function getPositionSuccess(position) {
+				this.latitude = position.coords.latitude;
+				this.longitude = position.coords.longitude;
+				this.isLocating = false;
+			},
+			getPositionError: function getPositionError(error) {
+				this.isGeolocation = false;
+				this.errorCode = error.code;
+				this.errorMessage = error.message;
+			}
+		}
+	};
+
+	// </script>
+	//
+	// <style>
+	// 	.locate {
+	// 		background: white;
+	// 		height: 100%;
+	// 		text-align: center;
+	// 	}
+	//
+	// 	.locate-error {
+	// 		margin: 20% auto;
+	// 	}
+	//
+	// 	.position {
+	// 		margin: 20% auto;
+	// 	}
+	// </style>
+	/* generated by vue-loader */
+
+/***/ },
+/* 53 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"locate\">\n\t<div class=\"locate-error\" v-if=\"!isGeolocation\">\n\t\t您的设备不支持导航、或未授权导航<br>\n\t\tCode: {{ errorCode }}<br>\n\t\tMessage: {{ errorMessage }}\n\t</div>\n\t<div v-else class=\"position\">\n\t\t<div class=\"locating\" v-if=\"isLocating\">\n\t\t\t<p>定位中……</p>\n\t\t</div>\n\t\t<div v-else class=\"located\">\n\t\t\t<div class=\"position-list\">\n\t\t\t\t<label>Latitude: </label><span>{{ latitude }}</span>\n\t\t\t</div>\n\t\t\t<div class=\"position-list\">\n\t\t\t\t<label>Longitude: </label><span>{{ longitude }}</span>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(55)
+	__vue_script__ = __webpack_require__(57)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/projects/deleteProject.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(58)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/projects/deleteProject.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(56);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./deleteProject.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./deleteProject.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.delete-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/deleteProject.vue?f4d5a830","/./src/components/home/projects/deleteProject.vue"],"names":[],"mappings":";AAkFA;CACA,eAAA;EChFC,QDiFD;CACA;;AAEA;CACA,wBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,eAAA;CACA,uBAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;;;CAGA,sBAAA;CACA,YAAA;CACA,mBAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA","file":"deleteProject.vue","sourcesContent":["<template>\n\t<div class=\"delete-project\">\n\t\t<div class=\"project-header clearfix\">\n\t\t\t<label class=\"project-name\">项目名称</label>\n\t\t\t<label class=\"project-author\">项目作者</label>\n\t\t\t<label class=\"project-note\">项目注释</label>\n\t\t</div>\n\t\t<div class=\"project-list\" @focusin=\"changeActiveItem\">\n\t\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\" :item-index=\"$index\">\n\t\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tprojectsStorageKey: \"projects\",\n\t\t\ttrashStorageKey: \"projectsTrash\",\n\t\t\tactiveItemIndex: -1,\n\t\t\tprojects: []\n\t\t};\n\t},\n\tready () {\n\t\tvar data = JSON.parse(localStorage.getItem(this.projectsStorageKey));\n\n\t\tif (data == null || data.length < 0) {\n\t\t\treturn false;\n\t\t}\n\n\t\tthis.projects = data;\n\t},\n\tmethods: {\n\t\tchangeActiveItem: function (event) {\n\t\t\tvar target = event.target,\n\t\t\t\tindex = target.getAttribute(\"item-index\");\n\n\t\t\tthis.activeItemIndex = index;\n\t\t}\n\t},\n\tevents: {\n\t\tentclick: function () {\n\t\t\tvar delItem = [],\n\t\t\t\tdelItemName = [],\n\t\t\t\ttrashData = [];\n\n\t\t\tif (this.activeItemIndex < 0) {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tdelItem = this.projects.splice(this.activeItemIndex, 1);\n\n\t\t\tlocalStorage.setItem(this.projectsStorageKey, JSON.stringify(this.projects));\n\n\t\t\ttrashData = JSON.parse(localStorage.getItem(this.trashStorageKey));\n\n\t\t\tconsole.log(localStorage.getItem(this.trashStorageKey));\n\n\t\t\tif (!(trashData instanceof Array)) {\n\t\t\t\ttrashData = [];\n\t\t\t}\n\n\t\t\ttrashData = trashData.concat(delItem);\n\n\t\t\tlocalStorage.setItem(this.trashStorageKey, JSON.stringify(trashData));\n\n\t\t\tfor (let i = 0, len = delItem.length; i < len; i++) {\n\t\t\t\tdelItemName.push(delItem[i].name);\n\t\t\t}\n\n\t\t\talert(`项目: ${ delItemName.join(\",\") }已放入回收站!`);\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.delete-project {\n\t\tbackground-color: white;\n\t}\n\n\t.project-header {\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item {\n\t\tdisplay: block;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item:focus {\n\t\tborder: 1px solid #00B9F7;\n\t}\n\n\t.project-name,\n\t.project-author,\n\t.project-note {\n\t\tdisplay: inline-block;\n\t\tfloat: left;\n\t\ttext-align: center;\n\t}\n\n\t.project-name {\n\t\twidth: 30%;\n\t}\n\n\t.project-author {\n\t\twidth: 30%;\n\t}\n\n\t.project-note {\n\t\twidth: 40%;\n\t}\n\n</style>\n","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.delete-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _stringify = __webpack_require__(11);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// <template>
+	// 	<div class="delete-project">
+	// 		<div class="project-header clearfix">
+	// 			<label class="project-name">项目名称</label>
+	// 			<label class="project-author">项目作者</label>
+	// 			<label class="project-note">项目注释</label>
+	// 		</div>
+	// 		<div class="project-list" @focusin="changeActiveItem">
+	// 			<a href="javascript:;" class="project-item clearfix" v-for="project of projects" :item-index="$index">
+	// 				<div class="project-name">{{ project.name }}</div>
+	// 				<div class="project-author">{{ project.author }}</div>
+	// 				<div class="project-note">{{ project.note }}</div>
+	// 			</a>
+	// 		</div>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				projectsStorageKey: "projects",
+				trashStorageKey: "projectsTrash",
+				activeItemIndex: -1,
+				projects: []
+			};
+		},
+		ready: function ready() {
+			var data = JSON.parse(localStorage.getItem(this.projectsStorageKey));
+	
+			if (data == null || data.length < 0) {
+				return false;
+			}
+	
+			this.projects = data;
+		},
+	
+		methods: {
+			changeActiveItem: function changeActiveItem(event) {
+				var target = event.target,
+				    index = target.getAttribute("item-index");
+	
+				this.activeItemIndex = index;
+			}
+		},
+		events: {
+			entclick: function entclick() {
+				var delItem = [],
+				    delItemName = [],
+				    trashData = [];
+	
+				if (this.activeItemIndex < 0) {
+					return false;
+				}
+	
+				delItem = this.projects.splice(this.activeItemIndex, 1);
+	
+				localStorage.setItem(this.projectsStorageKey, (0, _stringify2.default)(this.projects));
+	
+				trashData = JSON.parse(localStorage.getItem(this.trashStorageKey));
+	
+				console.log(localStorage.getItem(this.trashStorageKey));
+	
+				if (!(trashData instanceof Array)) {
+					trashData = [];
+				}
+	
+				trashData = trashData.concat(delItem);
+	
+				localStorage.setItem(this.trashStorageKey, (0, _stringify2.default)(trashData));
+	
+				for (var i = 0, len = delItem.length; i < len; i++) {
+					delItemName.push(delItem[i].name);
+				}
+	
+				alert("项目: " + delItemName.join(",") + "已放入回收站!");
+			}
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.clearfix {
+	// 		overflow: auto;
+	// 		*zoom: 1;
+	// 	}
+	//
+	// 	.delete-project {
+	// 		background-color: white;
+	// 	}
+	//
+	// 	.project-header {
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.project-item {
+	// 		display: block;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.project-item:focus {
+	// 		border: 1px solid #00B9F7;
+	// 	}
+	//
+	// 	.project-name,
+	// 	.project-author,
+	// 	.project-note {
+	// 		display: inline-block;
+	// 		float: left;
+	// 		text-align: center;
+	// 	}
+	//
+	// 	.project-name {
+	// 		width: 30%;
+	// 	}
+	//
+	// 	.project-author {
+	// 		width: 30%;
+	// 	}
+	//
+	// 	.project-note {
+	// 		width: 40%;
+	// 	}
+	//
+	// </style>
+
+	/* generated by vue-loader */
+
+/***/ },
+/* 58 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"delete-project\">\n\t<div class=\"project-header clearfix\">\n\t\t<label class=\"project-name\">项目名称</label>\n\t\t<label class=\"project-author\">项目作者</label>\n\t\t<label class=\"project-note\">项目注释</label>\n\t</div>\n\t<div class=\"project-list\" @focusin=\"changeActiveItem\">\n\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\" :item-index=\"$index\">\n\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t</a>\n\t</div>\n</div>\n";
+
+/***/ },
+/* 59 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(60)
+	__vue_script__ = __webpack_require__(62)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/projects/newProject.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(63)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/projects/newProject.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 60 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(61);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./newProject.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./newProject.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 61 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.new-project {\n\tbackground-color: white;\n}\n\n.new-project .form-item {\n\tmargin: 6% 10%;\n}\n\n.new-project .form-item input{\n\tpadding: .3em;\n\tborder: 1px solid #ccc;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/newProject.vue?e7362314"],"names":[],"mappings":";AAoDA;CACA,wBAAA;CACA;;AAEA;CACA,eAAA;CACA;;AAEA;CACA,cAAA;CACA,uBAAA;CACA","file":"newProject.vue","sourcesContent":["<template>\n\t<div class=\"new-project\">\n\t\t<form action=\"#\">\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t\t</div>\n\t\t</form>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tprojectsStorageKey: \"projects\",\n\t\t\tnewProject: {\n\t\t\t\tname: \"\",\n\t\t\t\tauthor: \"\",\n\t\t\t\tnote: \"\"\n\t\t\t}\n\t\t};\n\t},\n\tevents: {\n\t\tentclick: function() {\n\t\t\tif (this.newProject.name === \"\") {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tthis.$dispatch(\"savelocalstorage\", {\n\t\t\t\tname: this.projectsStorageKey,\n\t\t\t\tdata: this.newProject\n\t\t\t});\n\n\t\t\talert(`新建项目: ${ this.newProject.name }成功！`);\n\n\t\t\tthis.newProject.name = \"\";\n\t\t\tthis.newProject.author = \"\";\n\t\t\tthis.newProject.note = \"\";\n\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.new-project {\n\t\tbackground-color: white;\n\t}\n\n\t.new-project .form-item {\n\t\tmargin: 6% 10%;\n\t}\n\n\t.new-project .form-item input{\n\t\tpadding: .3em;\n\t\tborder: 1px solid #ccc;\n\t}\n\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 62 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="new-project">
+	// 		<form action="#">
+	// 			<div class="form-item">
+	// 				<label for="projectName" >名称:</label><input id="projectName" v-model="newProject.name" name="projectName" type="text">
+	// 			</div>
+	// 			<div class="form-item">
+	// 				<label for="projectAuthor">作者:</label><input id="projectAuthor" v-model="newProject.author" name="projectAuthor" type="text">
+	// 			</div>
+	// 			<div class="form-item">
+	// 				<label for="projectNote">注释:</label><input id="projectNote" v-model="newProject.note" name="projectNote" type="text">
+	// 			</div>
+	// 		</form>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				projectsStorageKey: "projects",
+				newProject: {
+					name: "",
+					author: "",
+					note: ""
+				}
+			};
+		},
+	
+		events: {
+			entclick: function entclick() {
+				if (this.newProject.name === "") {
+					return false;
+				}
+	
+				this.$dispatch("savelocalstorage", {
+					name: this.projectsStorageKey,
+					data: this.newProject
+				});
+	
+				alert("新建项目: " + this.newProject.name + "成功！");
+	
+				this.newProject.name = "";
+				this.newProject.author = "";
+				this.newProject.note = "";
+			}
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.new-project {
+	// 		background-color: white;
+	// 	}
+	//
+	// 	.new-project .form-item {
+	// 		margin: 6% 10%;
+	// 	}
+	//
+	// 	.new-project .form-item input{
+	// 		padding: .3em;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// </style>
+
+	/* generated by vue-loader */
+
+/***/ },
+/* 63 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"new-project\">\n\t<form action=\"#\">\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t</div>\n\t</form>\n</div>\n";
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(65)
+	__vue_script__ = __webpack_require__(67)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] src/components/home/projects/openProject.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(92)
+	__vue_template__ = __webpack_require__(68)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -15423,13 +15641,13 @@
 	})()}
 
 /***/ },
-/* 89 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(90);
+	var content = __webpack_require__(66);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(9)(content, {});
@@ -15449,7 +15667,7 @@
 	}
 
 /***/ },
-/* 90 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(7)();
@@ -15457,13 +15675,13 @@
 	
 	
 	// module
-	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.open-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/openProject.vue?70a9e8b0","/./src/components/home/projects/openProject.vue"],"names":[],"mappings":";AAgDA;CACA,eAAA;EC9CC,QD+CD;CACA;;AAEA;CACA,wBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,eAAA;CACA,uBAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;;;CAGA,sBAAA;CACA,YAAA;CACA,mBAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA","file":"openProject.vue","sourcesContent":["<template>\n\t<div class=\"open-project\">\n\t\t<div class=\"project-header clearfix\">\n\t\t\t<label class=\"project-name\">项目名称</label>\n\t\t\t<label class=\"project-author\">项目作者</label>\n\t\t\t<label class=\"project-note\">项目注释</label>\n\t\t</div>\n\t\t<div class=\"project-list\">\n\t\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\">\n\t\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tstorageName: \"projects\",\n\t\t\tprojects: []\n\t\t};\n\t},\n\tready () {\n\t\tvar data = JSON.parse(localStorage.getItem(this.storageName));\n\n\t\tif (data == null || data.length < 0) {\n\t\t\treturn false;\n\t\t}\n\n\t\tthis.projects = data;\n\t},\n\tevents: {\n\t\tentclick: function () {\n\t\t\tthis.$dispatch(\"keyboardclick\", {\n\t\t\t\tkeyType: \"FUN\",\n\t\t\t\tkeyValue: \"ESC\",\n\t\t\t\tsourceTarget: \"open-project-confirm-button\"\n\t\t\t})\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.open-project {\n\t\tbackground-color: white;\n\t}\n\n\t.project-header {\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item {\n\t\tdisplay: block;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item:focus {\n\t\tborder: 1px solid #00B9F7;\n\t}\n\n\t.project-name,\n\t.project-author,\n\t.project-note {\n\t\tdisplay: inline-block;\n\t\tfloat: left;\n\t\ttext-align: center;\n\t}\n\n\t.project-name {\n\t\twidth: 30%;\n\t}\n\n\t.project-author {\n\t\twidth: 30%;\n\t}\n\n\t.project-note {\n\t\twidth: 40%;\n\t}\n\n</style>\n","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.open-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.open-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/openProject.vue?689354f8","/./src/components/home/projects/openProject.vue"],"names":[],"mappings":";AA2DA;CACA,eAAA;ECzDC,QD0DD;CACA;;AAEA;CACA,wBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,eAAA;CACA,uBAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;;;CAGA,sBAAA;CACA,YAAA;CACA,mBAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA","file":"openProject.vue","sourcesContent":["<template>\n\t<div class=\"open-project\">\n\t\t<div class=\"project-header clearfix\">\n\t\t\t<label class=\"project-name\">项目名称</label>\n\t\t\t<label class=\"project-author\">项目作者</label>\n\t\t\t<label class=\"project-note\">项目注释</label>\n\t\t</div>\n\t\t<div class=\"project-list\" @focusin=\"changeActiveItem\">\n\t\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\" :item-index=\"$index\">\n\t\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tprojectsStorageKey: \"projects\",\n\t\t\tactiveItemIndex: -1,\n\t\t\tprojects: []\n\t\t};\n\t},\n\tready () {\n\t\tvar data = JSON.parse(localStorage.getItem(this.projectsStorageKey));\n\n\t\tif (data == null || data.length < 0) {\n\t\t\treturn false;\n\t\t}\n\n\t\tthis.projects = data;\n\t},\n\tmethods: {\n\t\tchangeActiveItem: function (event) {\n\t\t\tvar target = event.target,\n\t\t\t\tindex = target.getAttribute(\"item-index\");\n\n\t\t\tthis.activeItemIndex = index;\n\t\t}\n\t},\n\tevents: {\n\t\tentclick: function () {\n\t\t\tthis.$dispatch(\"keyboardclick\", {\n\t\t\t\tkeyType: \"FUN\",\n\t\t\t\tkeyValue: \"ESC\",\n\t\t\t\tsourceTarget: \"open-project-confirm-button\"\n\t\t\t});\n\n\t\t\talert(`打开项目: ${ this.projects[this.activeItemIndex].name }成功!`)\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.open-project {\n\t\tbackground-color: white;\n\t}\n\n\t.project-header {\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item {\n\t\tdisplay: block;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item:focus {\n\t\tborder: 1px solid #00B9F7;\n\t}\n\n\t.project-name,\n\t.project-author,\n\t.project-note {\n\t\tdisplay: inline-block;\n\t\tfloat: left;\n\t\ttext-align: center;\n\t}\n\n\t.project-name {\n\t\twidth: 30%;\n\t}\n\n\t.project-author {\n\t\twidth: 30%;\n\t}\n\n\t.project-note {\n\t\twidth: 40%;\n\t}\n\n</style>\n","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.open-project {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 91 */
+/* 67 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -15478,8 +15696,8 @@
 	// 			<label class="project-author">项目作者</label>
 	// 			<label class="project-note">项目注释</label>
 	// 		</div>
-	// 		<div class="project-list">
-	// 			<a href="javascript:;" class="project-item clearfix" v-for="project of projects">
+	// 		<div class="project-list" @focusin="changeActiveItem">
+	// 			<a href="javascript:;" class="project-item clearfix" v-for="project of projects" :item-index="$index">
 	// 				<div class="project-name">{{ project.name }}</div>
 	// 				<div class="project-author">{{ project.author }}</div>
 	// 				<div class="project-note">{{ project.note }}</div>
@@ -15493,12 +15711,13 @@
 	exports.default = {
 		data: function data() {
 			return {
-				storageName: "projects",
+				projectsStorageKey: "projects",
+				activeItemIndex: -1,
 				projects: []
 			};
 		},
 		ready: function ready() {
-			var data = JSON.parse(localStorage.getItem(this.storageName));
+			var data = JSON.parse(localStorage.getItem(this.projectsStorageKey));
 	
 			if (data == null || data.length < 0) {
 				return false;
@@ -15507,6 +15726,14 @@
 			this.projects = data;
 		},
 	
+		methods: {
+			changeActiveItem: function changeActiveItem(event) {
+				var target = event.target,
+				    index = target.getAttribute("item-index");
+	
+				this.activeItemIndex = index;
+			}
+		},
 		events: {
 			entclick: function entclick() {
 				this.$dispatch("keyboardclick", {
@@ -15514,6 +15741,8 @@
 					keyValue: "ESC",
 					sourceTarget: "open-project-confirm-button"
 				});
+	
+				alert("打开项目: " + this.projects[this.activeItemIndex].name + "成功!");
 			}
 		}
 	};
@@ -15567,10 +15796,1181 @@
 	/* generated by vue-loader */
 
 /***/ },
-/* 92 */
+/* 68 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"open-project\">\n\t<div class=\"project-header clearfix\">\n\t\t<label class=\"project-name\">项目名称</label>\n\t\t<label class=\"project-author\">项目作者</label>\n\t\t<label class=\"project-note\">项目注释</label>\n\t</div>\n\t<div class=\"project-list\">\n\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\">\n\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t</a>\n\t</div>\n</div>\n";
+	module.exports = "\n<div class=\"open-project\">\n\t<div class=\"project-header clearfix\">\n\t\t<label class=\"project-name\">项目名称</label>\n\t\t<label class=\"project-author\">项目作者</label>\n\t\t<label class=\"project-note\">项目注释</label>\n\t</div>\n\t<div class=\"project-list\" @focusin=\"changeActiveItem\">\n\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\" :item-index=\"$index\">\n\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t</a>\n\t</div>\n</div>\n";
+
+/***/ },
+/* 69 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(70)
+	__vue_script__ = __webpack_require__(72)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/projects/projectsTrash.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(73)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/projects/projectsTrash.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 70 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(71);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./projectsTrash.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./projectsTrash.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.projects-trash {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/projectsTrash.vue?1e4bb9e4","/./src/components/home/projects/projectsTrash.vue"],"names":[],"mappings":";AAiFA;CACA,eAAA;EC/EC,QDgFD;CACA;;AAEA;CACA,wBAAA;CACA;;AAEA;CACA,uBAAA;CACA;;AAEA;CACA,eAAA;CACA,uBAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;;;CAGA,sBAAA;CACA,YAAA;CACA,mBAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA;;AAEA;CACA,WAAA;CACA","file":"projectsTrash.vue","sourcesContent":["<template>\n\t<div class=\"projects-trash\">\n\t\t<div class=\"project-header clearfix\">\n\t\t\t<label class=\"project-name\">项目名称</label>\n\t\t\t<label class=\"project-author\">项目作者</label>\n\t\t\t<label class=\"project-note\">项目注释</label>\n\t\t</div>\n\t\t<div class=\"project-list\" @focusin=\"changeActiveItem\">\n\t\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\" :item-index=\"$index\">\n\t\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t\t</a>\n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tprojectsStorageKey: \"projects\",\n\t\t\ttrashStorageKey: \"projectsTrash\",\n\t\t\tactiveItemIndex: -1,\n\t\t\tprojects: []\n\t\t};\n\t},\n\tready () {\n\t\tvar data = JSON.parse(localStorage.getItem(this.trashStorageKey));\n\n\t\tif (data == null || data.length < 0) {\n\t\t\treturn false;\n\t\t}\n\n\t\tthis.projects = data;\n\n\t},\n\tmethods: {\n\t\tchangeActiveItem: function (event) {\n\t\t\tvar target = event.target,\n\t\t\t\tindex = target.getAttribute(\"item-index\");\n\n\t\t\tthis.activeItemIndex = index;\n\t\t}\n\t},\n\tevents: {\n\t\tentclick: function () {\n\t\t\tvar restoreItem = [],\n\t\t\t\trestoreItemName = [],\n\t\t\t\tprojectsData = [];\n\n\t\t\tif (this.activeItemIndex < 0) {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\trestoreItem = this.projects.splice(this.activeItemIndex, 1);\n\n\t\t\tlocalStorage.setItem(this.trashStorageKey, JSON.stringify(this.projects));\n\n\t\t\tprojectsData = localStorage.getItem(this.projectsStorageKey);\n\n\t\t\tif (projectsData == null) {\n\t\t\t\tprojectsData = [];\n\t\t\t}\n\n\t\t\tprojectsData.concat(restoreItem);\n\n\t\t\tlocalStorage.setItem(this.projectsStorageKey, projectsData);\n\n\t\t\tfor (let i = 0, len = restoreItem.length; i < len; i++) {\n\t\t\t\trestoreItemName.push(restoreItem[i].name);\n\t\t\t}\n\n\t\t\talert(`项目: ${ restoreItemName.join(\",\") }已还原!`);\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.projects-trash {\n\t\tbackground-color: white;\n\t}\n\n\t.project-header {\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item {\n\t\tdisplay: block;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.project-item:focus {\n\t\tborder: 1px solid #00B9F7;\n\t}\n\n\t.project-name,\n\t.project-author,\n\t.project-note {\n\t\tdisplay: inline-block;\n\t\tfloat: left;\n\t\ttext-align: center;\n\t}\n\n\t.project-name {\n\t\twidth: 30%;\n\t}\n\n\t.project-author {\n\t\twidth: 30%;\n\t}\n\n\t.project-note {\n\t\twidth: 40%;\n\t}\n\n</style>\n","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.projects-trash {\n\tbackground-color: white;\n}\n\n.project-header {\n\tborder: 1px solid #ccc;\n}\n\n.project-item {\n\tdisplay: block;\n\tborder: 1px solid #ccc;\n}\n\n.project-item:focus {\n\tborder: 1px solid #00B9F7;\n}\n\n.project-name,\n.project-author,\n.project-note {\n\tdisplay: inline-block;\n\tfloat: left;\n\ttext-align: center;\n}\n\n.project-name {\n\twidth: 30%;\n}\n\n.project-author {\n\twidth: 30%;\n}\n\n.project-note {\n\twidth: 40%;\n}\n\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _stringify = __webpack_require__(11);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// <template>
+	// 	<div class="projects-trash">
+	// 		<div class="project-header clearfix">
+	// 			<label class="project-name">项目名称</label>
+	// 			<label class="project-author">项目作者</label>
+	// 			<label class="project-note">项目注释</label>
+	// 		</div>
+	// 		<div class="project-list" @focusin="changeActiveItem">
+	// 			<a href="javascript:;" class="project-item clearfix" v-for="project of projects" :item-index="$index">
+	// 				<div class="project-name">{{ project.name }}</div>
+	// 				<div class="project-author">{{ project.author }}</div>
+	// 				<div class="project-note">{{ project.note }}</div>
+	// 			</a>
+	// 		</div>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				projectsStorageKey: "projects",
+				trashStorageKey: "projectsTrash",
+				activeItemIndex: -1,
+				projects: []
+			};
+		},
+		ready: function ready() {
+			var data = JSON.parse(localStorage.getItem(this.trashStorageKey));
+	
+			if (data == null || data.length < 0) {
+				return false;
+			}
+	
+			this.projects = data;
+		},
+	
+		methods: {
+			changeActiveItem: function changeActiveItem(event) {
+				var target = event.target,
+				    index = target.getAttribute("item-index");
+	
+				this.activeItemIndex = index;
+			}
+		},
+		events: {
+			entclick: function entclick() {
+				var restoreItem = [],
+				    restoreItemName = [],
+				    projectsData = [];
+	
+				if (this.activeItemIndex < 0) {
+					return false;
+				}
+	
+				restoreItem = this.projects.splice(this.activeItemIndex, 1);
+	
+				localStorage.setItem(this.trashStorageKey, (0, _stringify2.default)(this.projects));
+	
+				projectsData = localStorage.getItem(this.projectsStorageKey);
+	
+				if (projectsData == null) {
+					projectsData = [];
+				}
+	
+				projectsData.concat(restoreItem);
+	
+				localStorage.setItem(this.projectsStorageKey, projectsData);
+	
+				for (var i = 0, len = restoreItem.length; i < len; i++) {
+					restoreItemName.push(restoreItem[i].name);
+				}
+	
+				alert("项目: " + restoreItemName.join(",") + "已还原!");
+			}
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.clearfix {
+	// 		overflow: auto;
+	// 		*zoom: 1;
+	// 	}
+	//
+	// 	.projects-trash {
+	// 		background-color: white;
+	// 	}
+	//
+	// 	.project-header {
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.project-item {
+	// 		display: block;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.project-item:focus {
+	// 		border: 1px solid #00B9F7;
+	// 	}
+	//
+	// 	.project-name,
+	// 	.project-author,
+	// 	.project-note {
+	// 		display: inline-block;
+	// 		float: left;
+	// 		text-align: center;
+	// 	}
+	//
+	// 	.project-name {
+	// 		width: 30%;
+	// 	}
+	//
+	// 	.project-author {
+	// 		width: 30%;
+	// 	}
+	//
+	// 	.project-note {
+	// 		width: 40%;
+	// 	}
+	//
+	// </style>
+
+	/* generated by vue-loader */
+
+/***/ },
+/* 73 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"projects-trash\">\n\t<div class=\"project-header clearfix\">\n\t\t<label class=\"project-name\">项目名称</label>\n\t\t<label class=\"project-author\">项目作者</label>\n\t\t<label class=\"project-note\">项目注释</label>\n\t</div>\n\t<div class=\"project-list\" @focusin=\"changeActiveItem\">\n\t\t<a href=\"javascript:;\" class=\"project-item clearfix\" v-for=\"project of projects\" :item-index=\"$index\">\n\t\t\t<div class=\"project-name\">{{ project.name }}</div>\n\t\t\t<div class=\"project-author\">{{ project.author }}</div>\n\t\t\t<div class=\"project-note\">{{ project.note }}</div>\n\t\t</a>\n\t</div>\n</div>\n";
+
+/***/ },
+/* 74 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(75)
+	__vue_script__ = __webpack_require__(77)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/projects/saveAsProject.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(78)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/projects/saveAsProject.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(76);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./saveAsProject.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./saveAsProject.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.new-project {\n\tbackground-color: white;\n}\n\n.new-project .form-item {\n\tmargin: 6% 10%;\n}\n\n.new-project .form-item input{\n\tpadding: .3em;\n\tborder: 1px solid #ccc;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/projects/saveAsProject.vue?b31f4a5e"],"names":[],"mappings":";AAoDA;CACA,wBAAA;CACA;;AAEA;CACA,eAAA;CACA;;AAEA;CACA,cAAA;CACA,uBAAA;CACA","file":"saveAsProject.vue","sourcesContent":["<template>\n\t<div class=\"new-project\">\n\t\t<form action=\"#\">\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t\t</div>\n\t\t\t<div class=\"form-item\">\n\t\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t\t</div>\n\t\t</form>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tprojectsStorageKey: \"projects\",\n\t\t\tnewProject: {\n\t\t\t\tname: \"\",\n\t\t\t\tauthor: \"\",\n\t\t\t\tnote: \"\"\n\t\t\t}\n\t\t};\n\t},\n\tevents: {\n\t\tentclick: function() {\n\t\t\tif (this.newProject.name === \"\") {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tthis.$dispatch(\"savelocalstorage\", {\n\t\t\t\tname: this.projectsStorageKey,\n\t\t\t\tdata: this.newProject\n\t\t\t});\n\n\t\t\talert(`新建项目: ${ this.newProject.name }成功！`);\n\n\t\t\tthis.newProject.name = \"\";\n\t\t\tthis.newProject.author = \"\";\n\t\t\tthis.newProject.note = \"\";\n\n\t\t}\n\t}\n};\n</script>\n\n<style>\n\t.new-project {\n\t\tbackground-color: white;\n\t}\n\n\t.new-project .form-item {\n\t\tmargin: 6% 10%;\n\t}\n\n\t.new-project .form-item input{\n\t\tpadding: .3em;\n\t\tborder: 1px solid #ccc;\n\t}\n\n</style>\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 77 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="new-project">
+	// 		<form action="#">
+	// 			<div class="form-item">
+	// 				<label for="projectName" >名称:</label><input id="projectName" v-model="newProject.name" name="projectName" type="text">
+	// 			</div>
+	// 			<div class="form-item">
+	// 				<label for="projectAuthor">作者:</label><input id="projectAuthor" v-model="newProject.author" name="projectAuthor" type="text">
+	// 			</div>
+	// 			<div class="form-item">
+	// 				<label for="projectNote">注释:</label><input id="projectNote" v-model="newProject.note" name="projectNote" type="text">
+	// 			</div>
+	// 		</form>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				projectsStorageKey: "projects",
+				newProject: {
+					name: "",
+					author: "",
+					note: ""
+				}
+			};
+		},
+	
+		events: {
+			entclick: function entclick() {
+				if (this.newProject.name === "") {
+					return false;
+				}
+	
+				this.$dispatch("savelocalstorage", {
+					name: this.projectsStorageKey,
+					data: this.newProject
+				});
+	
+				alert("新建项目: " + this.newProject.name + "成功！");
+	
+				this.newProject.name = "";
+				this.newProject.author = "";
+				this.newProject.note = "";
+			}
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.new-project {
+	// 		background-color: white;
+	// 	}
+	//
+	// 	.new-project .form-item {
+	// 		margin: 6% 10%;
+	// 	}
+	//
+	// 	.new-project .form-item input{
+	// 		padding: .3em;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// </style>
+
+	/* generated by vue-loader */
+
+/***/ },
+/* 78 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"new-project\">\n\t<form action=\"#\">\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectName\" >名称:</label><input id=\"projectName\" v-model=\"newProject.name\" name=\"projectName\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectAuthor\">作者:</label><input id=\"projectAuthor\" v-model=\"newProject.author\" name=\"projectAuthor\" type=\"text\">\n\t\t</div>\n\t\t<div class=\"form-item\">\n\t\t\t<label for=\"projectNote\">注释:</label><input id=\"projectNote\" v-model=\"newProject.note\" name=\"projectNote\" type=\"text\">\n\t\t</div>\n\t</form>\n</div>\n";
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(80)
+	__vue_script__ = __webpack_require__(82)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/subMenu.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(83)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/subMenu.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 80 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(81);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./subMenu.vue", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./subMenu.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 81 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.sub-menu-item-warp {\n\theight: 20%;\n\twidth: 100%;\n}\n\n.sub-menu-item-warp:hover {\n\tbackground-color: #B1D6EB;\n}\n\n.sub-menu-item {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n}\n\n.component-content {\n\twidth: 100%;\n\theight: 100%;\n\tdisplay: inline-block;\n\tposition: absolute;\n\ttop: 0;\n\tright: 0;\n\tbackground: white;\n}\n", "", {"version":3,"sources":["/./src/components/home/subMenu.vue?99947314"],"names":[],"mappings":";AAyCA;CACA,YAAA;CACA,YAAA;CACA;;AAEA;CACA,0BAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA;;AAEA;CACA,YAAA;CACA,aAAA;CACA,sBAAA;CACA,mBAAA;CACA,OAAA;CACA,SAAA;CACA,kBAAA;CACA","file":"subMenu.vue","sourcesContent":["<template>\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view id=\"component-content\" class=\"component-content\"></router-view>\n\t<div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\t\n\t\t}\n\t},\n\tcomputed: {\n\t\tsubMenu: function () {\n\t\t\tif (this.activeMenu){\n\t\t\t\treturn this.activeMenu.subMenu;\n\t\t\t} else {\n\t\t\t\treturn [];\n\t\t\t}\n\t\t},\n\t\tsubPathPrefix: function () {\n\t\t\tif (this.mainPathPrefix) {\n\t\t\t\treturn `${ this.mainPathPrefix }${ this.activeMenu.name}/`;\n\t\t\t} else {\n\t\t\t\treturn \"\";\n\t\t\t}\n\t\t}\n\t},\n\tprops: [\"activeMenu\", \"mainPathPrefix\"],\n\tmethods: {\n\n\t}\n}\n</script>\n\n<style>\n\t.sub-menu-item-warp {\n\t\theight: 20%;\n\t\twidth: 100%;\n\t}\n\t\n\t.sub-menu-item-warp:hover {\n\t\tbackground-color: #B1D6EB;\n\t}\n\n\t.sub-menu-item {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t}\n\n\t.component-content {\n\t\twidth: 100%;\n\t\theight: 100%;\n\t\tdisplay: inline-block;\n\t\tposition: absolute;\n\t\ttop: 0;\n\t\tright: 0;\n\t\tbackground: white;\n\t}\n</style>"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 82 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div>
+	// 		<div class="sub-menu-item-warp" v-for="menu of subMenu">
+	// 			<a v-link="subPathPrefix + menu.name" :name="menu.name" :index="$index" class="sub-menu-item">{{ $index }} {{ menu.tag }}</a>
+	// 		</div>
+	// 		<router-view id="component-content" class="component-content"></router-view>
+	// 	<div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {};
+		},
+	
+		computed: {
+			subMenu: function subMenu() {
+				if (this.activeMenu) {
+					return this.activeMenu.subMenu;
+				} else {
+					return [];
+				}
+			},
+			subPathPrefix: function subPathPrefix() {
+				if (this.mainPathPrefix) {
+					return "" + this.mainPathPrefix + this.activeMenu.name + "/";
+				} else {
+					return "";
+				}
+			}
+		},
+		props: ["activeMenu", "mainPathPrefix"],
+		methods: {}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.sub-menu-item-warp {
+	// 		height: 20%;
+	// 		width: 100%;
+	// 	}
+	//
+	// 	.sub-menu-item-warp:hover {
+	// 		background-color: #B1D6EB;
+	// 	}
+	//
+	// 	.sub-menu-item {
+	// 		width: 100%;
+	// 		height: 100%;
+	// 		display: inline-block;
+	// 	}
+	//
+	// 	.component-content {
+	// 		width: 100%;
+	// 		height: 100%;
+	// 		display: inline-block;
+	// 		position: absolute;
+	// 		top: 0;
+	// 		right: 0;
+	// 		background: white;
+	// 	}
+	// </style>
+	/* generated by vue-loader */
+
+/***/ },
+/* 83 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\t<div>\n\t\t<div class=\"sub-menu-item-warp\" v-for=\"menu of subMenu\">\n\t\t\t<a v-link=\"subPathPrefix + menu.name\" :name=\"menu.name\" :index=\"$index\" class=\"sub-menu-item\">{{ $index }} {{ menu.tag }}</a>\n\t\t</div>\n\t\t<router-view id=\"component-content\" class=\"component-content\"></router-view>\n\t<div>\n</template>";
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(85)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/null.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(86)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/null.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 85 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// <template>
+	// 	NULL
+	// </template>
+	//
+	// <script>
+	exports.default = {};
+	// </script>
+	/* generated by vue-loader */
+
+/***/ },
+/* 86 */
+/***/ function(module, exports) {
+
+	module.exports = "\nNULL\n";
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(88)
+	__vue_script__ = __webpack_require__(90)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/calculate/coordinateTraverse.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(91)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/calculate/coordinateTraverse.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(89);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./coordinateTraverse.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./coordinateTraverse.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 89 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.data-list,\n.result-list {\n\twidth: 50%;\n\tfloat: left;\n\t/*text-align: center;*/\n}\n\n.coordinate-traverse label {\n\t\n}\n\n.coordinate-traverse input {\n\twidth: 30%;\n\tborder: 1px solid #ccc;\n}\n\n.data-item,\n.result-item {\n\tmargin: 3%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/calculate/coordinateTraverse.vue?501b77ba","/./src/components/home/calculate/coordinateTraverse.vue"],"names":[],"mappings":";AAsDA;CACA,eAAA;ECpDC,QDqDD;CACA;;AAEA;;CAEA,WAAA;CACA,YAAA;CACA,uBAAA;CACA;;AAEA;;CAEA;;AAEA;CACA,WAAA;CACA,uBAAA;CACA;;AAEA;;CAEA,WAAA;CACA","file":"coordinateTraverse.vue","sourcesContent":["<template>\n\t<div class=\"coordinate-traverse\">\n\t\t<div class=\"data-list\">\n\t\t\t<div class=\"data-item start-point\">\n\t\t\t\t<label>起始点</label><input type=\"text\" :value=\"startPoint\">\n\t\t\t</div>\n\t\t\t<div class=\"data-item start-angle\">\n\t\t\t\t<label>起始角</label><input type=\"text\" :value=\"startAngle\"><span>dms</span>\n\t\t\t</div>\n\t\t\t<div class=\"data-item turn-angle\">\n\t\t\t\t<label>转角</label><input type=\"text\" :value=\"turnAngle\"><span>dms</span>\n\t\t\t</div>\n\t\t\t<div class=\"data-item adjustment\">\n\t\t\t\t<label>平差</label><input type=\"text\" :value=\"adjustment\"><span>m</span>\n\t\t\t</div>\n\t\t\t<div class=\"data-item height\">\n\t\t\t\t<label>高差</label><input type=\"text\" :value=\"height\"><span>m</span>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"result-list\">\n\t\t\t<p>计算结果</p>\n\t\t\t<div class=\"result-item result-n\">\n\t\t\t\t<label>N</label><input type=\"text\" :value=\"resultN\"><span>m</span>\n\t\t\t</div>\n\t\t\t<div class=\"result-item result-e\">\n\t\t\t\t<label>E</label><input type=\"text\" :value=\"resultE\"><span>m</span>\n\t\t\t</div>\n\t\t\t<div class=\"result-item result-z\">\n\t\t\t\t<label>Z</label><input type=\"text\" :value=\"resultZ\"><span>m</span>\n\t\t\t</div>\n\t\t\t<button type=\"button\">计算</button> \n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tstartPoint: 3,\n\t\t\tstartAngle: 12.2252,\n\t\t\tturnAngle: 23.5635,\n\t\t\tadjustment: 100,\n\t\t\theight: 200,\n\t\t\tresultN: 2835.568,\n\t\t\tresultE: 4731.765,\n\t\t\tresultZ: 500.000\n\t\t};\n\t}\n}\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.data-list,\n\t.result-list {\n\t\twidth: 50%;\n\t\tfloat: left;\n\t\t/*text-align: center;*/\n\t}\n\n\t.coordinate-traverse label {\n\t\t\n\t}\n\n\t.coordinate-traverse input {\n\t\twidth: 30%;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.data-item,\n\t.result-item {\n\t\tmargin: 3%;\n\t}\n\n</style>","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.data-list,\n.result-list {\n\twidth: 50%;\n\tfloat: left;\n\t/*text-align: center;*/\n}\n\n.coordinate-traverse label {\n\t\n}\n\n.coordinate-traverse input {\n\twidth: 30%;\n\tborder: 1px solid #ccc;\n}\n\n.data-item,\n.result-item {\n\tmargin: 3%;\n}\n\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 90 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="coordinate-traverse">
+	// 		<div class="data-list">
+	// 			<div class="data-item start-point">
+	// 				<label>起始点</label><input type="text" :value="startPoint">
+	// 			</div>
+	// 			<div class="data-item start-angle">
+	// 				<label>起始角</label><input type="text" :value="startAngle"><span>dms</span>
+	// 			</div>
+	// 			<div class="data-item turn-angle">
+	// 				<label>转角</label><input type="text" :value="turnAngle"><span>dms</span>
+	// 			</div>
+	// 			<div class="data-item adjustment">
+	// 				<label>平差</label><input type="text" :value="adjustment"><span>m</span>
+	// 			</div>
+	// 			<div class="data-item height">
+	// 				<label>高差</label><input type="text" :value="height"><span>m</span>
+	// 			</div>
+	// 		</div>
+	// 		<div class="result-list">
+	// 			<p>计算结果</p>
+	// 			<div class="result-item result-n">
+	// 				<label>N</label><input type="text" :value="resultN"><span>m</span>
+	// 			</div>
+	// 			<div class="result-item result-e">
+	// 				<label>E</label><input type="text" :value="resultE"><span>m</span>
+	// 			</div>
+	// 			<div class="result-item result-z">
+	// 				<label>Z</label><input type="text" :value="resultZ"><span>m</span>
+	// 			</div>
+	// 			<button type="button">计算</button>
+	// 		</div>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				startPoint: 3,
+				startAngle: 12.2252,
+				turnAngle: 23.5635,
+				adjustment: 100,
+				height: 200,
+				resultN: 2835.568,
+				resultE: 4731.765,
+				resultZ: 500.000
+			};
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.clearfix {
+	// 		overflow: auto;
+	// 		*zoom: 1;
+	// 	}
+	//
+	// 	.data-list,
+	// 	.result-list {
+	// 		width: 50%;
+	// 		float: left;
+	// 		/*text-align: center;*/
+	// 	}
+	//
+	// 	.coordinate-traverse label {
+	//
+	// 	}
+	//
+	// 	.coordinate-traverse input {
+	// 		width: 30%;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.data-item,
+	// 	.result-item {
+	// 		margin: 3%;
+	// 	}
+	//
+	// </style>
+	/* generated by vue-loader */
+
+/***/ },
+/* 91 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"coordinate-traverse\">\n\t<div class=\"data-list\">\n\t\t<div class=\"data-item start-point\">\n\t\t\t<label>起始点</label><input type=\"text\" :value=\"startPoint\">\n\t\t</div>\n\t\t<div class=\"data-item start-angle\">\n\t\t\t<label>起始角</label><input type=\"text\" :value=\"startAngle\"><span>dms</span>\n\t\t</div>\n\t\t<div class=\"data-item turn-angle\">\n\t\t\t<label>转角</label><input type=\"text\" :value=\"turnAngle\"><span>dms</span>\n\t\t</div>\n\t\t<div class=\"data-item adjustment\">\n\t\t\t<label>平差</label><input type=\"text\" :value=\"adjustment\"><span>m</span>\n\t\t</div>\n\t\t<div class=\"data-item height\">\n\t\t\t<label>高差</label><input type=\"text\" :value=\"height\"><span>m</span>\n\t\t</div>\n\t</div>\n\t<div class=\"result-list\">\n\t\t<p>计算结果</p>\n\t\t<div class=\"result-item result-n\">\n\t\t\t<label>N</label><input type=\"text\" :value=\"resultN\"><span>m</span>\n\t\t</div>\n\t\t<div class=\"result-item result-e\">\n\t\t\t<label>E</label><input type=\"text\" :value=\"resultE\"><span>m</span>\n\t\t</div>\n\t\t<div class=\"result-item result-z\">\n\t\t\t<label>Z</label><input type=\"text\" :value=\"resultZ\"><span>m</span>\n\t\t</div>\n\t\t<button type=\"button\">计算</button> \n\t</div>\n</div>\n";
+
+/***/ },
+/* 92 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(93)
+	__vue_script__ = __webpack_require__(95)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/calculate/coordinateInverse.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(96)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/calculate/coordinateInverse.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 93 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(94);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./coordinateInverse.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./coordinateInverse.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 94 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.data-list,\n.result-list {\n\twidth: 50%;\n\tfloat: left;\n\t/*text-align: center;*/\n}\n\n.coordinate-inverse label {\n\t\n}\n\n.coordinate-inverse input {\n\twidth: 30%;\n\tborder: 1px solid #ccc;\n}\n\n.data-item,\n.result-item {\n\tmargin: 3%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/calculate/coordinateInverse.vue?2a180268","/./src/components/home/calculate/coordinateInverse.vue"],"names":[],"mappings":";AAkDA;CACA,eAAA;EChDC,QDiDD;CACA;;AAEA;;CAEA,WAAA;CACA,YAAA;CACA,uBAAA;CACA;;AAEA;;CAEA;;AAEA;CACA,WAAA;CACA,uBAAA;CACA;;AAEA;;CAEA,WAAA;CACA","file":"coordinateInverse.vue","sourcesContent":["<template>\n\t<div class=\"coordinate-inverse\">\n\t\t<div class=\"data-list\">\n\t\t\t<div class=\"data-item start-point\">\n\t\t\t\t<label>起始点</label><input type=\"text\" :value=\"startPoint\">\n\t\t\t</div>\n\t\t\t<div class=\"data-item end-point\">\n\t\t\t\t<label>结束点</label><input type=\"text\" :value=\"endPoint\">\n\t\t\t</div>\n\t\t\t<div class=\"data-item turn-angle\">\n\t\t\t\t<label>转角</label><input type=\"text\" :value=\"turnAngle\"><span>dms</span>\n\t\t\t</div>\n\t\t\t<div class=\"data-item adjustment\">\n\t\t\t\t<label>平差</label><input type=\"text\" :value=\"adjustment\"><span>m</span>\n\t\t\t</div>\n\t\t\t<div class=\"data-item height\">\n\t\t\t\t<label>高差</label><input type=\"text\" :value=\"height\"><span>m</span>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"result-list\">\n\t\t\t<p>计算结果</p>\n\t\t\t<div class=\"result-item result-n\">\n\t\t\t\t<label>坡度</label><input type=\"text\" :value=\"slope\"><span>dms</span>\n\t\t\t</div>\n\t\t\t<div class=\"result-item result-e\">\n\t\t\t\t<label>角度</label><input type=\"text\" :value=\"angle\"><span>dms</span>\n\t\t\t</div>\n\t\t\t<button type=\"button\">计算</button> \n\t\t</div>\n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tstartPoint: 3,\n\t\t\tendPoint: 2,\n\t\t\tturnAngle: 23.5635,\n\t\t\tadjustment: 100,\n\t\t\theight: 200,\n\t\t\tslope: 2835.568,\n\t\t\tangle: 4731.765\n\t\t};\n\t}\n}\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.data-list,\n\t.result-list {\n\t\twidth: 50%;\n\t\tfloat: left;\n\t\t/*text-align: center;*/\n\t}\n\n\t.coordinate-inverse label {\n\t\t\n\t}\n\n\t.coordinate-inverse input {\n\t\twidth: 30%;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.data-item,\n\t.result-item {\n\t\tmargin: 3%;\n\t}\n\n</style>","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.data-list,\n.result-list {\n\twidth: 50%;\n\tfloat: left;\n\t/*text-align: center;*/\n}\n\n.coordinate-inverse label {\n\t\n}\n\n.coordinate-inverse input {\n\twidth: 30%;\n\tborder: 1px solid #ccc;\n}\n\n.data-item,\n.result-item {\n\tmargin: 3%;\n}\n\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 95 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="coordinate-inverse">
+	// 		<div class="data-list">
+	// 			<div class="data-item start-point">
+	// 				<label>起始点</label><input type="text" :value="startPoint">
+	// 			</div>
+	// 			<div class="data-item end-point">
+	// 				<label>结束点</label><input type="text" :value="endPoint">
+	// 			</div>
+	// 			<div class="data-item turn-angle">
+	// 				<label>转角</label><input type="text" :value="turnAngle"><span>dms</span>
+	// 			</div>
+	// 			<div class="data-item adjustment">
+	// 				<label>平差</label><input type="text" :value="adjustment"><span>m</span>
+	// 			</div>
+	// 			<div class="data-item height">
+	// 				<label>高差</label><input type="text" :value="height"><span>m</span>
+	// 			</div>
+	// 		</div>
+	// 		<div class="result-list">
+	// 			<p>计算结果</p>
+	// 			<div class="result-item result-n">
+	// 				<label>坡度</label><input type="text" :value="slope"><span>dms</span>
+	// 			</div>
+	// 			<div class="result-item result-e">
+	// 				<label>角度</label><input type="text" :value="angle"><span>dms</span>
+	// 			</div>
+	// 			<button type="button">计算</button>
+	// 		</div>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				startPoint: 3,
+				endPoint: 2,
+				turnAngle: 23.5635,
+				adjustment: 100,
+				height: 200,
+				slope: 2835.568,
+				angle: 4731.765
+			};
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.clearfix {
+	// 		overflow: auto;
+	// 		*zoom: 1;
+	// 	}
+	//
+	// 	.data-list,
+	// 	.result-list {
+	// 		width: 50%;
+	// 		float: left;
+	// 		/*text-align: center;*/
+	// 	}
+	//
+	// 	.coordinate-inverse label {
+	//
+	// 	}
+	//
+	// 	.coordinate-inverse input {
+	// 		width: 30%;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.data-item,
+	// 	.result-item {
+	// 		margin: 3%;
+	// 	}
+	//
+	// </style>
+	/* generated by vue-loader */
+
+/***/ },
+/* 96 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"coordinate-inverse\">\n\t<div class=\"data-list\">\n\t\t<div class=\"data-item start-point\">\n\t\t\t<label>起始点</label><input type=\"text\" :value=\"startPoint\">\n\t\t</div>\n\t\t<div class=\"data-item end-point\">\n\t\t\t<label>结束点</label><input type=\"text\" :value=\"endPoint\">\n\t\t</div>\n\t\t<div class=\"data-item turn-angle\">\n\t\t\t<label>转角</label><input type=\"text\" :value=\"turnAngle\"><span>dms</span>\n\t\t</div>\n\t\t<div class=\"data-item adjustment\">\n\t\t\t<label>平差</label><input type=\"text\" :value=\"adjustment\"><span>m</span>\n\t\t</div>\n\t\t<div class=\"data-item height\">\n\t\t\t<label>高差</label><input type=\"text\" :value=\"height\"><span>m</span>\n\t\t</div>\n\t</div>\n\t<div class=\"result-list\">\n\t\t<p>计算结果</p>\n\t\t<div class=\"result-item result-n\">\n\t\t\t<label>坡度</label><input type=\"text\" :value=\"slope\"><span>dms</span>\n\t\t</div>\n\t\t<div class=\"result-item result-e\">\n\t\t\t<label>角度</label><input type=\"text\" :value=\"angle\"><span>dms</span>\n\t\t</div>\n\t\t<button type=\"button\">计算</button> \n\t</div>\n</div>\n";
+
+/***/ },
+/* 97 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(98)
+	__vue_script__ = __webpack_require__(100)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/home/collection/distanceOfPoint.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(101)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/home/collection/distanceOfPoint.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 98 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(99);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./distanceOfPoint.vue", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js!./../../../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./distanceOfPoint.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.data-list,\n.result-list {\n\twidth: 50%;\n\tfloat: left;\n\t/*text-align: center;*/\n}\n\n.coordinate-inverse label {\n\t\n}\n\n.coordinate-inverse input {\n\twidth: 30%;\n\tborder: 1px solid #ccc;\n}\n\n.data-item,\n.result-item {\n\tmargin: 3%;\n}\n\n", "", {"version":3,"sources":["/./src/components/home/collection/distanceOfPoint.vue?71b7cc98","/./src/components/home/collection/distanceOfPoint.vue"],"names":[],"mappings":";AAyDA;CACA,eAAA;ECvDC,QDwDD;CACA;;AAEA;;CAEA,WAAA;CACA,YAAA;CACA,uBAAA;CACA;;AAEA;;CAEA;;AAEA;CACA,WAAA;CACA,uBAAA;CACA;;AAEA;;CAEA,WAAA;CACA","file":"distanceOfPoint.vue","sourcesContent":["<template>\n\t<div class=\"coordinate-inverse\">\n\t\t<div class=\"result-list\">\n\t\t\t<div class=\"result-item HA\">\n\t\t\t\t<label>HA</label><input disabled type=\"text\" :value=\"HA\"><span>dms</span>\n\t\t\t</div>\n\t\t\t<div class=\"result-item VA\">\n\t\t\t\t<label>VA</label><input disabled type=\"text\" :value=\"VA\"><span>dms</span>\n\t\t\t</div>\n\t\t\t<div class=\"result-item HD\">\n\t\t\t\t<label>HD</label><input disabled type=\"text\" :value=\"HD\"><span>m</span>\n\t\t\t</div>\n\t\t\t<div class=\"result-item VD\">\n\t\t\t\t<label>VD</label><input disabled type=\"text\" :value=\"VD\"><span>m</span>\n\t\t\t</div>\n\t\t\t<div class=\"result-item SD\">\n\t\t\t\t<label>SD</label><input disabled type=\"text\" :value=\"SD\"><span>m</span>\n\t\t\t</div>\n\t\t</div>\n\t\t<div class=\"data-list\">\n\t\t\t<div class=\"data-item point\">\n\t\t\t\t<label>点名</label><input disabled type=\"text\" :value=\"point\">\n\t\t\t</div>\n\t\t\t<div class=\"data-item code\">\n\t\t\t\t<label>编码</label><input disabled type=\"text\" :value=\"code\">\n\t\t\t</div>\n\t\t\t<div class=\"data-item line\">\n\t\t\t\t<label>连线</label><input disabled type=\"text\" :value=\"line\">\n\t\t\t</div>\n\t\t\t<div class=\"data-item mirrorHeight\">\n\t\t\t\t<label>镜高</label><input disabled type=\"text\" :value=\"mirrorHeight\"><span>m</span>\n\t\t\t</div>\n\t\t</div>\n\t\t<button type=\"button\">计算</button> \n\t</div>\n</template>\n\n<script>\n\nexport default {\n\tdata () {\n\t\treturn {\n\t\t\tHA: 238.3656,\n\t\t\tVA: 14.3914,\n\t\t\tHD: 128.272,\n\t\t\tVD: 33.541,\n\t\t\tSD: 132.584,\n\t\t\tpoint: \"pt1\",\n\t\t\tcode: \"\",\n\t\t\tline: \"\",\n\t\t\tmirrorHeight: 1.75\n\t\t};\n\t}\n}\n</script>\n\n<style>\n\t.clearfix {\n\t\toverflow: auto;\n\t\t*zoom: 1;\n\t}\n\n\t.data-list,\n\t.result-list {\n\t\twidth: 50%;\n\t\tfloat: left;\n\t\t/*text-align: center;*/\n\t}\n\n\t.coordinate-inverse label {\n\t\t\n\t}\n\n\t.coordinate-inverse input {\n\t\twidth: 30%;\n\t\tborder: 1px solid #ccc;\n\t}\n\n\t.data-item,\n\t.result-item {\n\t\tmargin: 3%;\n\t}\n\n</style>","\n.clearfix {\n\toverflow: auto;\n\t*zoom: 1;\n}\n\n.data-list,\n.result-list {\n\twidth: 50%;\n\tfloat: left;\n\t/*text-align: center;*/\n}\n\n.coordinate-inverse label {\n\t\n}\n\n.coordinate-inverse input {\n\twidth: 30%;\n\tborder: 1px solid #ccc;\n}\n\n.data-item,\n.result-item {\n\tmargin: 3%;\n}\n\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 100 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	// <template>
+	// 	<div class="coordinate-inverse">
+	// 		<div class="result-list">
+	// 			<div class="result-item HA">
+	// 				<label>HA</label><input disabled type="text" :value="HA"><span>dms</span>
+	// 			</div>
+	// 			<div class="result-item VA">
+	// 				<label>VA</label><input disabled type="text" :value="VA"><span>dms</span>
+	// 			</div>
+	// 			<div class="result-item HD">
+	// 				<label>HD</label><input disabled type="text" :value="HD"><span>m</span>
+	// 			</div>
+	// 			<div class="result-item VD">
+	// 				<label>VD</label><input disabled type="text" :value="VD"><span>m</span>
+	// 			</div>
+	// 			<div class="result-item SD">
+	// 				<label>SD</label><input disabled type="text" :value="SD"><span>m</span>
+	// 			</div>
+	// 		</div>
+	// 		<div class="data-list">
+	// 			<div class="data-item point">
+	// 				<label>点名</label><input disabled type="text" :value="point">
+	// 			</div>
+	// 			<div class="data-item code">
+	// 				<label>编码</label><input disabled type="text" :value="code">
+	// 			</div>
+	// 			<div class="data-item line">
+	// 				<label>连线</label><input disabled type="text" :value="line">
+	// 			</div>
+	// 			<div class="data-item mirrorHeight">
+	// 				<label>镜高</label><input disabled type="text" :value="mirrorHeight"><span>m</span>
+	// 			</div>
+	// 		</div>
+	// 		<button type="button">计算</button>
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {
+		data: function data() {
+			return {
+				HA: 238.3656,
+				VA: 14.3914,
+				HD: 128.272,
+				VD: 33.541,
+				SD: 132.584,
+				point: "pt1",
+				code: "",
+				line: "",
+				mirrorHeight: 1.75
+			};
+		}
+	};
+	// </script>
+	//
+	// <style>
+	// 	.clearfix {
+	// 		overflow: auto;
+	// 		*zoom: 1;
+	// 	}
+	//
+	// 	.data-list,
+	// 	.result-list {
+	// 		width: 50%;
+	// 		float: left;
+	// 		/*text-align: center;*/
+	// 	}
+	//
+	// 	.coordinate-inverse label {
+	//
+	// 	}
+	//
+	// 	.coordinate-inverse input {
+	// 		width: 30%;
+	// 		border: 1px solid #ccc;
+	// 	}
+	//
+	// 	.data-item,
+	// 	.result-item {
+	// 		margin: 3%;
+	// 	}
+	//
+	// </style>
+	/* generated by vue-loader */
+
+/***/ },
+/* 101 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"coordinate-inverse\">\n\t<div class=\"result-list\">\n\t\t<div class=\"result-item HA\">\n\t\t\t<label>HA</label><input disabled type=\"text\" :value=\"HA\"><span>dms</span>\n\t\t</div>\n\t\t<div class=\"result-item VA\">\n\t\t\t<label>VA</label><input disabled type=\"text\" :value=\"VA\"><span>dms</span>\n\t\t</div>\n\t\t<div class=\"result-item HD\">\n\t\t\t<label>HD</label><input disabled type=\"text\" :value=\"HD\"><span>m</span>\n\t\t</div>\n\t\t<div class=\"result-item VD\">\n\t\t\t<label>VD</label><input disabled type=\"text\" :value=\"VD\"><span>m</span>\n\t\t</div>\n\t\t<div class=\"result-item SD\">\n\t\t\t<label>SD</label><input disabled type=\"text\" :value=\"SD\"><span>m</span>\n\t\t</div>\n\t</div>\n\t<div class=\"data-list\">\n\t\t<div class=\"data-item point\">\n\t\t\t<label>点名</label><input disabled type=\"text\" :value=\"point\">\n\t\t</div>\n\t\t<div class=\"data-item code\">\n\t\t\t<label>编码</label><input disabled type=\"text\" :value=\"code\">\n\t\t</div>\n\t\t<div class=\"data-item line\">\n\t\t\t<label>连线</label><input disabled type=\"text\" :value=\"line\">\n\t\t</div>\n\t\t<div class=\"data-item mirrorHeight\">\n\t\t\t<label>镜高</label><input disabled type=\"text\" :value=\"mirrorHeight\"><span>m</span>\n\t\t</div>\n\t</div>\n\t<button type=\"button\">计算</button> \n</div>\n";
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(103)
+	__vue_script__ = __webpack_require__(105)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] src/components/powerOff.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(106)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/micro0/Sites/total-station/src/components/powerOff.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(104);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./powerOff.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/vue-loader/lib/style-rewriter.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./powerOff.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 104 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(7)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"powerOff.vue","sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 105 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// <template>
+	// 	<div class="power-off">
+	// 	</div>
+	// </template>
+	//
+	// <script>
+	
+	exports.default = {};
+	// </script>
+	//
+	// <style>
+	//
+	// </style>
+	/* generated by vue-loader */
+
+/***/ },
+/* 106 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"power-off\">\n</div>\n";
 
 /***/ }
 /******/ ]);

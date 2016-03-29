@@ -1,7 +1,12 @@
 <template>
 	<div class="top-bar clear-fix">
 		<div class="left-top-bar">{{ topHeader }}</div>
-		<div class="right-top-bar"></div>
+		<div class="right-top-bar">
+			<a v-link="'/home/navigation/locate'" class="navigation">
+				<div>
+				</div>
+			</a>
+		</div>
 	</div>
 </template>
 
@@ -33,5 +38,29 @@ export default {
 		display: inline-block;
 		border-left: 1px solid #707079;
 		border-radius: 3px;
+	}
+
+	.navigation {
+		width: 15px;
+		height: 15px;
+		border: 1px solid #646464;
+		border-radius: 100%;
+		display: inline-block;
+		position: absolute;
+		top: 3%;
+		right: 5%;
+		padding: 0;
+	}
+
+	.navigation div {
+		width: 10px;
+		height: 10px;
+		background: #646464;
+		border-radius: 100%;
+		display: inline-block;
+		position: absolute;
+		left: 2px;
+		top: 2px;
+
 	}
 </style>
